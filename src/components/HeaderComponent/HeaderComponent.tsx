@@ -4,9 +4,11 @@ import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import Button from '../Button/Button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const HeaderComponent = () => {
   const path = usePathname();
+  const router = useRouter();
 
   const isActive = (url: string) => {
     return path.includes(url);
@@ -18,7 +20,7 @@ const HeaderComponent = () => {
   return (
     <>
       <Header>
-        <Logo>SISO</Logo>
+        <Logo onClick={() => router.push('/')}>SISO</Logo>
       </Header>
       {path === Notifications && <></>}
       <Nav>
@@ -58,6 +60,7 @@ const Logo = styled.div`
   align-items: center;
   font-size: 28px;
   letter-spacing: 1.5px;
+  cursor: pointer;
 `;
 
 const Nav = styled.div`
