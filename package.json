@@ -6,17 +6,36 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "svgr": "npx @svgr/cli --out-dir src/assets/svg --typescript src/assets/icons"
   },
   "dependencies": {
+    "@babel/core": "^7.25.8",
+    "@babel/runtime": "^7.25.7",
+    "@svgr/cli": "^8.1.0",
+    "babel-plugin-styled-components": "^2.1.4",
+    "dayjs": "^1.11.13",
+    "eslint-config-next": "^14.2.15",
+    "jotai": "^2.10.1",
+    "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.15"
+    "react-hook-form": "^7.53.0",
+    "styled-components": "^6.1.13",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@headlessui/react": "^2.2.0",
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "^20.16.12",
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "mini-css-extract-plugin": "^2.9.1",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5"
   }
 }

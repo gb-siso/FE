@@ -1,0 +1,122 @@
+[
+  {
+    "name": "이재명",
+    "team": "더불어민주당",
+    "winCount": 3,
+    "rating": 7.5
+  },
+  {
+    "name": "김기현",
+    "team": "국민의힘",
+    "winCount": 4,
+    "rating": 7
+  },
+  {
+    "name": "심상정",
+    "team": "정의당",
+    "winCount": 5,
+    "rating": 9
+  },
+  {
+    "name": "안철수",
+    "team": "국민의힘",
+    "winCount": 2,
+    "rating": 6
+  },
+  {
+    "name": "박홍근",
+    "team": "더불어민주당",
+    "winCount": 3,
+    "rating": 7
+  },
+  {
+    "name": "한동훈",
+    "team": "국민의힘",
+    "winCount": 1,
+    "rating": 8
+  },
+  {
+    "name": "유승민",
+    "team": "무소속",
+    "winCount": 4,
+    "rating": 7
+  },
+  {
+    "name": "박주민",
+    "team": "더불어민주당",
+    "winCount": 2,
+    "rating": 6
+  },
+  {
+    "name": "홍준표",
+    "team": "국민의힘",
+    "winCount": 5,
+    "rating": 8
+  },
+  {
+    "name": "오세훈",
+    "team": "국민의힘",
+    "winCount": 4,
+    "rating": 9
+  },
+  {
+    "name": "유기홍",
+    "team": "더불어민주당",
+    "winCount": 3,
+    "rating": 6
+  },
+  {
+    "name": "김두관",
+    "team": "더불어민주당",
+    "winCount": 3,
+    "rating": 7
+  },
+  {
+    "name": "이준석",
+    "team": "국민의힘",
+    "winCount": 1,
+    "rating": 6
+  },
+  {
+    "name": "정청래",
+    "team": "더불어민주당",
+    "winCount": 3,
+    "rating": 7
+  },
+  {
+    "name": "주호영",
+    "team": "국민의힘",
+    "winCount": 5,
+    "rating": 8
+  },
+  {
+    "name": "추미애",
+    "team": "더불어민주당",
+    "winCount": 5,
+    "rating": 7
+  },
+  {
+    "name": "나경원",
+    "team": "국민의힘",
+    "winCount": 4,
+    "rating": 9
+  },
+  {
+    "name": "박용진",
+    "team": "더불어민주당",
+    "winCount": 2,
+    "rating": 6
+  },
+  {
+    "name": "김진표",
+    "team": "더불어민주당",
+    "winCount": 5,
+    "rating": 8
+  },
+  {
+    "name": "김현미",
+    "team": "더불어민주당",
+    "winCount": 4,
+    "rating": 7
+  }
+]
