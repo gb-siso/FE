@@ -2,29 +2,29 @@ import styled from 'styled-components';
 
 const Profile = () => {
   return (
-    <Wrapper>
-      <VipProfileImgWrap>
-        <VipImg src="/test/main2.jpg" />
-      </VipProfileImgWrap>
-      <Desc>
-        <VipInfoWrap>
-          <VipName>나경원</VipName>
-          <VipLocation>국민의힘</VipLocation>
-        </VipInfoWrap>
-        <RatingBox>
-          <Rating src="/test/iconStars.png" />
-          <RatingNumber>
-            3.5 <RatingSpan>점</RatingSpan>
-          </RatingNumber>
-        </RatingBox>
-      </Desc>
-    </Wrapper>
+    <ProfileWrapper>
+      <ImageContainer>
+        <ProfileImage src="/test/main2.jpg" alt="Profile Image" />
+      </ImageContainer>
+      <Description>
+        <InfoWrapper>
+          <Name>나경원</Name>
+          <Location>국민의힘</Location>
+        </InfoWrapper>
+        <RatingSection>
+          <RatingIcon src="/test/iconStars.png" alt="Rating Stars" />
+          <RatingScore>
+            3.5 <ScoreUnit>점</ScoreUnit>
+          </RatingScore>
+        </RatingSection>
+      </Description>
+    </ProfileWrapper>
   );
 };
 
 export default Profile;
 
-const Wrapper = styled.div`
+const ProfileWrapper = styled.div`
   display: flex;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   width: 95%;
 `;
 
-const VipProfileImgWrap = styled.div`
+const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,41 +45,27 @@ const VipProfileImgWrap = styled.div`
   padding-left: 0;
 `;
 
-const VipImg = styled.img`
+const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 40px;
 `;
 
-const Desc = styled.div`
+const Description = styled.div`
   display: flex;
   flex-direction: column;
   flex: 4;
   padding-top: 4rem;
-  align-items: start;
+  align-items: flex-start;
   gap: 20px;
+  @media (min-width: 768px) {
+    align-items: center;
+    padding-top: 7rem;
+  }
 `;
 
-const VipCountWrap = styled.div`
-  display: flex;
-  height: 40px;
-  align-items: center;
-  padding-right: 1rem;
-  padding-bottom: 3px;
-  margin-right: 0.5rem;
-`;
-const VipCount = styled.h6`
-  margin: 0;
-  padding: 0;
-  color: #333;
-  font-size: 14px;
-  line-height: 18px;
-  text-align: right;
-  font-weight: 500;
-`;
-
-const VipInfoWrap = styled.div`
+const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -87,16 +73,17 @@ const VipInfoWrap = styled.div`
   gap: 1rem;
 `;
 
-const VipName = styled.h4`
+const Name = styled.h4`
   margin: 0;
   padding: 0;
   color: #222;
   font-weight: 700;
-  letter-spacing: -1px;
+  letter-spacing: 0.8px;
   line-height: 20px;
   font-size: 2rem;
 `;
-const VipLocation = styled.h5`
+
+const Location = styled.h5`
   margin: 3px;
   padding: 0;
   color: #888;
@@ -105,29 +92,27 @@ const VipLocation = styled.h5`
   font-weight: 500;
 `;
 
-const RatingBox = styled.div`
+const RatingSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-const Rating = styled.img`
+
+const RatingIcon = styled.img`
   width: 45px;
   height: 45px;
-  height: auto;
   padding-top: 5px;
   margin-left: -0.8rem;
 `;
 
-const RatingNumber = styled.span`
+const RatingScore = styled.span`
   color: #8800fb;
   font-size: 1.8rem;
-  text-align: right;
-  text-decoration: none;
   font-weight: 500;
 `;
 
-const RatingSpan = styled.span`
-  font-weight: 500;
+const ScoreUnit = styled.span`
   font-size: 1rem;
-  padding-bottom: 10px;
+  font-weight: 500;
+  padding-left: 10px;
 `;

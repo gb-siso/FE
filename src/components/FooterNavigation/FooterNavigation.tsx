@@ -55,7 +55,10 @@ export default function FooterNavigation() {
   }
   return (
     <>
-      <footer className="footer-nav">
+      <footer
+        className="footer-nav"
+        style={{ position: 'fixed', zIndex: '999' }}
+      >
         <StyledLink href={HOME}>
           <span>
             {path === Notifications ? <HomeIcon /> : <ActiveHomeIcon />}
