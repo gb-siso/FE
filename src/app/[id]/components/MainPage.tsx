@@ -6,7 +6,6 @@ import Info from './Info';
 import News from './News';
 import Rating from './Rating';
 import UserComments from './UserComments';
-import { usePathname } from 'next/navigation';
 
 const MainPage = () => {
   return (

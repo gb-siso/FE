@@ -97,7 +97,7 @@ const Img = styled.div`
   height: 100px;
   border: 1px solid blue;
   @media (min-width: 768px) {
-    width: 150px;
-    height: 150px;
+    width: 155px;
+    height: 155px;
   }
 `;

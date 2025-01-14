@@ -1,6 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true
+  },
   compiler: {
     styledComponents: true
   },

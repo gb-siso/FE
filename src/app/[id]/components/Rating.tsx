@@ -78,6 +78,7 @@ const Wrapper = styled.div`
   background-color: #ffffff;
   border-radius: 17px;
   padding: 1rem;
+  cursor: pointer;
 `;
 
 const Title = styled.p`
