@@ -3,13 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { usePathname } from 'next/navigation';
-import { HOME, Notifications } from '@/utils/route';
-import {
-  ActiveHomeIcon,
-  HomeIcon,
-  ActiveNotificationsIcon,
-  NotificationsIcon
-} from '@/assets/svg';
+import { HOME, Notifications, LOGIN } from '@/utils/route';
+import { ActiveHomeIcon, HomeIcon, User } from '@/assets/svg';
 import { atom, useAtom } from 'jotai';
 import { isLoadingAtom } from '@/atoms/atom';
 import './styles.css';
@@ -18,6 +13,11 @@ import Image from 'next/image';
 export default function FooterNavigation() {
   const path = usePathname();
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  console.log(path);
+  const isActive = (url: string) => {
+    return path.includes(url);
+  };
+
   useEffect(() => {
     const loadingState = sessionStorage.getItem('siso');
 
@@ -55,31 +55,26 @@ export default function FooterNavigation() {
   }
   return (
     <>
-      <footer
-        className="footer-nav"
-        style={{ position: 'fixed', zIndex: '999' }}
-      >
+      <Footer className="footer-nav">
         <StyledLink href={HOME}>
-          <span>
-            {path === Notifications ? <HomeIcon /> : <ActiveHomeIcon />}
-          </span>
+          <span>{path !== LOGIN ? <ActiveHomeIcon /> : <HomeIcon />}</span>
         </StyledLink>
-        <StyledLink href={Notifications}>
-          <span>
-            {path === Notifications ? (
-              <ActiveNotificationsIcon />
-            ) : (
-              <NotificationsIcon />
-            )}
-          </span>
+        <StyledLink href={LOGIN}>
+          {isActive(LOGIN) ? <User /> : <User fill="#a8a8a8" />}
         </StyledLink>
-      </footer>
+      </Footer>
     </>
   );
 }
-
 const StyledLink = styled(Link)`
   width: 30%;
   text-align: center;
   -webkit-tap-highlight-color: transparent;
+`;
+
+const Footer = styled.footer`
+  position: fixed;
+  z-index: 999;
+  display: flex;
+  align-items: center;
 `;

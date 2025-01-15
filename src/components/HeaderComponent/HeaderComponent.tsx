@@ -14,9 +14,10 @@ const HeaderComponent = () => {
     return path.includes(url);
   };
   const isHome = (url: string) => {
-    return !path.includes(url) && !path.includes(Notifications);
+    const convert = Number(path[1]);
+    return (typeof convert === 'number' && !Number.isNaN(convert)) || !path[1];
   };
-
+  if (path === '/login' || path === '/register') return <></>;
   return (
     <>
       <Header>
