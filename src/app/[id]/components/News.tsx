@@ -6,11 +6,23 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import { useRef, useState } from 'react';
+const MOCK = [
+  '/test/down1.jpeg',
+  '/test/down2.jpeg',
+  '/test/down3.png',
+  '/test/down4.png',
+  '/test/down1.jpeg',
+  '/test/down2.jpeg',
+  '/test/down3.png',
+  '/test/down4.png',
+  '/test/down1.jpeg',
+  '/test/down2.jpeg',
+  '/test/down3.png',
+  '/test/down4.png'
+];
 
 const News = () => {
-  const [slides, setSlides] = useState(
-    Array.from({ length: 10 }).map((_, index) => `${index + 1}`)
-  );
+  const [slides, setSlides] = useState(MOCK);
 
   return (
     <Wrapper>
@@ -30,9 +42,9 @@ const News = () => {
           }}
           virtual
         >
-          {slides.map((slideContent, index) => (
-            <SwiperSlide key={slideContent} virtualIndex={index}>
-              <Img />
+          {slides.map((item, index) => (
+            <SwiperSlide key={index} virtualIndex={index}>
+              <Img src={item} alt="hi" />
             </SwiperSlide>
           ))}
         </Swiper>
@@ -92,10 +104,13 @@ const NewsWrap = styled.div`
   }
 `;
 
-const Img = styled.div`
+const Img = styled.img`
+  display: block;
   width: 100px;
   height: 100px;
-  border: 1px solid blue;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
   @media (min-width: 768px) {
     width: 155px;
     height: 155px;
