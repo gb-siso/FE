@@ -70,7 +70,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  gap: 18px;
 `;
 
 const TitleWrapper = styled.div`
@@ -93,14 +92,14 @@ const NewsWrap = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
+  padding-bottom: 15px;
   & > div {
     display: flex;
     width: 100%;
     overflow: visible;
   }
   & > div > div.swiper-pagination {
-    bottom: -55px;
+    bottom: -40px;
   }
 `;
 

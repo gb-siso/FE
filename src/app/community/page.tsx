@@ -1,4 +1,4 @@
-import ComunittyView from './_components/ComunittyView';
+import Components from './_components/Components';
 export default async function Comunitty() {
-  return <ComunittyView />;
+  return <Components />;
 }

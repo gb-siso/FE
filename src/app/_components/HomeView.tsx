@@ -113,57 +113,65 @@ const VipImgWrap = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
 const Badge = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
+  border: 2px solid #fff; /* 배경과 대비되는 테두리 추가 */
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 효과 */
 `;
+
 const VipInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
-  font-family: 'Noto Sans KR', serif;
+  align-items: flex-start;
+  font-family: 'Noto Sans KR', sans-serif;
 `;
+
 const VipName = styled.h4`
   margin: 0;
   padding: 0;
   color: #030303;
-  font-size: 16px;
+  font-size: 18px; /* 글씨 크기 살짝 키움 */
   font-weight: 700;
-  line-height: 20px;
+  line-height: 24px; /* 줄 간격을 넉넉하게 */
+  text-align: left; /* 텍스트 왼쪽 정렬 */
 `;
+
 const VipLocation = styled.h5`
   margin: 0;
   padding: 0;
-  color: #888;
+  color: #777; /* 더 부드러운 회색 */
   font-size: 14px;
   line-height: 18px;
+  text-align: left;
 `;
 
 const VipRightBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: center; /* 텍스트 정렬을 중앙으로 */
 `;
 
 const VipCountWrap = styled.div`
   display: flex;
-  height: 40px;
-  align-items: end;
+  align-items: center;
   padding-right: 1rem;
   padding-bottom: 3px;
   margin-right: 0.5rem;
 `;
+
 const VipCount = styled.h6`
   margin: 0;
   padding: 0;
   color: #333;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 16px; /* 글자 크기 증가 */
+  line-height: 20px;
   text-align: right;
-  font-weight: 500;
+  font-weight: 600; /* 두께 증가 */
 `;
 
 const VipProfileImgWrap = styled.div`
@@ -171,11 +179,10 @@ const VipProfileImgWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
   margin-top: 1rem;
   border-radius: 24px;
-  width: 100%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 그림자 효과를 좀 더 부드럽게 */
+  overflow: hidden; /* 둥근 모서리에 맞게 이미지 자르기 */
 `;
 
 const VipImg = styled.img`

@@ -6,4 +6,7 @@ export { default as HomeIcon } from './HomeIcon';
 export { default as IconUser } from './IconUser';
 export { default as NotificationsIcon } from './NotificationsIcon';
 export { default as UpIcon } from './UpIcon';
+export { default as Heart } from './Heart';
+export { default as Share } from './Share';
 export { default as User } from './User';
+export { default as UserComment } from './UserComment';

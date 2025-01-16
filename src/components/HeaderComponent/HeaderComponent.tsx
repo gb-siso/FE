@@ -23,7 +23,6 @@ const HeaderComponent = () => {
       <Header>
         <Logo onClick={() => router.push('/')}>SISO</Logo>
       </Header>
-      {path === Notifications && <></>}
       <Nav>
         <MenuLink href={HOME} actived={isHome(COMMUNITY)}>
           <RatingTab>SISO 별점</RatingTab>
@@ -62,6 +61,7 @@ const Logo = styled.div`
   font-size: 28px;
   letter-spacing: 1.5px;
   cursor: pointer;
+  padding: 0 2rem;
 `;
 
 const Nav = styled.div`
@@ -77,11 +77,24 @@ const CommunityTab = styled.div``;
 
 const MenuLink = styled(Link)<{ actived?: boolean }>`
   padding: 1.2rem 1.2rem;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.2rem;
   font-size: 14px;
-  border-bottom: ${({ actived }) => (actived ? '2.5px solid #8800FB' : 'none')};
   font-weight: ${({ actived }) => (actived ? 'bold' : '600')};
   color: ${({ actived }) => (actived ? '#8800FB' : '#777')};
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: ${({ actived }) =>
+      actived ? 'calc(100% + 0.33rem - 1px)' : 'calc(100% + 0.33rem)'};
+    left: 0px;
+    width: 100%;
+    height: 3px;
+    border-radius: 5px 5px 0 0;
+    background-color: ${({ actived }) => (actived ? '#8800FB' : 'none')};
+    transition: all 0.1s ease-in-out; /* 트랜지션 추가 */
+  }
 
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
