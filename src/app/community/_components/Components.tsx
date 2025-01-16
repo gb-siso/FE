@@ -1,14 +1,10 @@
 'use client';
-
-import Link from 'next/link';
-import { Flex } from '@/components/Flex/Flex';
-import { COMMUNITY } from '@/utils/route';
-import { BREAK_POINT, HR } from '@/utils/ui';
 import styled from 'styled-components';
 import { useState } from 'react';
 import SvgHeart from '@/assets/svg/Heart';
 import Share from '@/assets/svg/Share';
 import UserComment from '@/assets/svg/UserComment';
+import Image from 'next/image';
 
 const MOCK_TAB = ['전체', '인기', '내가 쓴글'];
 const MOCK = [
@@ -128,7 +124,18 @@ const Components = () => {
           <Card key={item?.name} actived={item?.isMeWrite}>
             <TopBox>
               <UserImage>
-                <Image src="/puppy.png" />
+                <Image
+                  src="/puppy.png"
+                  alt="A cute puppy"
+                  width={35}
+                  height={35}
+                  layout="intrinsic"
+                  style={{
+                    borderRadius: '50%',
+                    border: '2px solid #fff',
+                    boxShadow: ' 0px 2px 6px rgba(0, 0, 0, 0.4)'
+                  }}
+                />
               </UserImage>
               <VipRightBox>
                 <VipInfoWrap>
@@ -254,13 +261,13 @@ const UserImage = styled.div`
   align-items: center;
 `;
 
-const Image = styled.img`
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-`;
+// const Image = styled.img`
+//   width: 35px;
+//   height: 35px;
+//   border-radius: 50%;
+//   border: 2px solid #fff;
+//   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+// `;
 
 const VipInfoWrap = styled.div`
   display: flex;

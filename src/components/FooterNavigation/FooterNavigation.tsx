@@ -13,7 +13,6 @@ import Image from 'next/image';
 export default function FooterNavigation() {
   const path = usePathname();
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
-  console.log(path);
   const isActive = (url: string) => {
     return path.includes(url);
   };
