@@ -1,14 +1,11 @@
-import HomeView from './_components/HomeView';
+import MainPage from '@/modules/Main';
+import { getVipList } from '@/modules/Main/fetch';
 
 export default async function Home() {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users', {
-    cache: 'no-store'
-  });
-
-  const data = await res.json();
+  const vipList = await getVipList();
   return (
     <div>
-      <HomeView />
+      <MainPage initialVipList={vipList} />
     </div>
   );
 }
