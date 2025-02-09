@@ -56,6 +56,7 @@ const BoxWrap = styled.div`
   gap: 10px;
 `;
 const ProfileCard = styled.div`
+  border: 1px solid #dfdfdf;
   display: flex;
   background-color: #ffffff;
   border-radius: 30px;
@@ -85,8 +86,9 @@ const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
   border-radius: 50%; /* 완벽한 원형 */
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2) /* 부드러운 외부 그림자 */ inset 0 -2px
-    4px rgba(255, 255, 255, 0.3); /* 내부 하이라이트 */
+  box-shadow:
+    0 15px 25px rgba(0, 0, 0, 0.2),
+    /* 부드러운 외부 그림자 */ inset 0 -2px 4px rgba(255, 255, 255, 0.3); /* 내부 하이라이트 */
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 부드러운 전환 효과 */
 
   &:hover {
@@ -115,6 +117,7 @@ const InfoSection = styled.div`
   justify-content: center;
   padding: 40px;
   background-color: #fafafa;
+
   @media (max-width: 768px) {
     padding: 20px 40px;
   }
