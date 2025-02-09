@@ -31,7 +31,7 @@ export default function VipDetail({
     <>
       <Wrapper>
         {/* 프로필 */}
-        <Profile vipData={initialData.vipDetail} />
+        <Profile vipData={initialData.vipDetail} ratings={ratings} />
         {/* 정보 */}
         <Info />
         {/*뉴스 */}

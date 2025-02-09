@@ -4,15 +4,17 @@ import { VipRatings } from '@/constants/Main/index';
 
 const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
-
+  const countRating = ratingList?.length;
   return (
     <Wrapper>
       <Contour />
       <TextWrapper>
         <IconWrap>💬</IconWrap>
-        <Title>시민의 소리 :D</Title>
+        <Title>
+          시민의 소리<Span>{`[${countRating}]`}</Span>
+        </Title>
       </TextWrapper>
-      <Plz>( 여러분의 목소리가 필요해요! 🐾 )</Plz>
+      <Plz> (여러분의 목소리가 필요해요! 🐾)</Plz>
       {!ratingList?.length && (
         <NotFoundBox>
           <NotFound>
@@ -22,7 +24,7 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
         </NotFoundBox>
       )}
 
-      {ratingList && ratingList.length > 0 && (
+      {ratingList && countRating > 0 && (
         <>
           {ratingList.map((item, idx) => {
             const {
@@ -229,4 +231,10 @@ const DownText = styled.span`
   color: #555; /* 텍스트 가독성을 위한 부드러운 색상 */
   font-weight: 500; /* 텍스트 강조 */
   margin-left: 0.25rem; /* 텍스트와 아이콘 사이 여백 */
+`;
+
+const Span = styled.span`
+  margin-top: 3px;
+  color: #b483dd;
+  font-size: 0.9rem;
 `;

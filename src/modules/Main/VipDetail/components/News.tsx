@@ -24,6 +24,8 @@ const MOCK = [
 const News: React.FC<any> = ({ news }) => {
   const [slides, setSlides] = useState(MOCK);
 
+  const [isMore, setIsMore] = useState(false);
+
   const removeHtmlEntities = (text: string) => {
     return text.replace(/&#[0-9]+;/g, '');
   };
@@ -31,28 +33,37 @@ const News: React.FC<any> = ({ news }) => {
   return (
     <Wrapper>
       <TitleWrapper>
-        <NewsTitle>🧾 News</NewsTitle>
+        <NewsTitle>🧾 시소 news</NewsTitle>
+        <More onClick={() => setIsMore((prev) => !prev)}>
+          {JSON.stringify(news) === '{}' || news.row.length < 4
+            ? ''
+            : isMore
+              ? '닫기'
+              : '더보기'}
+        </More>
       </TitleWrapper>
       <NewsBox>
         {JSON.stringify(news) === '{}' && (
           <Empty>의원님의 최신 뉴스가 존재하지 않습니다!</Empty>
         )}
         {news &&
-          news.row?.map((item: any, idx: any) => {
-            const { COMP_MAIN_TITLE: title } = item;
-            return (
-              <>
+          news.row
+            ?.slice(0, isMore ? undefined : 3)
+            .map((item: any, idx: any) => {
+              const { COMP_MAIN_TITLE: title, REG_DATE: date } = item;
+
+              return (
                 <Nes
                   key={idx}
                   onClick={() => {
                     window.open(item.LINK_URL, '_blank');
                   }}
                 >
-                  {removeHtmlEntities(title)}
+                  <Content>"{removeHtmlEntities(title)}"</Content>
+                  <Date>{date.split(' ')[0]}</Date>
                 </Nes>
-              </>
-            );
-          })}
+              );
+            })}
       </NewsBox>
       {/* <NewsWrap>
         <Swiper
@@ -83,21 +94,70 @@ const Empty = styled.div`
   padding: 1rem;
   padding-left: 0.5rem;
 `;
+
+const Date = styled.div`
+  width: 100%;
+  text-align: end;
+  color: #999;
+`;
+
+const Content = styled.div``;
 const Nes = styled.div`
-  font-size: 18px; // 글자 크기
-  font-weight: bold; // 글자 두께
-  color: #333; // 글자 색
-  text-decoration: none; // 링크 밑줄 제거
-  padding: 10px 15px; // 패딩
-  background-color: #f4f4f4; // 배경색
-  border-radius: 8px; // 테두리 둥글게
-  transition: background-color 0.3s ease; // 배경색 전환 효과
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+  text-decoration: none;
+  padding: 16px 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
+  margin-bottom: 15px;
+  border-left: 20px solid #6c5ce7;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #6c5ce7, #81ecec);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
   &:hover {
-    background-color: #e0e0e0; // 마우스 올리면 배경색 변화
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+
+    &::before {
+      opacity: 0.05;
+    }
+  }
+
+  &:active {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 14px 18px;
   }
 `;
+
 const NewsBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,7 +182,7 @@ const Wrapper = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   gap: 5px;
 `;
@@ -132,6 +192,18 @@ const NewsTitle = styled.p`
   font-size: 1.3rem;
   font-weight: 500;
   line-height: 20px;
+`;
+
+const More = styled.button`
+  display: flex;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px 15px;
+  color: #777;
 `;
 
 const NewsWrap = styled.div`
