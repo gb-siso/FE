@@ -78,16 +78,32 @@ const ImageSection = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
 `;
 
 const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 500px;
+  border-radius: 50%; /* 완벽한 원형 */
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2) /* 부드러운 외부 그림자 */ inset 0 -2px
+    4px rgba(255, 255, 255, 0.3); /* 내부 하이라이트 */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 부드러운 전환 효과 */
+
+  &:hover {
+    box-shadow:
+      0 20px 30px rgba(0, 0, 0, 0.25),
+      /* 호버 시 더 깊은 외부 그림자 */ inset 0 -3px 6px rgba(255, 255, 255, 0.4); /* 더 강한 내부 하이라이트 */
+    transform: scale(1.05); /* 약간 확대 */
+    filter: brightness(1.1); /* 이미지 밝기 증가 */
+  }
+
   @media (max-width: 768px) {
-    width: 100%;
-    height: 100%;
+    box-shadow:
+      0 10px 20px rgba(0, 0, 0, 0.15),
+      inset 0 -1px 3px rgba(255, 255, 255, 0.2); /* 모바일용 그림자 조정 */
+    &:hover {
+      transform: scale(1.03);
+    }
   }
 `;
 
@@ -98,8 +114,10 @@ const InfoSection = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 40px;
-  padding-top: 10px;
   background-color: #fafafa;
+  @media (max-width: 768px) {
+    padding: 20px 40px;
+  }
 `;
 
 const BadgeWrap = styled.div`
