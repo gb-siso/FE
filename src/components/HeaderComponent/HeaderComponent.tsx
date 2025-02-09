@@ -14,8 +14,7 @@ const HeaderComponent = () => {
     return path.includes(url);
   };
   const isHome = (url: string) => {
-    const convert = Number(path[1]);
-    return (typeof convert === 'number' && !Number.isNaN(convert)) || !path[1];
+    return url !== path;
   };
   if (path === '/login' || path === '/register') return <></>;
   return (

@@ -1,6 +1,11 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL,
+    apiHost: process.env.API_HOST
+  },
+  reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true
   },

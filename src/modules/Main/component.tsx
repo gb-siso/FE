@@ -36,10 +36,11 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
     <Wrapper>
       {congressmanList.map((vip, idx) => {
         const party = findParty(vip?.party);
-        const { timesElected, name, rate } = vip;
+        const { timesElected, name, rate, id } = vip;
+
         return (
           <Card key={idx}>
-            <StyledLink href={`/${idx}`}>
+            <StyledLink href={`/${name}`}>
               <PoliticianInfo>
                 <VipImgWrap>
                   <Badge src="/test/badge.png" />
@@ -155,7 +156,7 @@ const VipName = styled.h4`
   margin: 0;
   padding: 0;
   color: #030303;
-  font-size: 18px; /* 글씨 크기 살짝 키움 */
+  font-size: 1rem;
   font-weight: 700;
   line-height: 24px; /* 줄 간격을 넉넉하게 */
   text-align: left; /* 텍스트 왼쪽 정렬 */
@@ -165,7 +166,7 @@ const VipLocation = styled.h5`
   margin: 0;
   padding: 0;
   color: #777; /* 더 부드러운 회색 */
-  font-size: 14px;
+  font: 0.9rem;
   line-height: 18px;
   text-align: left;
 `;
@@ -188,8 +189,10 @@ const VipCountWrap = styled.div`
 const VipCount = styled.h6`
   margin: 0;
   padding: 0;
+
   color: #333;
-  font-size: 16px; /* 글자 크기 증가 */
+  /* font-size: 16px;  */
+  font-size: 0.9rem;
   line-height: 20px;
   text-align: right;
   font-weight: 600; /* 두께 증가 */

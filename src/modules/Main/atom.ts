@@ -2,7 +2,8 @@ import { atom } from 'jotai';
 
 import * as Fetch from './fetch';
 
-import { Vips } from '@/constants/Main/index';
+import { Vips, VipRatings } from '@/constants/Main/index';
+import { accessTokenAtom } from '../auth/atoms';
 
 export const vipsAtom = atom<Vips>({
   congressmanList: [],
@@ -10,16 +11,37 @@ export const vipsAtom = atom<Vips>({
   rateCursor: null,
   lastPage: false
 });
+
 export const categoryDetailAtom = atom({ _id: '', name: '', url: '' });
 
-export const atomMapKey = {
-  Main: {
-    vipsAtom: 'category__categoriesAtom',
-    categoryDetailAtom: 'category__categoryDetailAtom'
-  }
-};
+export const vipRatings = atom<VipRatings>({
+  countCursor: null,
+  ratingList: [
+    {
+      id: '',
+      member: {
+        id: '',
+        imageUrl: '',
+        nickname: ''
+      },
+      content: '',
+      rate: null,
+      likeCount: null,
+      dislikeCount: null,
+      topicality: null
+    }
+  ]
+});
 
-export const atomMap = {
-  [atomMapKey.Main.vipsAtom]: vipsAtom,
-  [atomMapKey.Main.categoryDetailAtom]: categoryDetailAtom
-};
+export const writeRatingAtom = atom(null, async (get, set, { body }) => {
+  try {
+    const accessToken = get(accessTokenAtom);
+
+    const response = await Fetch.postVipRating2(body, {
+      accessToken
+    });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
