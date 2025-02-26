@@ -35,6 +35,15 @@ export async function postVipRating(body: any, options: any) {
   return fetchRes;
 }
 
+export async function postVipRating2(body: any, options: any) {
+  const fetchRes: any = await proxyFetcher(`/api/ratings`, {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return fetchRes;
+}
+
 // 뉴스 가져오기
 // export async function getVipNews(name: string) {
 //   const fetchRes: any = await fetcher(

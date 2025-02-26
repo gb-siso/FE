@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-export default createProxyMiddleware({
-  target: 'https://example.com',
-  changeOrigin: true
-});
-
 export async function GET(request: NextRequest) {
   const baseUrl =
     'https://open.assembly.go.kr/portal/openapi/nauvppbxargkmyovh';

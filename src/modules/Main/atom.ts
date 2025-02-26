@@ -33,22 +33,23 @@ export const vipRatings = atom<VipRatings>({
   ]
 });
 
-// export const writeRatingAtom = atom(null, async (get, set, { body }) => {
-//   try {
-//     const accessToken = get(accessTokenAtom);
+export const writeRatingAtom = atom(null, async (get, set, { body }) => {
+  try {
+    const accessToken = get(accessTokenAtom);
 
-//     const response = await Fetch.postVipRating2(body, {
-//       accessToken
-//     });
-//     return response;
-//   } catch (err) {
-//     throw err;
-//   }
-// });
+    const response = await Fetch.postVipRating2(body, {
+      accessToken
+    });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
 
 export const getVipNewsAtom = atom(null, async (get, set, { name }) => {
   try {
     const response = await Fetch.getVipNews(name);
+
     set(vipNewsAtom, response);
     return response;
   } catch (err) {
