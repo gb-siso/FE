@@ -20,15 +20,14 @@ const Wrap = styled.div`
 const LoadingSpinner = styled.span`
   width: 48px;
   height: 48px;
-  border: 5px solid #fff;
+  border: 5px solid #ddd;
   border-bottom-color: #6c5ce7;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
-
   animation: rotation 1s linear infinite;
 
-  @keyframes mulShdSpin {
+  @keyframes rotation {
     0% {
       transform: rotate(0deg);
     }
