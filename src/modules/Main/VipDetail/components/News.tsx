@@ -61,7 +61,7 @@ const News: React.FC<any> = () => {
               : '더보기'}
         </More>
       </TitleWrapper>
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner title={'뉴스 데이터를 불러오는 중입니다:)'} />}
       {!isLoading && (
         <NewsBox>
           {JSON.stringify(news) === '{}' ||
