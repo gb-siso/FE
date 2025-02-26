@@ -23,6 +23,20 @@ export async function fetcher<T>(
       ? `${baseUrl}${url}`
       : `${baseUrl}/${url}`;
 
+    // 프록시 서버 이용시
+    if (url.startsWith('/api')) {
+      let realUrl = '';
+      if (options.query) {
+        const queryString = Object.entries(options.query)
+          .map(([key, value]) => `${key}=${value}`)
+          .join('&');
+        realUrl = `${url}?${queryString}`;
+      }
+      const response = await fetch(realUrl);
+      const data: T = await response.json();
+      return data;
+    }
+
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       finalUrl = `${baseUrl}${url}`;
     }

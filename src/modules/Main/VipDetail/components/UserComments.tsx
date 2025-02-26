@@ -11,7 +11,7 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
       <TextWrapper>
         <IconWrap>💬</IconWrap>
         <Title>
-          시민의 소리<Span>{`[${countRating}]`}</Span>
+          시민의 소리<Span>{`${countRating ? `[${countRating}]` : ''}`}</Span>
         </Title>
       </TextWrapper>
       <Plz> (여러분의 목소리가 필요해요! 🐾)</Plz>

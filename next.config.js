@@ -1,6 +1,15 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:3000/api/:path*'
+      }
+    ];
+  },
+
   publicRuntimeConfig: {
     BASE_URL: process.env.BASE_URL,
     apiHost: process.env.API_HOST

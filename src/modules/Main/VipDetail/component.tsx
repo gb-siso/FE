@@ -27,6 +27,7 @@ export default function VipDetail({
     setRatings(initialData.ratings);
     setToken(initialData.accessToken);
   }, [initialData]);
+
   return (
     <>
       <Wrapper>
@@ -35,7 +36,7 @@ export default function VipDetail({
         {/* 정보 */}
         <Info />
         {/*뉴스 */}
-        <News news={initialData.news} />
+        <News />
         {/* 평가 */}
         <Rating />
         {/* 다른 유저 댓글 */}

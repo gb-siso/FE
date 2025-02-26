@@ -17,7 +17,8 @@ export default async function DetailPage({
   }
   const search = decodeURIComponent(vipId);
   const vipDetail = await getVipList({ search });
-  const id = vipDetail.congressmanList[0].id;
+
+  const id = vipDetail?.congressmanList[0]?.id;
 
   const ratings = await getVipRatings(id);
   let vipNews;

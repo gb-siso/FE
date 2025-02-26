@@ -16,6 +16,7 @@
     "babel-plugin-styled-components": "^2.1.4",
     "dayjs": "^1.11.13",
     "eslint-config-next": "^14.2.15",
+    "http-proxy-middleware": "^3.0.3",
     "jotai": "^2.10.1",
     "next": "14.2.15",
     "react": "^18",

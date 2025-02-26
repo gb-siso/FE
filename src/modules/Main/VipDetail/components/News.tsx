@@ -5,7 +5,13 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { getVipNews } from '../../fetch';
+import { useParams } from 'next/navigation';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { getVipNewsAtom, vipNewsAtom } from '../../atom';
+import useHandler from '@/app/hooks/useHandler';
+import Spinner from '@/app/_components/Spinner';
 const MOCK = [
   '/test/down1.jpeg',
   '/test/down2.jpeg',
@@ -21,70 +27,68 @@ const MOCK = [
   '/test/down4.png'
 ];
 
-const News: React.FC<any> = ({ news }) => {
-  const [slides, setSlides] = useState(MOCK);
-
+const News: React.FC<any> = () => {
+  const params = useParams();
   const [isMore, setIsMore] = useState(false);
+
+  // const [slides, setSlides] = useState(MOCK);
+
+  const findNews = useSetAtom(getVipNewsAtom);
+  const news = useAtomValue(vipNewsAtom);
 
   const removeHtmlEntities = (text: string) => {
     return text.replace(/&#[0-9]+;/g, '');
   };
+
+  const { isLoading, handler: initHandler } = useHandler(async () => {
+    const name = decodeURIComponent(params?.vipId as string);
+    await findNews({ name });
+  });
+
+  useEffect(() => {
+    initHandler();
+  }, []);
 
   return (
     <Wrapper>
       <TitleWrapper>
         <NewsTitle>🧾 시소 news</NewsTitle>
         <More onClick={() => setIsMore((prev) => !prev)}>
-          {JSON.stringify(news) === '{}' || news.row.length < 4
+          {JSON.stringify(news) === '{}' || news?.row?.length < 4
             ? ''
             : isMore
               ? '닫기'
               : '더보기'}
         </More>
       </TitleWrapper>
-      <NewsBox>
-        {JSON.stringify(news) === '{}' && (
-          <Empty>의원님의 최신 뉴스가 존재하지 않습니다!</Empty>
-        )}
-        {news &&
-          news.row
-            ?.slice(0, isMore ? undefined : 3)
-            .map((item: any, idx: any) => {
-              const { COMP_MAIN_TITLE: title, REG_DATE: date } = item;
+      {isLoading && <Spinner />}
+      {!isLoading && (
+        <NewsBox>
+          {JSON.stringify(news) === '{}' ||
+            (!news && <Empty>의원님의 최신 뉴스가 존재하지 않습니다!</Empty>)}
+          {news &&
+            news.row
+              ?.slice(0, isMore ? undefined : 3)
+              .map((item: any, idx: any) => {
+                const { COMP_MAIN_TITLE: title, REG_DATE: date } = item;
 
-              return (
-                <Nes
-                  key={idx}
-                  onClick={() => {
-                    window.open(item.LINK_URL, '_blank');
-                  }}
-                >
-                  <Content>"{removeHtmlEntities(title)}"</Content>
-                  <Date>{date.split(' ')[0]}</Date>
-                </Nes>
-              );
-            })}
-      </NewsBox>
-      {/* <NewsWrap>
-        <Swiper
-          modules={[Virtual, Navigation, Pagination]}
-          slidesPerView={3}
-          centeredSlides={true}
-          spaceBetween={30}
-          initialSlide={1}
-          pagination={{
-            type: 'bullets',
-            clickable: true
-          }}
-          virtual
-        >
-          {slides.map((item, index) => (
-            <SwiperSlide key={index} virtualIndex={index}>
-              <Img src={item} alt="hi" />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </NewsWrap> */}
+                return (
+                  <Nes
+                    key={idx}
+                    onClick={() => {
+                      window.open(item.LINK_URL, '_blank');
+                    }}
+                  >
+                    <ContentWrap>
+                      <Li />
+                      <Content>"{removeHtmlEntities(title)}"</Content>
+                    </ContentWrap>
+                    <Date>{date.split(' ')[0]}</Date>
+                  </Nes>
+                );
+              })}
+        </NewsBox>
+      )}
     </Wrapper>
   );
 };
@@ -101,7 +105,23 @@ const Date = styled.div`
   color: #999;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  width: 100%;
+`;
+
+const Li = styled.div`
+  width: 8px;
+  height: 8px;
+  background-color: #6c5ce7;
+  border-radius: 50%;
+`;
+const ContentWrap = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+`;
+
 const Nes = styled.div`
   gap: 5px;
   display: flex;
@@ -114,10 +134,11 @@ const Nes = styled.div`
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   cursor: pointer;
   margin-bottom: 15px;
-  border-left: 20px solid #6c5ce7;
+  /* border-left: 5px solid #6c5ce7; */
   position: relative;
   overflow: hidden;
 
@@ -166,8 +187,9 @@ const NewsBox = styled.div`
 const Wrapper = styled.div`
   width: 95%;
   box-sizing: border-box;
-  padding: 0 1rem;
-  padding-bottom: 2rem;
+  padding: 1rem 1rem;
+  padding-bottom: 1.2rem;
+
   background-color: #fff;
   margin: 0 auto;
   margin-top: 1rem;
@@ -235,3 +257,27 @@ const Img = styled.img`
     height: 155px;
   }
 `;
+
+// 카드뉴스 사용하려고 했던거
+{
+  /* <NewsWrap>
+        <Swiper
+          modules={[Virtual, Navigation, Pagination]}
+          slidesPerView={3}
+          centeredSlides={true}
+          spaceBetween={30}
+          initialSlide={1}
+          pagination={{
+            type: 'bullets',
+            clickable: true
+          }}
+          virtual
+        >
+          {slides.map((item, index) => (
+            <SwiperSlide key={index} virtualIndex={index}>
+              <Img src={item} alt="hi" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </NewsWrap> */
+}

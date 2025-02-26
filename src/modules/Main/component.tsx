@@ -5,7 +5,6 @@ import { useAtom, useAtomValue } from 'jotai';
 import { usePathname } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import data from '@/MOCK/vipData.json';
 import Link from 'next/link';
 import { Vips, Vip } from '@/constants/Main/index';
 import { vipsAtom } from './atom';

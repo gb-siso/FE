@@ -13,7 +13,7 @@ export const vipsAtom = atom<Vips>({
 });
 
 export const categoryDetailAtom = atom({ _id: '', name: '', url: '' });
-
+export const vipNewsAtom = atom({ row: [] });
 export const vipRatings = atom<VipRatings>({
   countCursor: null,
   ratingList: [
@@ -33,13 +33,23 @@ export const vipRatings = atom<VipRatings>({
   ]
 });
 
-export const writeRatingAtom = atom(null, async (get, set, { body }) => {
-  try {
-    const accessToken = get(accessTokenAtom);
+// export const writeRatingAtom = atom(null, async (get, set, { body }) => {
+//   try {
+//     const accessToken = get(accessTokenAtom);
 
-    const response = await Fetch.postVipRating2(body, {
-      accessToken
-    });
+//     const response = await Fetch.postVipRating2(body, {
+//       accessToken
+//     });
+//     return response;
+//   } catch (err) {
+//     throw err;
+//   }
+// });
+
+export const getVipNewsAtom = atom(null, async (get, set, { name }) => {
+  try {
+    const response = await Fetch.getVipNews(name);
+    set(vipNewsAtom, response);
     return response;
   } catch (err) {
     throw err;
