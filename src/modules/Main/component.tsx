@@ -118,7 +118,7 @@ const ButtonWrap = styled.div`
 
 const Card = styled.div<{ $isClick: boolean }>`
   position: relative;
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
