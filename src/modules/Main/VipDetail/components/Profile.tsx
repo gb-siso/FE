@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Vips, VipRatings } from '@/constants/Main/index';
-import { findParty } from '@/constants/Main/Constants';
+// import { findParty } from '@/constants/Main/Constants';
 
 interface ProfileProps {
   vipData: Vips;
@@ -10,7 +10,7 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
   const { congressmanList } = vipData;
   const { name, party, rate } = congressmanList[0] || {};
-  const isParty = findParty(party);
+  // const isParty = findParty(party);
   const { ratingList } = ratings || {};
   const count = ratingList?.length || 0;
 
@@ -25,7 +25,7 @@ const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
         </ImageSection>
         <BoxWrap>
           <BadgeWrap>
-            <PartyBadge>{isParty}</PartyBadge>
+            <PartyBadge>{party}</PartyBadge>
           </BadgeWrap>
           <CongressmanName>
             {name || ''}

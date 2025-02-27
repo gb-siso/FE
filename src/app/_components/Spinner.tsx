@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 const Spinner = ({
-  title,
+  title = '',
   isHide = true
 }: {
-  title: string;
+  title?: string;
   isHide?: boolean;
 }) => {
   return (

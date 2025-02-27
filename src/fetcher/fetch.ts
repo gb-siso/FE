@@ -56,11 +56,11 @@ export async function fetcher<T>(
     }
 
     const fetchOptions: any = {
-      method: options.method,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      }
+      method: options.method
+      // headers: {
+      //   'Access-Control-Allow-Origin': '*',
+      //   'Content-Type': 'application/json'
+      // }
     };
 
     const accessToken = options.accessToken;
@@ -77,8 +77,16 @@ export async function fetcher<T>(
     ) {
       fetchOptions.body = JSON.stringify(options.body);
     }
+    //34.64.182.4:8080/api/v1/congressman?sort=rate,ASC
+    // http: //34.64.182.4:8080/api/v1/congressman
+    // http: console.log(`${finalUrl}  :`, 1239120390, fetchOptions);
+    // console.log(`http://34.64.182.4:8080/api/v1/congressman`);
+
+    const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
+    // const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
 
     // fetch 호출
+    console.log(fetchOptions, 123);
     const response = await fetch(finalUrl, fetchOptions);
     const contentType = response.headers.get('Content-Type');
     if (!response.ok) {

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Vips, Vip } from '@/constants/Main/index';
 import { vipsAtom } from './atom';
 import { findParty } from '@/constants/Main/Constants';
+import Spinner from '@/app/_components/Spinner';
 
 interface MainProps {
   initialVipList: Vips;
@@ -20,7 +21,7 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
   // ATOM
   const isLoading = useAtomValue(isLoadingAtom);
   const [vips, setVips] = useAtom<Vips>(vipsAtom);
-
+  const [isClick, setIsClick] = useState(false);
   const { congressmanList } = vips;
 
   useEffect(() => {
@@ -34,27 +35,27 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
   return (
     <Wrapper>
       {congressmanList.map((vip, idx) => {
-        const party = findParty(vip?.party);
+        // const party = findParty(vip?.party);
         const { timesElected, name, rate, id } = vip;
 
         return (
-          <Card key={idx}>
+          <Card key={idx} $isClick={isClick} onClick={() => setIsClick(true)}>
             <StyledLink href={`/${name}`}>
-              <PoliticianInfo>
-                <VipImgWrap>
-                  <Badge src="/test/badge.png" />
-                </VipImgWrap>
-                <VipRightBox>
-                  <VipInfoWrap>
-                    <VipName>{name}</VipName>
-                    <VipLocation>{party}</VipLocation>
-                  </VipInfoWrap>
-                  <VipCountWrap>
-                    <VipCount>{timesElected}회 당선</VipCount>
-                  </VipCountWrap>
-                </VipRightBox>
-              </PoliticianInfo>
               <VipProfileImgWrap>
+                <PoliticianInfo>
+                  <VipImgWrap>
+                    <Badge src="/test/badge.png" />
+                  </VipImgWrap>
+                  <VipRightBox>
+                    <VipInfoWrap>
+                      <VipName>{name}</VipName>
+                      <VipLocation>{vip?.party}</VipLocation>
+                    </VipInfoWrap>
+                    <VipCountWrap>
+                      <VipCount>{timesElected}회 당선</VipCount>
+                    </VipCountWrap>
+                  </VipRightBox>
+                </PoliticianInfo>
                 <VipImg src="/test/main.jpg" />
               </VipProfileImgWrap>
               <EvaluationBox>
@@ -115,18 +116,47 @@ const ButtonWrap = styled.div`
   padding-top: 2rem;
 `;
 
-const Card = styled.div`
-  width: 100%;
+const Card = styled.div<{ $isClick: boolean }>`
+  position: relative;
+  width: 95%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
+  pointer-events: ${({ $isClick }) => ($isClick ? 'none' : 'auto')};
   cursor: pointer;
+
+  &:after {
+    content: '';
+    display: ${({ $isClick }) => ($isClick ? 'block' : 'none')};
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateX(-100px);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: loading 0.8s infinite;
+    @keyframes loading {
+      100% {
+        transform: translateX(100%);
+      }
+    }
+  }
 `;
 
 const PoliticianInfo = styled.div`
   display: flex;
   justify-content: start;
-  padding-left: 0.7rem;
   gap: 10px;
+  width: 100%;
+  padding: 0 1rem;
+  padding-right: 0rem;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 `;
 
 const VipImgWrap = styled.div`
@@ -200,12 +230,15 @@ const VipCount = styled.h6`
 const VipProfileImgWrap = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
   border-radius: 24px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); /* 그림자 효과를 좀 더 부드럽게 */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden; /* 둥근 모서리에 맞게 이미지 자르기 */
+  padding-bottom: 0;
 `;
 
 const VipImg = styled.img`
@@ -216,7 +249,7 @@ const VipImg = styled.img`
 `;
 
 const EvaluationBox = styled.div`
-  width: 90%;
+  width: 98%;
   background-color: #ead5fb;
   display: flex;
   justify-content: space-between;
@@ -225,7 +258,7 @@ const EvaluationBox = styled.div`
   box-sizing: border-box;
   margin: 0 auto;
   border-radius: 24px;
-  margin-top: -2rem;
+  margin-top: -2.1rem;
   padding-left: 1rem;
   position: relative;
 `;

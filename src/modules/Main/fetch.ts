@@ -10,7 +10,6 @@ export async function getVipList(
     query
   });
 
-  // fetchRes가 Vips 타입과 일치하는지 검사하고 반환
   if (!fetchRes.congressmanList || !fetchRes.lastPage) {
     throw new Error('Invalid data structure');
   }
