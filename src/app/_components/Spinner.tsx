@@ -51,7 +51,8 @@ const Text = styled.span`
   display: inline-block;
   opacity: 0;
   animation: fadeInUp 0.8s ease-out forwards;
-  letter-spacing: 1.5px;
+  letter-spacing: 0.5px;
+  font-weight: bold;
 
   @keyframes fadeInUp {
     from {
