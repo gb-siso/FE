@@ -39,7 +39,7 @@ export default function VipDetail({
         {/*뉴스 */}
         <News />
         {/* 발의안 */}
-        <Initiative />
+        {/* <Initiative /> */}
         {/* 평가 */}
         <Rating />
         {/* 다른 유저 댓글 */}
