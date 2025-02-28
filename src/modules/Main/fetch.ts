@@ -74,3 +74,37 @@ export async function getVipNews(name: string) {
   });
   return fetchRes;
 }
+
+// 국회의원 발의안 가져오기
+export async function getBill(name: string) {
+  const fetchRes: any = await fetcher(`/api/proxy/bill`, {
+    method: 'GET',
+    query: {
+      Key: '7ef51855a2c64b1baf05e82f43905c4f',
+      Type: 'json',
+      pIndex: '1',
+      pSize: '3',
+      PROPOSER: name,
+      AGE: '22'
+    }
+  });
+  return fetchRes;
+}
+
+// 국회의원 발의안 가져오기
+export async function getSummarize(body: any) {
+  const fetchRes: any = await fetcher(`/api/proxy/bill`, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return fetchRes;
+}
+
+// 국회의원 발의안 가져오기
+export async function getGptSummary(body: any) {
+  const fetchRes: any = await fetcher(`/api/proxy/gpt`, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  });
+  return fetchRes;
+}

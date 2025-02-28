@@ -32,6 +32,22 @@ export async function fetcher<T>(
           .join('&');
         realUrl = `${url}?${queryString}`;
       }
+      const fetchOptions: any = {
+        method: options.method
+      };
+
+      if (
+        (options.method === 'POST' ||
+          options.method === 'PATCH' ||
+          options.method === 'DELETE') &&
+        options.body
+      ) {
+        fetchOptions.body = JSON.stringify(options.body);
+        const response = await fetch(url, fetchOptions);
+        const data: T = await response.json();
+        return data;
+      }
+
       const response = await fetch(realUrl);
       const data: T = await response.json();
       return data;
@@ -82,11 +98,11 @@ export async function fetcher<T>(
     // http: console.log(`${finalUrl}  :`, 1239120390, fetchOptions);
     // console.log(`http://34.64.182.4:8080/api/v1/congressman`);
 
-    const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
+    // const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
     // const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
 
     // fetch 호출
-    console.log(fetchOptions, 123);
+
     const response = await fetch(finalUrl, fetchOptions);
     const contentType = response.headers.get('Content-Type');
     if (!response.ok) {

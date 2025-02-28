@@ -4,6 +4,7 @@ import Profile from './components/Profile';
 import Info from './components/Info';
 import News from './components/News';
 import Rating from './components/Rating';
+import Initiative from './components/Initiative';
 import UserComments from './components/UserComments';
 import { useAtom, useSetAtom } from 'jotai';
 import { vipRatings } from '../atom';
@@ -37,6 +38,8 @@ export default function VipDetail({
         <Info />
         {/*뉴스 */}
         <News />
+        {/* 발의안 */}
+        <Initiative />
         {/* 평가 */}
         <Rating />
         {/* 다른 유저 댓글 */}
