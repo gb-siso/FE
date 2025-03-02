@@ -23,10 +23,11 @@ interface Rating {
   id: string;
   member: Member;
   content: string;
-  rate: number | null;
+  rate: number;
   likeCount: number | null;
   dislikeCount: number | null;
   topicality: number | null;
+  createdAt?: string;
 }
 
 interface Member {

@@ -3,7 +3,7 @@ import { Vips } from '@/constants/Main/index';
 import proxyFetcher from '@/fetcher/proxyFetch';
 
 export async function getVipList(
-  query: any = { sort: 'rate,ASC' }
+  query: any = { sort: 'rate,DESC' }
 ): Promise<Vips> {
   const fetchRes: any = await fetcher(`/congressman`, {
     method: 'GET',
@@ -17,7 +17,6 @@ export async function getVipList(
   return fetchRes as Vips;
 }
 
-// /ratings/MDzkc8UlJI2omb0GwO40Uw
 export async function getVipRatings(params: string) {
   const fetchRes: any = await fetcher(`/ratings/${params}`, {
     method: 'GET'
@@ -61,6 +60,7 @@ export async function postVipRating2(body: any, options: any) {
 //   return fetchRes;
 // }
 
+// 의원 뉴스 가져오기
 export async function getVipNews(name: string) {
   const fetchRes: any = await fetcher(`/api/proxy`, {
     method: 'GET',

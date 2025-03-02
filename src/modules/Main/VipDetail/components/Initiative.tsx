@@ -167,7 +167,7 @@ const Inner = styled.div`
   width: 90%;
   max-width: 350px;
   height: 100%;
-  max-height: 500px;
+  max-height: 600px;
   background-color: #fff;
   white-space: pre-line;
   line-height: 2.5rem;
