@@ -6,7 +6,7 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
   const countRating = ratingList?.length;
 
-  const renderRating = (rating: number) => {
+  const renderRating = (rating: number | null) => {
     return (
       <RatingWrapper>
         <StarContainer>

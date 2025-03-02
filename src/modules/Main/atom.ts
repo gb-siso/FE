@@ -30,7 +30,8 @@ export const vipRatings = atom<VipRatings>({
       rate: null,
       likeCount: null,
       dislikeCount: null,
-      topicality: null
+      topicality: null,
+      createdAt: ''
     }
   ]
 });
