@@ -72,14 +72,18 @@ export async function fetcher<T>(
     }
 
     const fetchOptions: any = {
-      method: options.method
-      // headers: {
-      //   'Access-Control-Allow-Origin': '*',
-      //   'Content-Type': 'application/json'
-      // }
+      method: options.method,
+      headers: {
+        timeoutMs: 3000,
+        delayMs: 150,
+        'Content-Type': 'application/json',
+        Pragma: 'no-cache',
+        Expires: '-1'
+      },
+      cache: 'no-store'
     };
 
-    const accessToken = options.accessToken;
+    const accessToken = options?.accessToken;
     if (accessToken) {
       fetchOptions.headers['accessToken'] = `${accessToken}`;
     }
@@ -91,20 +95,12 @@ export async function fetcher<T>(
         options.method === 'DELETE') &&
       options.body
     ) {
-      fetchOptions.body = JSON.stringify(options.body);
+      fetchOptions.body = options.body;
     }
-    //34.64.182.4:8080/api/v1/congressman?sort=rate,ASC
-    // http: //34.64.182.4:8080/api/v1/congressman
-    // http: console.log(`${finalUrl}  :`, 1239120390, fetchOptions);
-    // console.log(`http://34.64.182.4:8080/api/v1/congressman`);
-
-    // const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
-    // const a = 'http://34.64.182.4:8080/api/v1/congressman?sort=rate,ASC';
-
-    // fetch 호출
 
     const response = await fetch(finalUrl, fetchOptions);
-    const contentType = response.headers.get('Content-Type');
+    const contentType = response?.headers?.get('Content-Type');
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -116,7 +112,7 @@ export async function fetcher<T>(
     const data: T = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return null; // 에러 발생 시 null 반환
+    console.log(error);
+    throw error;
   }
 }

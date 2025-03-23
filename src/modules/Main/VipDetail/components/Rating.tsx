@@ -6,13 +6,14 @@ import { useState, ChangeEvent } from 'react';
 import { SubmitHandler, useForm, FieldValues } from 'react-hook-form';
 import styled from 'styled-components';
 import { PostRatingType } from '@/constants/Main/index';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useSetAtom } from 'jotai';
-import { writeRatingAtom } from '../../atom';
+import { getVipRatingsAtom, writeRatingAtom } from '../../atom';
+import { getTokenAtom } from '@/modules/auth/atoms';
+import { toast } from 'react-toastify';
 
-const Rating = () => {
-  const params = useParams();
-  const { vipId } = params;
+const Rating = ({ vipId }: { vipId: string }) => {
+  const router = useRouter();
 
   const form = useForm<PostRatingType>();
   const {
@@ -23,6 +24,8 @@ const Rating = () => {
   const [rating, setRating] = useState(5);
 
   const writeRating = useSetAtom(writeRatingAtom);
+  const getToken = useSetAtom(getTokenAtom);
+  const getVipRatings = useSetAtom(getVipRatingsAtom);
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRating(parseFloat(e.target.value));
@@ -33,12 +36,30 @@ const Rating = () => {
       ...data,
       congressmanId: vipId
     };
-    await writeRating({ body });
+    try {
+      await getToken({});
+      await writeRating({ body });
+      await getVipRatings({ params: vipId });
+
+      toast.success('소중한 평가 감사합니다!');
+    } catch (err) {
+      toast.error('이미 평가를 작성하셨습니다. 😀');
+    } finally {
+      form.reset({
+        rating: 5,
+        content: ''
+      });
+      setIsopen(false);
+    }
   };
 
   return (
     <Wrapper>
-      <ButtonWrapper onClick={() => setIsopen(true)}>
+      <ButtonWrapper
+        onClick={() => {
+          setIsopen(true);
+        }}
+      >
         <TitleWrapper>
           ✍🏻 <Title>국회의원 평가</Title>
         </TitleWrapper>
@@ -61,8 +82,7 @@ const Rating = () => {
               {...form.register('rating', {
                 required: '별점을 선택해주세요.',
                 min: 1,
-                max: 10,
-                valueAsNumber: true // 숫자로 변환
+                max: 10
               })}
               onChange={handleSliderChange}
               style={{ width: '100%', marginBottom: '20px' }}
@@ -71,7 +91,7 @@ const Rating = () => {
               <TextArea
                 placeholder="자유롭게 작성해주세요."
                 {...form.register('content', {
-                  required: '필수값입니다.',
+                  required: ' 필수값입니다.',
                   minLength: {
                     value: 2,
                     message: '최소 2글자입니다!'

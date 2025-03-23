@@ -11,23 +11,35 @@ import { vipRatings } from '../atom';
 import { useEffect } from 'react';
 import { VipRatings, Vips } from '@/constants/Main/index';
 import { accessTokenAtom } from '@/modules/auth/atoms';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function VipDetail({
   initialData
 }: {
   initialData: {
     ratings: VipRatings;
-    accessToken: string;
     vipDetail: Vips;
-    news: any;
   };
 }) {
   const [ratings, setRatings] = useAtom(vipRatings);
-  const setToken = useSetAtom(accessTokenAtom);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // const setToken = useSetAtom(accessTokenAtom);
 
   useEffect(() => {
     setRatings(initialData.ratings);
-    setToken(initialData.accessToken);
+    // eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzaXNvIiwiaWQiOjIsImV4cCI6MTc0Mjc0NTEwMCwiaWF0IjoxNzQyNzQzMzAwfQ.qCoWJMdVBHeLtwH5T8nrH-rVKDQIFvAedDkBax2Z0xZs6cQG7IkWh5cn8IZ0IL59So81anpUuHa9xkhseGYDaQ
+    // setToken(initialData.accessToken);
   }, [initialData]);
+
+  useEffect(() => {
+    router.refresh();
+  }, [pathname, router]);
 
   return (
     <>
@@ -41,7 +53,7 @@ export default function VipDetail({
         {/* 발의안 */}
         {/* <Initiative /> */}
         {/* 평가 */}
-        <Rating />
+        <Rating vipId={initialData?.vipDetail?.congressmanList[0]?.id} />
         {/* 다른 유저 댓글 */}
         <UserComments ratings={ratings} />
       </Wrapper>

@@ -1,10 +1,18 @@
 import { DownIcon, UpIcon } from '@/assets/svg';
 import styled from 'styled-components';
 import { VipRatings } from '@/constants/Main/index';
+import { formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { getTokenAtom } from '@/modules/auth/atoms';
+import { useSetAtom } from 'jotai';
+import { toast } from 'react-toastify';
+import { postHandleReactionAtom } from '../../atom';
 
 const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
   const countRating = ratingList?.length;
+  const getToken = useSetAtom(getTokenAtom);
+  const postHandleReaction = useSetAtom(postHandleReactionAtom);
 
   const renderRating = (rating: number | null) => {
     return (
@@ -15,6 +23,17 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
         <RatingText>{rating} / 10</RatingText>
       </RatingWrapper>
     );
+  };
+
+  const likeUnLikePushHandler = async (id: string) => {
+    try {
+      await getToken({});
+      await postHandleReaction({ id });
+      // toast.success('소중한 평가 감사합니다!');
+    } catch (err) {
+      // toast.error('이미 평가를 작성하셨습니다. 😀');
+    } finally {
+    }
   };
 
   return (
@@ -45,7 +64,14 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
               <CardHeader>
                 <UserInfo>
                   <UserName>{item.member.nickname}</UserName>
-                  <PostDate>{item?.createdAt || '2024-11-24'}</PostDate>
+                  <PostDate>
+                    {item?.createdAt
+                      ? formatDistanceToNow(new Date(item?.createdAt), {
+                          addSuffix: true,
+                          locale: ko
+                        })
+                      : '-'}
+                  </PostDate>
                 </UserInfo>
                 {renderRating(item?.rate)}
               </CardHeader>
@@ -55,11 +81,16 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
               </CommentContent>
 
               <InteractionContainer>
-                <VoteButton>
+                <VoteButton onClick={() => likeUnLikePushHandler(item.id)}>
+                  {/* <VoteButton $active={true}> */}
                   <UpIcon width={18} height={18} />
                   <VoteCount>{item.likeCount}</VoteCount>
                 </VoteButton>
-                <VoteButton $dislike>
+                <VoteButton
+                  $dislike
+                  // $active={true}
+                  onClick={() => likeUnLikePushHandler(item.id)}
+                >
                   <DownIcon width={18} height={18} />
                   <VoteCount>{item.dislikeCount}</VoteCount>
                 </VoteButton>
@@ -233,20 +264,40 @@ const InteractionContainer = styled.div`
   margin-top: 1.2rem;
 `;
 
-const VoteButton = styled.button<{ $dislike?: boolean }>`
+const VoteButton = styled.button<{ $dislike?: boolean; $active?: boolean }>`
   display: flex;
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 8px;
-  background: ${({ $dislike }) => ($dislike ? '#fff5f5' : '#f8f9fa')};
-  color: ${({ $dislike }) => ($dislike ? '#ff6b6b' : '#4a90e2')};
+
+  background: ${({ $dislike, $active }) =>
+    $active
+      ? $dislike
+        ? '#ffeded'
+        : '#e8f3ff'
+      : $dislike
+        ? '#fff5f5'
+        : '#f8f9fa'};
+  color: ${({ $dislike, $active }) =>
+    $active
+      ? $dislike
+        ? '#ff4444'
+        : '#2a7fff'
+      : $dislike
+        ? '#ff6b6b'
+        : '#4a90e2'};
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
     background: ${({ $dislike }) => ($dislike ? '#ffe3e3' : '#e9f3ff')};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
   }
 `;
 

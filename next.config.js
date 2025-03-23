@@ -9,7 +9,8 @@ module.exports = {
       }
     ];
   },
-
+  reactStrictMode: false,
+  swcMinify: false,
   publicRuntimeConfig: {
     BASE_URL: process.env.BASE_URL,
     apiHost: process.env.API_HOST

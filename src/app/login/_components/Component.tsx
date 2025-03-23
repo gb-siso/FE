@@ -3,10 +3,6 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import styled from 'styled-components';
 
-interface ButtonProps {
-  bg?: 'gray' | 'main' | 'other';
-}
-
 const Component = () => {
   const router = useRouter();
 
@@ -19,10 +15,20 @@ const Component = () => {
         <WelcomeText>시소에 오신 것을 환영합니다!</WelcomeText>
       </HeaderBox>
       <Bottom>
-        <Input placeholder={'User ID'} />
-        <Input placeholder={'Password'} />
-        <Button bg="main">로그인</Button>
-        <Button bg="gray">회원가입</Button>
+        {/* <Input placeholder={'User ID'} />
+        <Input placeholder={'Password'} /> */}
+        <Button
+          // bg="#03C75A"
+          onClick={() => {
+            window.open(
+              'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=http%3A%2F%2F34.64.182.4%3A8080%2Fapi%2Fv1%2Fauth%2Flogin%2Fnaver&state=STATE_STRING',
+              '_blank'
+            );
+          }}
+        >
+          네이버 로그인
+        </Button>
+        {/* <Button bg="#FFCD00">카카오 로그인</Button> */}
       </Bottom>
     </Wrap>
   );
@@ -60,7 +66,7 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button<ButtonProps>`
+const Button = styled.button<{ bg?: string }>`
   cursor: pointer;
   width: 100%;
   height: 50px;
@@ -72,14 +78,13 @@ const Button = styled.button<ButtonProps>`
   font-family: 'Work Sans', sans-serif;
   line-height: 1.5;
   outline: none;
-  background-color: ${({ bg }) =>
-    bg === 'gray' ? '#434343' : bg === 'main' ? '#8800fb' : '#8800fb'};
+  background-color: ${({ bg }) => (bg ? bg : '#7a00d6')};
   transition: background-color 0.3s ease;
 
-  &:hover {
+  /* &:hover {
     background-color: ${({ bg }) =>
-      bg === 'gray' ? '#555' : bg === 'main' ? '#7a00d6' : '#7a00d6'};
-  }
+    bg === 'gray' ? '#555' : bg === 'main' ? '#7a00d6' : '#7a00d6'};
+  } */
 
   &:focus {
     outline: 2px solid #8800fb; /* 버튼에 포커스 시 외곽선 추가 */

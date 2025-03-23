@@ -34,31 +34,13 @@ export async function postVipRating(body: any, options: any) {
 }
 
 export async function postVipRating2(body: any, options: any) {
-  const fetchRes: any = await proxyFetcher(`/api/ratings`, {
+  const fetchRes: any = await fetcher(`/api/ratings`, {
     ...options,
     method: 'POST',
     body: JSON.stringify(body)
   });
   return fetchRes;
 }
-
-// 뉴스 가져오기
-// export async function getVipNews(name: string) {
-//   const fetchRes: any = await fetcher(
-//     `https://open.assembly.go.kr/portal/openapi/nauvppbxargkmyovh`,
-//     {
-//       method: 'GET',
-//       query: {
-//         Key: 'a7472423eb5c49d58f8c7eeae292b0db',
-//         Type: 'json',
-//         pIndex: '1',
-//         pSize: '12',
-//         COMP_MAIN_TITLE: name
-//       }
-//     }
-//   );
-//   return fetchRes;
-// }
 
 // 의원 뉴스 가져오기
 export async function getVipNews(name: string) {
@@ -108,3 +90,29 @@ export async function getGptSummary(body: any) {
   });
   return fetchRes;
 }
+
+export async function postHandleReaction(id: any, options: any) {
+  const fetchRes: any = await fetcher(`/likes/rating/${id}`, {
+    ...options,
+    method: 'POST'
+  });
+  return fetchRes;
+}
+
+// 뉴스 가져오기
+// export async function getVipNews(name: string) {
+//   const fetchRes: any = await fetcher(
+//     `https://open.assembly.go.kr/portal/openapi/nauvppbxargkmyovh`,
+//     {
+//       method: 'GET',
+//       query: {
+//         Key: 'a7472423eb5c49d58f8c7eeae292b0db',
+//         Type: 'json',
+//         pIndex: '1',
+//         pSize: '12',
+//         COMP_MAIN_TITLE: name
+//       }
+//     }
+//   );
+//   return fetchRes;
+// }

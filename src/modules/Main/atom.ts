@@ -12,6 +12,13 @@ export const vipsAtom = atom<Vips>({
   lastPage: false
 });
 
+export const vipDataAtom = atom<Vips>({
+  congressmanList: [],
+  idCursor: '',
+  rateCursor: '',
+  lastPage: true
+});
+
 export const categoryDetailAtom = atom({ _id: '', name: '', url: '' });
 export const vipNewsAtom = atom({ row: [] });
 export const billAtom = atom({ row: [] });
@@ -40,7 +47,7 @@ export const writeRatingAtom = atom(null, async (get, set, { body }) => {
   try {
     const accessToken = get(accessTokenAtom);
 
-    const response = await Fetch.postVipRating2(body, {
+    const response = await Fetch.postVipRating(body, {
       accessToken
     });
     return response;
@@ -53,7 +60,6 @@ export const writeRatingAtom = atom(null, async (get, set, { body }) => {
 export const getVipNewsAtom = atom(null, async (get, set, { name }) => {
   try {
     const response = await Fetch.getVipNews(name);
-
     set(vipNewsAtom, response);
     return response;
   } catch (err) {
@@ -90,6 +96,42 @@ export const getBillAtom = atom(null, async (get, set, { name }) => {
       });
       set(billAtom, { row: result });
     }
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 의원 리스트 가져오기
+export const getVipListAtom = atom(null, async (get, set, { query }) => {
+  try {
+    const response = await Fetch.getVipList(query);
+    set(vipsAtom, response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 평가 가져오기
+export const getVipRatingsAtom = atom(null, async (get, set, { params }) => {
+  try {
+    const response = await Fetch.getVipRatings(params);
+    set(vipRatings, response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 좋아요, 싫어요 버튼 핸들러
+export const postHandleReactionAtom = atom(null, async (get, set, { id }) => {
+  try {
+    const accessToken = get(accessTokenAtom);
+
+    const response = await Fetch.postHandleReaction(id, {
+      accessToken
+    });
     return response;
   } catch (err) {
     throw err;

@@ -49,7 +49,6 @@ const News: React.FC<any> = () => {
 
   const modalHandler = (item: any) => {
     setSelected(item);
-    console.log(item);
   };
   const modalCloseHandler = () => {
     setSelected(null);

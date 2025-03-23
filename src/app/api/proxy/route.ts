@@ -22,6 +22,10 @@ export async function GET(request: NextRequest) {
   }
   const data = await res.json();
 
+  if (!data?.nauvppbxargkmyovh) {
+    return NextResponse.json({ row: [] }, { status: 404 });
+  }
+
   return NextResponse.json({ ...data?.nauvppbxargkmyovh['1'] });
 }
 

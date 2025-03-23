@@ -2,7 +2,7 @@
 import { isLoadingAtom } from '@/atoms/atom';
 // import Button from '@/components/Button/Button';
 import { useAtom, useAtomValue } from 'jotai';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { use, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -16,7 +16,8 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({ initialVipList }) => {
-  const path = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
 
   // ATOM
   const isLoading = useAtomValue(isLoadingAtom);
@@ -27,6 +28,10 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
   useEffect(() => {
     setVips(initialVipList);
   }, [initialVipList]);
+
+  useEffect(() => {
+    router.refresh();
+  }, [pathname, router]);
 
   if (isLoading) {
     return <></>;
@@ -70,7 +75,7 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
                   {/* <Rating src="/test/iconStar.png" /> */}
                   <Rating src="/test/iconStar3.png" />
                   <RatingNumber>
-                    {rate}
+                    {rate?.toFixed(1)}
                     <RatingSpan>점</RatingSpan>
                   </RatingNumber>
                 </RatingBox>

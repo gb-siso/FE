@@ -48,7 +48,6 @@ const News: React.FC<any> = () => {
   useEffect(() => {
     initHandler();
   }, []);
-
   return (
     <Wrapper>
       <TitleWrapper>
@@ -64,8 +63,10 @@ const News: React.FC<any> = () => {
       {isLoading && <Spinner title={'뉴스 데이터를 불러오는 중입니다:)'} />}
       {!isLoading && (
         <NewsBox>
-          {JSON.stringify(news) === '{}' ||
-            (!news && <Empty>의원님의 최신 뉴스가 존재하지 않습니다!</Empty>)}
+          {!news ||
+            (news?.row.length === 0 && (
+              <Empty>의원님의 최신 뉴스가 존재하지 않습니다!</Empty>
+            ))}
           {news &&
             news.row
               ?.slice(0, isMore ? undefined : 3)
