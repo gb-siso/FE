@@ -6,16 +6,12 @@ import News from './components/News';
 import Rating from './components/Rating';
 import Initiative from './components/Initiative';
 import UserComments from './components/UserComments';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { vipRatings } from '../atom';
 import { useEffect } from 'react';
 import { VipRatings, Vips } from '@/constants/Main/index';
-import { accessTokenAtom } from '@/modules/auth/atoms';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 
 export default function VipDetail({
   initialData
@@ -28,8 +24,6 @@ export default function VipDetail({
   const [ratings, setRatings] = useAtom(vipRatings);
   const router = useRouter();
   const pathname = usePathname();
-
-  // const setToken = useSetAtom(accessTokenAtom);
 
   useEffect(() => {
     setRatings(initialData.ratings);

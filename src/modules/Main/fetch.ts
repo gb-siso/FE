@@ -9,8 +9,7 @@ export async function getVipList(
     method: 'GET',
     query
   });
-
-  if (!fetchRes.congressmanList || !fetchRes.lastPage) {
+  if (!fetchRes.congressmanList) {
     throw new Error('Invalid data structure');
   }
 

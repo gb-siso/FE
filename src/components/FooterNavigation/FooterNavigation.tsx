@@ -3,16 +3,22 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { usePathname } from 'next/navigation';
-import { HOME, Notifications, LOGIN } from '@/utils/route';
+import { HOME, Notifications, LOGIN, MY_PAGE } from '@/utils/route';
 import { ActiveHomeIcon, HomeIcon, User } from '@/assets/svg';
-import { atom, useAtom } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 import { isLoadingAtom } from '@/atoms/atom';
 import './styles.css';
 import Image from 'next/image';
+import { accessTokenAtom } from '@/modules/auth/atoms';
 
 export default function FooterNavigation() {
   const path = usePathname();
+
+  const isLogin = localStorage.getItem('cookieData') != 'null' ? true : false;
+
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
+
   const isActive = (url: string) => {
     return path.includes(url);
   };
@@ -33,6 +39,13 @@ export default function FooterNavigation() {
     }
   }, [setIsLoading]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('cookieData') || '';
+
+    if (token && token !== 'null') {
+      setAccessToken(token);
+    }
+  }, [accessToken]);
   if (isLoading) {
     return (
       <div className="wrapper">
@@ -56,11 +69,24 @@ export default function FooterNavigation() {
     <>
       <Footer className="footer-nav">
         <StyledLink href={HOME}>
-          <span>{path !== LOGIN ? <ActiveHomeIcon /> : <HomeIcon />}</span>
+          <span>
+            {path !== LOGIN && path !== MY_PAGE ? (
+              <ActiveHomeIcon />
+            ) : (
+              <HomeIcon />
+            )}
+          </span>
         </StyledLink>
-        <StyledLink href={LOGIN}>
-          {isActive(LOGIN) ? <User /> : <User fill="#a8a8a8" />}
-        </StyledLink>
+        {!isLogin && (
+          <StyledLink href={LOGIN}>
+            {isActive(LOGIN) ? <User /> : <User fill="#a8a8a8" />}
+          </StyledLink>
+        )}
+        {isLogin && (
+          <StyledLink href={MY_PAGE}>
+            {isActive(MY_PAGE) ? <User /> : <User fill="#a8a8a8" />}
+          </StyledLink>
+        )}
       </Footer>
     </>
   );

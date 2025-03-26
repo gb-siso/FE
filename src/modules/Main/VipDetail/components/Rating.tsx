@@ -7,10 +7,15 @@ import { SubmitHandler, useForm, FieldValues } from 'react-hook-form';
 import styled from 'styled-components';
 import { PostRatingType } from '@/constants/Main/index';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { getVipRatingsAtom, writeRatingAtom } from '../../atom';
-import { getTokenAtom } from '@/modules/auth/atoms';
+import {
+  accessTokenAtom,
+  getReissueTokenAtom,
+  getTokenAtom
+} from '@/modules/auth/atoms';
 import { toast } from 'react-toastify';
+import { getReissueToken } from '@/modules/auth/fetch';
 
 const Rating = ({ vipId }: { vipId: string }) => {
   const router = useRouter();
@@ -25,7 +30,9 @@ const Rating = ({ vipId }: { vipId: string }) => {
 
   const writeRating = useSetAtom(writeRatingAtom);
   const getToken = useSetAtom(getTokenAtom);
+  const getReissueToken = useSetAtom(getReissueTokenAtom);
   const getVipRatings = useSetAtom(getVipRatingsAtom);
+  const token = useAtomValue(accessTokenAtom);
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRating(parseFloat(e.target.value));
@@ -37,7 +44,7 @@ const Rating = ({ vipId }: { vipId: string }) => {
       congressmanId: vipId
     };
     try {
-      await getToken({});
+      // await getToken({});
       await writeRating({ body });
       await getVipRatings({ params: vipId });
 
@@ -57,12 +64,17 @@ const Rating = ({ vipId }: { vipId: string }) => {
     <Wrapper>
       <ButtonWrapper
         onClick={() => {
+          if (!token && !token.length) {
+            toast.warning('로그인 후 평가를 남길 수 있어요!');
+            return;
+          }
           setIsopen(true);
         }}
       >
         <TitleWrapper>
           ✍🏻 <Title>국회의원 평가</Title>
         </TitleWrapper>
+
         {!isOpen && <Button name="Go" size="s" />}
       </ButtonWrapper>
       {isOpen && (

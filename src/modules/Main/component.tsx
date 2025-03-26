@@ -31,7 +31,7 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
 
   useEffect(() => {
     router.refresh();
-  }, [pathname, router]);
+  }, []);
 
   if (isLoading) {
     return <></>;
@@ -75,8 +75,12 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
                   {/* <Rating src="/test/iconStar.png" /> */}
                   <Rating src="/test/iconStar3.png" />
                   <RatingNumber>
-                    {rate?.toFixed(1)}
-                    <RatingSpan>점</RatingSpan>
+                    {rate && (
+                      <>
+                        {rate?.toFixed(1)}
+                        <RatingSpan>점</RatingSpan>
+                      </>
+                    )}
                   </RatingNumber>
                 </RatingBox>
               </EvaluationBox>

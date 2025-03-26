@@ -19,6 +19,7 @@
     "eslint-config-next": "^14.2.15",
     "http-proxy-middleware": "^3.0.3",
     "jotai": "^2.10.1",
+    "jwt-decode": "^4.0.0",
     "next": "14.2.15",
     "puppeteer": "^24.3.0",
     "react": "^18",

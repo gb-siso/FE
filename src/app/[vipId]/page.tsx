@@ -23,6 +23,7 @@ export default async function DetailPage({
   const id = vipDetail?.congressmanList[0]?.id;
 
   const ratings = await getVipRatings(id);
+
   return (
     <>
       <VipDetail initialData={{ ratings, vipDetail }} />

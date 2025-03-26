@@ -1,10 +1,53 @@
 'use client';
+import Spinner from '@/app/_components/Spinner';
+import useHandler from '@/app/hooks/useHandler';
+import { loginAtom, userMeAtom } from '@/modules/auth/atoms';
+import { copyFileSync } from 'fs';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 const Component = () => {
   const router = useRouter();
+
+  const login = useSetAtom(loginAtom);
+
+  const handleNaverLogin = () => {
+    const redirectUri = encodeURIComponent('http://localhost:3000/login');
+    const state = 'STATE_STRING';
+
+    const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=${redirectUri}&state=${state}`;
+    window.location.href = naverAuthUrl;
+  };
+
+  const { isLoading, handler } = useHandler(async (code, state) => {
+    try {
+      await login({ code, state });
+      toast.success('로그인 완료😀');
+      router.replace('/');
+    } catch {
+      router.replace('/login');
+    }
+  });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+    const state = urlParams.get('state');
+
+    if (code && state) {
+      handler(code, state);
+    }
+  }, []);
+
+  if (isLoading)
+    return (
+      <Wrap>
+        <Spinner title={'잠시만 기다려주세요 🙂'} />
+      </Wrap>
+    );
 
   return (
     <Wrap>
@@ -20,10 +63,9 @@ const Component = () => {
         <Button
           // bg="#03C75A"
           onClick={() => {
-            window.open(
-              'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=http%3A%2F%2F34.64.182.4%3A8080%2Fapi%2Fv1%2Fauth%2Flogin%2Fnaver&state=STATE_STRING',
-              '_blank'
-            );
+            handleNaverLogin();
+            // window.location.href =
+            //   'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=http%3A%2F%2F34.64.182.4%3A8080%2Fapi%2Fv1%2Fauth%2Flogin%2Fnaver&state=STATE_STRING';
           }}
         >
           네이버 로그인

@@ -15,7 +15,6 @@ module.exports = {
     BASE_URL: process.env.BASE_URL,
     apiHost: process.env.API_HOST
   },
-  reactStrictMode: false,
   eslint: {
     ignoreDuringBuilds: true
   },

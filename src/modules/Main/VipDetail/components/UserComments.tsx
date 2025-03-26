@@ -7,12 +7,15 @@ import { getTokenAtom } from '@/modules/auth/atoms';
 import { useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { postHandleReactionAtom } from '../../atom';
+import { useRouter } from 'next/navigation';
 
 const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
   const countRating = ratingList?.length;
   const getToken = useSetAtom(getTokenAtom);
   const postHandleReaction = useSetAtom(postHandleReactionAtom);
+
+  const router = useRouter();
 
   const renderRating = (rating: number | null) => {
     return (
@@ -27,13 +30,11 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
 
   const likeUnLikePushHandler = async (id: string) => {
     try {
-      await getToken({});
+      // await getToken({});
       await postHandleReaction({ id });
-      // toast.success('소중한 평가 감사합니다!');
-    } catch (err) {
-      // toast.error('이미 평가를 작성하셨습니다. 😀');
-    } finally {
-    }
+      router.refresh();
+      toast.success('피드백이 처리되었습니다!');
+    } catch (err) {}
   };
 
   return (
