@@ -61,7 +61,6 @@ const Component = () => {
         {/* <Input placeholder={'User ID'} />
         <Input placeholder={'Password'} /> */}
         <Button
-          // bg="#03C75A"
           onClick={() => {
             handleNaverLogin();
             // window.location.href =

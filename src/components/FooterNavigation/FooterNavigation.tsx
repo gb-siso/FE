@@ -14,7 +14,9 @@ import { accessTokenAtom } from '@/modules/auth/atoms';
 export default function FooterNavigation() {
   const path = usePathname();
 
-  const isLogin = localStorage.getItem('cookieData') != 'null' ? true : false;
+  const isLogin =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('cookieData') !== 'null';
 
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
@@ -40,10 +42,12 @@ export default function FooterNavigation() {
   }, [setIsLoading]);
 
   useEffect(() => {
-    const token = localStorage.getItem('cookieData') || '';
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('cookieData') || '';
 
-    if (token && token !== 'null') {
-      setAccessToken(token);
+      if (token && token !== 'null') {
+        setAccessToken(token);
+      }
     }
   }, [accessToken]);
   if (isLoading) {

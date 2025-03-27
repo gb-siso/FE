@@ -14,7 +14,9 @@ const LogoutPage = () => {
       ? JSON.parse(localStorage.getItem('userData') || '{}')
       : null;
 
-  const isLogin = localStorage.getItem('cookieData') != 'null' ? true : false;
+  const isLogin =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('cookieData') !== 'null';
 
   const handleLogout = async () => {
     try {
