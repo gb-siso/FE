@@ -6,14 +6,17 @@ import { ko } from 'date-fns/locale';
 import { getTokenAtom } from '@/modules/auth/atoms';
 import { useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
-import { postHandleReactionAtom } from '../../atom';
+import { postDislikeAtom, postHandleReactionAtom } from '../../atom';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
   const countRating = ratingList?.length;
   const getToken = useSetAtom(getTokenAtom);
   const postHandleReaction = useSetAtom(postHandleReactionAtom);
+  const postDislike = useSetAtom(postDislikeAtom);
+  const [activeVote, setActiveVote]: any = useState({});
 
   const router = useRouter();
 
@@ -28,15 +31,42 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
     );
   };
 
-  const likeUnLikePushHandler = async (id: string) => {
+  const likeUnLikePushHandler = async (id: string, type: string) => {
     try {
+      setActiveVote((prevState: any) => {
+        const updatedState: any = { ...prevState };
+
+        if (type === 'like') {
+          updatedState[id] = {
+            like: true,
+            dislike: false
+          };
+        }
+
+        if (type === 'dislike') {
+          updatedState[id] = {
+            like: false,
+            dislike: true
+          };
+        }
+
+        return updatedState;
+      });
+
       // await getToken({});
-      await postHandleReaction({ id });
+      if (type === 'like') {
+        await postHandleReaction({ id });
+      }
+      if (type === 'dislike') {
+        await postDislike({ id });
+      }
+
       router.refresh();
       toast.success('피드백이 처리되었습니다!');
-    } catch (err) {}
+    } catch {
+      toast.warning('"이미 반영됐어요! 🙈');
+    }
   };
-
   return (
     <Wrapper>
       {/* <Contour /> */}
@@ -82,15 +112,18 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
               </CommentContent>
 
               <InteractionContainer>
-                <VoteButton onClick={() => likeUnLikePushHandler(item.id)}>
+                <VoteButton
+                  onClick={() => likeUnLikePushHandler(item.id, 'like')}
+                  $active={activeVote[item.id]?.like}
+                >
                   {/* <VoteButton $active={true}> */}
                   <UpIcon width={18} height={18} />
                   <VoteCount>{item.likeCount}</VoteCount>
                 </VoteButton>
                 <VoteButton
                   $dislike
-                  // $active={true}
-                  onClick={() => likeUnLikePushHandler(item.id)}
+                  onClick={() => likeUnLikePushHandler(item.id, 'dislike')}
+                  $active={activeVote[item.id]?.dislike}
                 >
                   <DownIcon width={18} height={18} />
                   <VoteCount>{item.dislikeCount}</VoteCount>

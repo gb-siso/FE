@@ -98,6 +98,14 @@ export async function postHandleReaction(id: any, options: any) {
   return fetchRes;
 }
 
+export async function posDislike(id: any, options: any) {
+  const fetchRes: any = await fetcher(`/dislikes/rating/${id}`, {
+    ...options,
+    method: 'POST'
+  });
+  return fetchRes;
+}
+
 // 뉴스 가져오기
 // export async function getVipNews(name: string) {
 //   const fetchRes: any = await fetcher(

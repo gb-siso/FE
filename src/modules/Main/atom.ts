@@ -124,12 +124,25 @@ export const getVipRatingsAtom = atom(null, async (get, set, { params }) => {
   }
 });
 
-// 좋아요, 싫어요 버튼 핸들러
+// 좋아요, 핸들러
 export const postHandleReactionAtom = atom(null, async (get, set, { id }) => {
   try {
     const accessToken = get(accessTokenAtom);
 
     const response = await Fetch.postHandleReaction(id, {
+      accessToken
+    });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 좋아요, 핸들러
+export const postDislikeAtom = atom(null, async (get, set, { id }) => {
+  try {
+    const accessToken = get(accessTokenAtom);
+    const response = await Fetch.posDislike(id, {
       accessToken
     });
     return response;

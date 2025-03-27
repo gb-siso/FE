@@ -41,8 +41,10 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
     <Wrapper>
       {congressmanList.map((vip, idx) => {
         // const party = findParty(vip?.party);
-        const { timesElected, name, rate, id } = vip;
-
+        const { electoralDistrict, assemblySessions, name, rate, party } = vip;
+        const city = electoralDistrict?.split('/')?.pop() || '';
+        const currentParty = party?.split('/')?.pop() || '';
+        console.log(vip, 123);
         return (
           <Card key={idx} $isClick={isClick} onClick={() => setIsClick(true)}>
             <StyledLink href={`/${name}`}>
@@ -54,14 +56,16 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
                   <VipRightBox>
                     <VipInfoWrap>
                       <VipName>{name}</VipName>
-                      <VipLocation>{vip?.party}</VipLocation>
+                      <VipLocation>
+                        {currentParty} / {city}
+                      </VipLocation>
                     </VipInfoWrap>
                     <VipCountWrap>
-                      <VipCount>{timesElected}회 당선</VipCount>
+                      <VipCount>{assemblySessions.length}회 당선</VipCount>
                     </VipCountWrap>
                   </VipRightBox>
                 </PoliticianInfo>
-                <VipImg src="/test/main.jpg" />
+                <VipImg src={vip?.imageUrl} />
               </VipProfileImgWrap>
               <EvaluationBox>
                 <UsersBox>
@@ -113,7 +117,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  padding-bottom: 30rem;
+  padding-bottom: 10rem;
 `;
 
 const ButtonWrap = styled.div`
@@ -254,7 +258,6 @@ const VipImg = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: inherit;
 `;
 
 const EvaluationBox = styled.div`

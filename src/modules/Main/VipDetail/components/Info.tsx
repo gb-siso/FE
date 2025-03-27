@@ -1,12 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import { VipRatings, Vips } from '@/constants/Main/index';
 
-const Info = () => {
+interface ProfileProps {
+  vipData: Vips;
+}
+
+const Info: React.FC<ProfileProps> = ({ vipData }) => {
+  const { congressmanList } = vipData;
+  const { assemblySessions, timesElected } = congressmanList[0] || {};
+  console.log(vipData);
   return (
     <Wrapper>
       <InfoTitle>국회의원 선출 이력</InfoTitle>
       <DataWrapper>
-        <VipHistory>5선 / (17대, 18대, 19대, 20대, 22대)</VipHistory>
+        <VipHistory>
+          {timesElected} / (
+          {assemblySessions.map((item, index) => (
+            <React.Fragment key={index}>
+              {item}대{index !== assemblySessions.length - 1 && ', '}
+            </React.Fragment>
+          ))}
+          )
+        </VipHistory>
       </DataWrapper>
     </Wrapper>
   );

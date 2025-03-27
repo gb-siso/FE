@@ -9,29 +9,34 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
   const { congressmanList } = vipData;
-  const { name, party, rate } = congressmanList[0] || {};
+  const { name, party, rate, imageUrl } = congressmanList[0] || {};
   // const isParty = findParty(party);
   const { ratingList } = ratings || {};
   const count = ratingList?.length || 0;
+  const currentParty = party?.split('/')?.pop() || '';
 
   return (
     <ProfileCard>
       <InfoSection>
         <ImageSection>
           <ProfileImage
-            src="/test/main2.jpg"
+            onClick={() => {
+              window.open(imageUrl);
+            }}
+            src={imageUrl}
             alt={`${name} 의원 프로필 사진`}
           />
         </ImageSection>
         <BoxWrap>
           <BadgeWrap>
-            <PartyBadge>{party}</PartyBadge>
+            <PartyBadge>{currentParty}</PartyBadge>
           </BadgeWrap>
           <CongressmanName>
             {name || ''}
             <CongressmanTitle> 의원</CongressmanTitle>
           </CongressmanName>
         </BoxWrap>
+        <DistrictText>대구광역시 을</DistrictText>
         <RatingSection>
           <RatingScore>
             <RatingStars>
@@ -48,6 +53,17 @@ const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
 };
 
 export default Profile;
+
+const DistrictText = styled.div`
+  width: 100%;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.3px;
+`;
 
 const BoxWrap = styled.div`
   display: flex;
@@ -85,7 +101,12 @@ const ImageSection = styled.div`
 const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
+  max-width: 490px;
+  max-height: 490px;
+  object-fit: cover;
+  object-position: top; /* 이미지의 상단을 기준으로 정렬 */
   border-radius: 50%; /* 완벽한 원형 */
+  cursor: pointer;
   box-shadow:
     0 15px 25px rgba(0, 0, 0, 0.2),
     /* 부드러운 외부 그림자 */ inset 0 -2px 4px rgba(255, 255, 255, 0.3); /* 내부 하이라이트 */
@@ -117,7 +138,6 @@ const InfoSection = styled.div`
   justify-content: center;
   padding: 40px;
   background-color: #fafafa;
-
   @media (max-width: 768px) {
     padding: 20px 40px;
   }

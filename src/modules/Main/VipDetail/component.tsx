@@ -41,7 +41,7 @@ export default function VipDetail({
         {/* 프로필 */}
         <Profile vipData={initialData.vipDetail} ratings={ratings} />
         {/* 정보 */}
-        <Info />
+        <Info vipData={initialData.vipDetail} />
         {/*뉴스 */}
         <News />
         {/* 발의안 */}

@@ -2,7 +2,10 @@ export interface Vip {
   id: string;
   name: string;
   party: string;
+  electoralDistrict: string;
+  imageUrl: string;
   timesElected: number;
+  assemblySessions: [];
   rate: number;
   ratedMemberImages: string[];
 }
