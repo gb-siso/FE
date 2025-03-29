@@ -127,6 +127,8 @@ const ProfileImage = styled.img`
     &:hover {
       transform: scale(1.03);
     }
+    max-width: 320px;
+    max-height: 320px;
   }
 `;
 

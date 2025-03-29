@@ -9,7 +9,7 @@ interface ProfileProps {
 const Info: React.FC<ProfileProps> = ({ vipData }) => {
   const { congressmanList } = vipData;
   const { assemblySessions, timesElected } = congressmanList[0] || {};
-  console.log(vipData);
+
   return (
     <Wrapper>
       <InfoTitle>국회의원 선출 이력</InfoTitle>

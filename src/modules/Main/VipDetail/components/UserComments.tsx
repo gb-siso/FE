@@ -20,6 +20,11 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
 
   const router = useRouter();
 
+  const isLogin =
+    typeof window !== 'undefined' &&
+    localStorage.getItem('cookieData') !== 'null' &&
+    localStorage.getItem('cookieData') !== null;
+
   const renderRating = (rating: number | null) => {
     return (
       <RatingWrapper>
@@ -32,6 +37,10 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   };
 
   const likeUnLikePushHandler = async (id: string, type: string) => {
+    if (!isLogin) {
+      toast.warning('로그인 후 눌러주세요!');
+      return;
+    }
     try {
       setActiveVote((prevState: any) => {
         const updatedState: any = { ...prevState };
@@ -64,7 +73,7 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
       router.refresh();
       toast.success('피드백이 처리되었습니다!');
     } catch {
-      toast.warning('"이미 반영됐어요! 🙈');
+      toast.warning('이미 반영됐어요! 🙈');
     }
   };
   return (

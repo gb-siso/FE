@@ -44,7 +44,7 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
         const { electoralDistrict, assemblySessions, name, rate, party } = vip;
         const city = electoralDistrict?.split('/')?.pop() || '';
         const currentParty = party?.split('/')?.pop() || '';
-        console.log(vip, 123);
+
         return (
           <Card key={idx} $isClick={isClick} onClick={() => setIsClick(true)}>
             <StyledLink href={`/${name}`}>
@@ -339,3 +339,23 @@ const StyledLink = styled(Link)`
 //   border-radius: 3px;
 //   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 // `;
+
+// {
+//   당: o
+//   이름: o
+//   지역구: o
+//   평점: o
+//   평가Count : o
+//   선출이력 : o
+//   평가목록 : [
+//     {
+//       평가남긴사람 닉네임 : o,
+//       남긴평점: o,
+//       평가한 시간: o
+//       평가 좋아요 카운트: o
+//       평가 싫어요 카운트: o
+//       로그인한 사람이 평가를 눌렀는지, 안눌렀는지 check : x
+
+//     }
+//   ]
+// }

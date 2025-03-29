@@ -16,7 +16,7 @@ const HeaderComponent = () => {
   const isHome = (url: string) => {
     return url !== path;
   };
-  if (path === '/login' || path === '/register') return <></>;
+  if (path === '/login' || path === '/search') return <></>;
   return (
     <>
       <Header>

@@ -16,7 +16,8 @@ export default function FooterNavigation() {
 
   const isLogin =
     typeof window !== 'undefined' &&
-    localStorage.getItem('cookieData') !== 'null';
+    localStorage.getItem('cookieData') !== 'null' &&
+    localStorage.getItem('cookieData') !== null;
 
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
@@ -50,6 +51,7 @@ export default function FooterNavigation() {
       }
     }
   }, [accessToken]);
+
   if (isLoading) {
     return (
       <div className="wrapper">

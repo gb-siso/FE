@@ -28,7 +28,7 @@ const LogoutPage = () => {
     }
   };
 
-  if (!isLogin) {
+  if (!isLogin || !user?.nickname) {
     router.replace('/login');
     return;
   }
