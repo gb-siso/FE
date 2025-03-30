@@ -9,6 +9,7 @@ import { getVipListAtom } from '@/modules/Main/atom';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { Vip } from '@/constants/Main/index';
+import Spinner from '@/app/_components/Spinner';
 
 const SearchMain = () => {
   const [query, setQuery] = useState('');
@@ -71,7 +72,6 @@ const SearchMain = () => {
     };
   }, [query]);
 
-  if (searchLoading) return <>123</>;
   return (
     <Container>
       <Form onSubmit={handleSearch}>
@@ -88,44 +88,54 @@ const SearchMain = () => {
           <button type="submit" hidden />
         </SearchBox>
       </Form>
-
-      <ResultList>
-        {results.length !== 0 && (
-          <ResultCount>
-            <span className="highlight">{results.length}</span>명의 국회의원을
-            찾았습니다
-            <SearchIcon>🔍</SearchIcon>
-          </ResultCount>
-        )}
-        {results.map((vip: any, index: number) => {
-          const { assemblySessions, electoralDistrict, party } = vip;
-          const city = electoralDistrict?.split('/')?.pop() || '';
-          const lastParty = party?.split('/')?.pop() || '';
-          return (
-            <ResultItem
-              key={index}
-              onClick={() => {
-                router.push(`/${vip.name}`);
-              }}
-            >
-              <ImgWrap>
-                <StyledImage src={vip.imageUrl} />
-              </ImgWrap>
-              <VipInfo>
-                <NameRow>
-                  <Name>{vip.name}</Name>
-                  <WinCount>당선 {assemblySessions?.length || ''}회</WinCount>
-                </NameRow>
-                <Party>
-                  {lastParty} / {city}
-                </Party>
-                <District>{vip.district}</District>
-              </VipInfo>
-            </ResultItem>
-          );
-        })}
-        {results.length === 0 && <NullItem>검색 결과가 없습니다</NullItem>}
-      </ResultList>
+      {isLoading && (
+        <>
+          <Spinner title="잠시만 기다려주세요!" />
+        </>
+      )}
+      {!isLoading && (
+        <ResultList>
+          {results.length !== 0 && (
+            <ResultCount>
+              <span className="highlight">{results.length}</span>명의 국회의원을
+              찾았습니다
+              <SearchIcon>🔍</SearchIcon>
+            </ResultCount>
+          )}
+          {results.map((vip: any, index: number) => {
+            const { assemblySessions, electoralDistrict, party } = vip;
+            const city = electoralDistrict?.split('/')?.pop() || '';
+            const lastParty = party?.split('/')?.pop() || '';
+            return (
+              <ResultItem
+                key={index}
+                onClick={() => {
+                  router.push(`/${vip.name}`);
+                }}
+              >
+                <ImgWrap>
+                  <StyledImage src={vip.imageUrl} />
+                </ImgWrap>
+                <VipInfo>
+                  <NameRow>
+                    <Name>{vip.name}</Name>
+                    <WinCount>당선 {assemblySessions?.length || ''}회</WinCount>
+                  </NameRow>
+                  <Party>
+                    {lastParty} / {city}
+                  </Party>
+                  <District>{vip.district}</District>
+                </VipInfo>
+              </ResultItem>
+            );
+          })}
+          {results.length === 0 && (
+            <NullItem>
+              검색 결과가 없습니다 <SearchIcon>🔍</SearchIcon>
+            </NullItem>
+          )}
+        </ResultList>
+      )}
     </Container>
   );
 };
@@ -264,7 +274,7 @@ const ResultItem = styled.li`
 const NullItem = styled.li`
   display: flex;
   gap: 1rem;
-  padding: 1.5rem;
+  padding: 0.8rem 1.2rem;
   border-radius: 8px;
   transition: transform 0.2s;
   cursor: pointer;

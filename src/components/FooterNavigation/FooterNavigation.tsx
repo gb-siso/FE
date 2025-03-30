@@ -3,8 +3,23 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { usePathname } from 'next/navigation';
-import { HOME, Notifications, LOGIN, MY_PAGE } from '@/utils/route';
-import { ActiveHomeIcon, HomeIcon, User } from '@/assets/svg';
+import {
+  HOME,
+  COMMUNITY,
+  Notifications,
+  LOGIN,
+  MY_PAGE,
+  SEARCH
+} from '@/utils/route';
+import {
+  ActiveHome,
+  ActiveHomes,
+  Activesearch,
+  ActiveUser,
+  SisoHome,
+  SisoSearch,
+  SisoUser
+} from '@/assets/svg';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { isLoadingAtom } from '@/atoms/atom';
 import './styles.css';
@@ -22,8 +37,8 @@ export default function FooterNavigation() {
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
 
-  const isActive = (url: string) => {
-    return path.includes(url);
+  const isActive = (url: string[]) => {
+    return url.some((item) => item === path);
   };
 
   useEffect(() => {
@@ -75,22 +90,47 @@ export default function FooterNavigation() {
     <>
       <Footer className="footer-nav">
         <StyledLink href={HOME}>
-          <span>
-            {path !== LOGIN && path !== MY_PAGE ? (
-              <ActiveHomeIcon />
+          <IconWrap>
+            {isActive([HOME, COMMUNITY]) ? (
+              <ActiveHome width={25} height={25} />
             ) : (
-              <HomeIcon />
+              <SisoHome width={25} height={25} />
             )}
-          </span>
+            <Text>홈</Text>
+          </IconWrap>
+        </StyledLink>
+        <StyledLink href={SEARCH}>
+          <IconWrap>
+            {isActive([SEARCH]) ? (
+              <Activesearch width={25} height={25} />
+            ) : (
+              <SisoSearch width={25} height={25} />
+            )}
+            <Text>검색</Text>
+          </IconWrap>
         </StyledLink>
         {!isLogin && (
           <StyledLink href={LOGIN}>
-            {isActive(LOGIN) ? <User /> : <User fill="#a8a8a8" />}
+            <IconWrap>
+              {isActive([LOGIN]) ? (
+                <ActiveUser width={25} height={25} />
+              ) : (
+                <SisoUser width={25} height={25} />
+              )}
+              <Text>로그인</Text>
+            </IconWrap>
           </StyledLink>
         )}
         {isLogin && (
           <StyledLink href={MY_PAGE}>
-            {isActive(MY_PAGE) ? <User /> : <User fill="#a8a8a8" />}
+            <IconWrap>
+              {isActive([MY_PAGE]) ? (
+                <ActiveUser width={25} height={25} />
+              ) : (
+                <SisoUser width={25} height={25} />
+              )}
+              <Text>내정보</Text>
+            </IconWrap>
           </StyledLink>
         )}
       </Footer>
@@ -98,9 +138,20 @@ export default function FooterNavigation() {
   );
 }
 const StyledLink = styled(Link)`
-  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 10px;
   text-align: center;
+  width: 25%;
   -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 0;
+    padding-top: 3px;
+  }
 `;
 
 const Footer = styled.footer`
@@ -108,4 +159,30 @@ const Footer = styled.footer`
   z-index: 999;
   display: flex;
   align-items: center;
+  justify-content: center;
+`;
+
+const IconWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #444;
+  font-weight: bold;
+  gap: 2px;
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    & > svg {
+      padding: 5px 0;
+      width: 22px;
+      height: 22px;
+    }
+  }
+`;
+
+const Text = styled.div`
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
