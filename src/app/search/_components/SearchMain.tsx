@@ -41,7 +41,6 @@ const SearchMain = () => {
         setResults(res?.congressmanList);
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {
-          console.error('검색 에러:', err);
           setResults([]);
         }
       } finally {

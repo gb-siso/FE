@@ -1,14 +1,13 @@
 'use client';
-import { isLoadingAtom } from '@/atoms/atom';
 // import Button from '@/components/Button/Button';
-import { useAtom, useAtomValue } from 'jotai';
+import { isLoadingAtom } from '@/atoms/atom';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Vips, Vip } from '@/constants/Main/index';
-import { vipsAtom } from './atom';
-import { findParty } from '@/constants/Main/Constants';
+import { Vips } from '@/constants/Main/index';
+import { getVipListAtom, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
 
 interface MainProps {
@@ -18,16 +17,49 @@ interface MainProps {
 const Main: React.FC<MainProps> = ({ initialVipList }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const lineRef = useRef<HTMLDivElement>(null);
 
   // ATOM
+  const [vips, setVips] = useAtom(vipsAtom);
   const isLoading = useAtomValue(isLoadingAtom);
-  const [vips, setVips] = useAtom<Vips>(vipsAtom);
+  const getVipList = useSetAtom(getVipListAtom);
   const [isClick, setIsClick] = useState(false);
   const { congressmanList } = vips;
 
   useEffect(() => {
     setVips(initialVipList);
   }, [initialVipList]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      async (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          // 마지막 페이지면 아무것도 하지마
+          if (vips.lastPage) return;
+          const query: { idCursor?: string; rateCursor?: string } = {};
+
+          if (vips.idCursor) query.idCursor = vips.idCursor;
+
+          if (vips.rateCursor) query['rateCursor'] = vips.rateCursor;
+          await getVipList({ query });
+        }
+      },
+      {
+        threshold: 1.0
+      }
+    );
+
+    if (lineRef.current) {
+      observer.observe(lineRef.current);
+    }
+
+    return () => {
+      if (lineRef.current) {
+        observer.unobserve(lineRef.current);
+      }
+    };
+  }, [isLoading, vips]);
 
   useEffect(() => {
     router.refresh();
@@ -95,6 +127,8 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
       {/* <ButtonWrap>
         <Button name="+ Random Rating Go" size="xxl" radius="18px" />
       </ButtonWrap> */}
+      {isLoading && <Spinner />}
+      <Line ref={lineRef} />
     </Wrapper>
   );
 };
@@ -322,6 +356,11 @@ const RatingNumber = styled.span`
 
 const StyledLink = styled(Link)`
   text-decoration: none; // 아래줄 없애기
+`;
+
+const Line = styled.div`
+  padding: 5px;
+  height: 1px;
 `;
 
 // const Button = styled.button.attrs(
