@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { ActiveHomeIcon } from '@/assets/svg';
 import useHandler from '@/app/hooks/useHandler';
-import { getVipListAtom } from '@/modules/Main/atom';
+import { getSearchVipListAtom } from '@/modules/Main/atom';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { Vip } from '@/constants/Main/index';
@@ -18,7 +18,7 @@ const SearchMain = () => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const router = useRouter();
-  const getVipList = useSetAtom(getVipListAtom);
+  const getSearchVipList = useSetAtom(getSearchVipListAtom);
 
   // 임시 검색 함수 (실제로는 API 호출로 대체)
   const handleSearch = async (e: React.FormEvent) => {
@@ -36,8 +36,7 @@ const SearchMain = () => {
         abortControllerRef.current = new AbortController();
 
         // 실제 API 호출로 대체 필요
-        const res = await getVipList({ query: { search: query } });
-
+        const res = await getSearchVipList({ query: { search: query } });
         setResults(res?.congressmanList);
       } catch (err) {
         if ((err as Error).name !== 'AbortError') {

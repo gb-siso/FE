@@ -9,12 +9,14 @@ import Link from 'next/link';
 import { Vips } from '@/constants/Main/index';
 import { getVipListAtom, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
+import { ContentsBottom } from '@/app/community/_components/ComunittyView';
+import ProgressiveImg from '@/app/_components/ProgressiveImg';
 
-interface MainProps {
-  initialVipList: Vips;
-}
+import VipImg from './VipDetail/components/VipImg';
 
-const Main: React.FC<MainProps> = ({ initialVipList }) => {
+const SCROLL_STORAGE_KEY = 'mainScrollPosition';
+
+const Main: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const lineRef = useRef<HTMLDivElement>(null);
@@ -23,12 +25,19 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
   const [vips, setVips] = useAtom(vipsAtom);
   const isLoading = useAtomValue(isLoadingAtom);
   const getVipList = useSetAtom(getVipListAtom);
+
+  // state
   const [isClick, setIsClick] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const { congressmanList } = vips;
 
-  useEffect(() => {
-    setVips(initialVipList);
-  }, [initialVipList]);
+  // 클릭 했을 때 동작.
+  const handleClick = () => {
+    setIsClick(true);
+
+    sessionStorage.setItem(SCROLL_STORAGE_KEY, window.scrollY.toString());
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,12 +71,18 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
   }, [isLoading, vips]);
 
   useEffect(() => {
-    router.refresh();
+    const savedY = sessionStorage.getItem(SCROLL_STORAGE_KEY);
+    if (savedY) {
+      window.scrollTo(0, Number(savedY));
+    }
   }, []);
 
   if (isLoading) {
     return <></>;
   }
+  // useEffect(() => {
+  //   router.refresh();
+  // }, []);
 
   return (
     <Wrapper>
@@ -78,7 +93,7 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
         const currentParty = party?.split('/')?.pop() || '';
 
         return (
-          <Card key={idx} $isClick={isClick} onClick={() => setIsClick(true)}>
+          <Card key={idx} $isClick={isClick} onClick={() => handleClick(idx)}>
             <StyledLink href={`/${name}`}>
               <VipProfileImgWrap>
                 <PoliticianInfo>
@@ -98,6 +113,12 @@ const Main: React.FC<MainProps> = ({ initialVipList }) => {
                   </VipRightBox>
                 </PoliticianInfo>
                 <VipImg src={vip?.imageUrl} />
+                {/* <ProgressiveImg
+                  src={vip?.imageUrl || ''}
+                  placeholderSrc="/path/to/low-quality-placeholder.png"
+                  alt={vip?.name || 'VIP 이미지'}
+                  style={{ width: '100%', height: 'auto' }} // VipImg 스타일 맞게 조절
+                /> */}
               </VipProfileImgWrap>
               <EvaluationBox>
                 <UsersBox>
@@ -288,11 +309,11 @@ const VipProfileImgWrap = styled.div`
   padding-bottom: 0;
 `;
 
-const VipImg = styled.img`
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-`;
+// const VipImg = styled.img`
+//   width: 100%;
+//   height: auto;
+//   object-fit: cover;
+// `;
 
 const EvaluationBox = styled.div`
   width: 98%;

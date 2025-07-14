@@ -110,7 +110,7 @@ const Components = () => {
             {MOCK_TAB.map((item, idx) => (
               <Li
                 key={idx}
-                actived={focusTab === item}
+                $actived={focusTab === item}
                 onClick={() => setFocusTab(item)}
               >
                 {item}
@@ -194,11 +194,11 @@ const Ul = styled.ul`
   padding-left: 5px;
   border-bottom: 1px solid rgb(235, 238, 240);
 `;
-const Li = styled.li<{ actived?: boolean }>`
+const Li = styled.li<{ $actived?: boolean }>`
   list-style: none;
-  color: ${({ actived }) => (actived ? '#8800FB' : '#666')};
-  font-size: ${({ actived }) => (actived ? '1.1rem' : '1rem')};
-  font-weight: ${({ actived }) => (actived ? '600' : '400')};
+  color: ${({ $actived }) => ($actived ? '#8800FB' : '#666')};
+  font-size: ${({ $actived }) => ($actived ? '1.1rem' : '1rem')};
+  font-weight: ${({ $actived }) => ($actived ? '600' : '400')};
   cursor: pointer;
   text-align: center;
   padding: 5px 15px;
@@ -206,19 +206,19 @@ const Li = styled.li<{ actived?: boolean }>`
   transition: all 0.1s ease-in-out;
 
   &:hover {
-    color: ${({ actived }) => (actived ? '#8800FB' : '#6600D4')};
+    color: ${({ $actived }) => ($actived ? '#8800FB' : '#6600D4')};
   }
 
   &::after {
     content: '';
     position: absolute;
-    top: ${({ actived }) =>
-      actived ? 'calc(100% + 0.33rem - 1px)' : 'calc(100% + 0.33rem)'};
+    top: ${({ $actived }) =>
+      $actived ? 'calc(100% + 0.33rem - 1px)' : 'calc(100% + 0.33rem)'};
     left: 0;
     width: 100%;
     height: 5px;
     border-radius: 7px 7px 0 0;
-    background-color: ${({ actived }) => (actived ? '#8800FB' : 'none')};
+    background-color: ${({ $actived }) => ($actived ? '#8800FB' : 'none')};
     transition: all 0.1s ease-in-out;
   }
 `;

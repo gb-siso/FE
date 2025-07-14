@@ -5,7 +5,16 @@ import * as Fetch from './fetch';
 import { Vips, VipRatings } from '@/constants/Main/index';
 import { accessTokenAtom } from '../auth/atoms';
 
+// 의원 리스트
 export const vipsAtom = atom<Vips>({
+  congressmanList: [],
+  idCursor: null,
+  rateCursor: null,
+  lastPage: false
+});
+
+// 검색 의원 리스트
+export const searchVipsAtom = atom<Vips>({
   congressmanList: [],
   idCursor: null,
   rateCursor: null,
@@ -112,6 +121,17 @@ export const getVipListAtom = atom(null, async (get, set, { query }) => {
     response.congressmanList = mergeList;
 
     set(vipsAtom, response);
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 의원 검색하기
+export const getSearchVipListAtom = atom(null, async (get, set, { query }) => {
+  try {
+    const response = await Fetch.getVipList(query);
+    set(searchVipsAtom, response);
     return response;
   } catch (err) {
     throw err;

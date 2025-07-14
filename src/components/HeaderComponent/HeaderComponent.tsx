@@ -2,7 +2,6 @@
 import { COMMUNITY, HOME, Notifications } from '@/utils/route';
 import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
-import Button from '../Button/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -16,6 +15,7 @@ const HeaderComponent = () => {
   const isHome = (url: string) => {
     return url !== path;
   };
+
   if (path === '/login' || path === '/search') return <></>;
   return (
     <>
@@ -23,10 +23,10 @@ const HeaderComponent = () => {
         <Logo onClick={() => router.push('/')}>SISO</Logo>
       </Header>
       <Nav>
-        <MenuLink href={HOME} actived={isHome(COMMUNITY)}>
+        <MenuLink href={HOME} $actived={isHome(COMMUNITY)}>
           <RatingTab>SISO 별점</RatingTab>
         </MenuLink>
-        <MenuLink href={COMMUNITY} actived={isActive(COMMUNITY)}>
+        <MenuLink href={COMMUNITY} $actived={isActive(COMMUNITY)}>
           <CommunityTab>커뮤니티</CommunityTab>
         </MenuLink>
       </Nav>
@@ -74,24 +74,24 @@ const Nav = styled.div`
 const RatingTab = styled.div``;
 const CommunityTab = styled.div``;
 
-const MenuLink = styled(Link)<{ actived?: boolean }>`
+const MenuLink = styled(Link)<{ $actived?: boolean }>`
   padding: 1.2rem 1.2rem;
   padding-bottom: 0.2rem;
   font-size: 14px;
-  font-weight: ${({ actived }) => (actived ? 'bold' : '600')};
-  color: ${({ actived }) => (actived ? '#8800FB' : '#777')};
+  font-weight: ${({ $actived }) => ($actived ? 'bold' : '600')};
+  color: ${({ $actived }) => ($actived ? '#8800FB' : '#777')};
   position: relative;
 
   &::after {
     content: '';
     position: absolute;
-    top: ${({ actived }) =>
-      actived ? 'calc(100% + 0.33rem - 1px)' : 'calc(100% + 0.33rem)'};
+    top: ${({ $actived }) =>
+      $actived ? 'calc(100% + 0.33rem - 1px)' : 'calc(100% + 0.33rem)'};
     left: 0px;
     width: 100%;
     height: 3px;
     border-radius: 5px 5px 0 0;
-    background-color: ${({ actived }) => (actived ? '#8800FB' : 'none')};
+    background-color: ${({ $actived }) => ($actived ? '#8800FB' : 'none')};
     transition: all 0.1s ease-in-out; /* 트랜지션 추가 */
   }
 

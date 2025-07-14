@@ -27,7 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <HeaderComponent />
         <ToastContainer
           position="bottom-right"

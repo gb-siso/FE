@@ -15,7 +15,7 @@ const Component = () => {
   const login = useSetAtom(loginAtom);
 
   const handleNaverLogin = () => {
-    const redirectUri = encodeURIComponent('http://localhost:3000/login');
+    const redirectUri = encodeURIComponent('http://localhost:8080/login');
     const state = 'STATE_STRING';
 
     const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=${redirectUri}&state=${state}`;
