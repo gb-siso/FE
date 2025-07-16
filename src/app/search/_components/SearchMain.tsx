@@ -5,20 +5,24 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { ActiveHomeIcon } from '@/assets/svg';
 import useHandler from '@/app/hooks/useHandler';
-import { getSearchVipListAtom } from '@/modules/Main/atom';
-import { useSetAtom } from 'jotai';
+import { getSearchVipListAtom, searchVipsAtom } from '@/modules/Main/atom';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { Vip } from '@/constants/Main/index';
 import Spinner from '@/app/_components/Spinner';
 
 const SearchMain = () => {
+  // ATOM
+  const searchAtom = useAtomValue(searchVipsAtom);
+  const getSearchVipList = useSetAtom(getSearchVipListAtom);
+
+  // STATE
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Vip[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
   const router = useRouter();
-  const getSearchVipList = useSetAtom(getSearchVipListAtom);
 
   // 임시 검색 함수 (실제로는 API 호출로 대체)
   const handleSearch = async (e: React.FormEvent) => {
@@ -51,7 +55,6 @@ const SearchMain = () => {
   // 디바운싱된 검색 핸들러
   useEffect(() => {
     if (query.trim() === '') {
-      setResults([]);
       return;
     }
 
@@ -69,6 +72,10 @@ const SearchMain = () => {
       }
     };
   }, [query]);
+
+  useEffect(() => {
+    setResults(searchAtom.congressmanList);
+  }, []);
 
   return (
     <Container>

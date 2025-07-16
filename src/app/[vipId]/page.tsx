@@ -7,6 +7,7 @@ import { getToken } from '@/modules/auth/fetch';
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
+import { getBills } from '@/modules/Main/fetch';
 
 export default async function DetailPage({
   params
@@ -15,13 +16,14 @@ export default async function DetailPage({
 }) {
   const vipId = (await params).vipId;
   const search = decodeURIComponent(vipId);
+
   if (vipId === 'favicon.ico') {
     return;
   }
 
   const vipDetail = await getVipList({ search });
-  const id = vipDetail?.congressmanList[0]?.id;
 
+  const id = vipDetail?.congressmanList[0]?.id;
   const ratings = await getVipRatings(id);
 
   return (

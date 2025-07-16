@@ -27,8 +27,6 @@ export default function VipDetail({
 
   useEffect(() => {
     setRatings(initialData.ratings);
-    // eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzaXNvIiwiaWQiOjIsImV4cCI6MTc0Mjc0NTEwMCwiaWF0IjoxNzQyNzQzMzAwfQ.qCoWJMdVBHeLtwH5T8nrH-rVKDQIFvAedDkBax2Z0xZs6cQG7IkWh5cn8IZ0IL59So81anpUuHa9xkhseGYDaQ
-    // setToken(initialData.accessToken);
   }, [initialData]);
 
   useEffect(() => {
@@ -45,7 +43,7 @@ export default function VipDetail({
         {/*뉴스 */}
         <News />
         {/* 발의안 */}
-        {/* <Initiative /> */}
+        <Initiative vipData={initialData.vipDetail} />
         {/* 평가 */}
         <Rating vipId={initialData?.vipDetail?.congressmanList[0]?.id} />
         {/* 다른 유저 댓글 */}

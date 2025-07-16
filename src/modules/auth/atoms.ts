@@ -1,10 +1,18 @@
 import { atom } from 'jotai';
 import * as Fetch from './fetch';
 
-// atom
-export const accessTokenAtom = atom('');
+import { atomWithStorage } from 'jotai/utils';
 
-export const userMeAtom = atom({
+// 로컬 스토리지에 accessToken 저장
+// 로컬 스토리지에 사용자 정보 저장
+
+// atom
+export const accessTokenAtom = atomWithStorage<string>('accessToken', '');
+
+export const userMeAtom = atomWithStorage<{
+  nickname: string;
+  imageUrl: string;
+}>('userInfo', {
   nickname: '',
   imageUrl: ''
 });
@@ -21,9 +29,12 @@ export const getTokenAtom = atom(null, async (get, set, { query = {} }) => {
 });
 export const getReissueTokenAtom = atom(
   null,
-  async (get, set, { query = {} }) => {
+  async (get, set, { body = {} }) => {
     try {
-      const response = await Fetch.getReissueToken(query);
+      const accessToken = get(accessTokenAtom);
+      const response = await Fetch.getReissueToken(body, {
+        accessToken
+      });
       set(accessTokenAtom, response);
       return response;
     } catch (err) {
@@ -31,30 +42,24 @@ export const getReissueTokenAtom = atom(
     }
   }
 );
+export const loginAtom = atom(
+  null,
+  async (get, set, { code, state }: { code: string; state: string }) => {
+    try {
+      const response = await Fetch.login(code, state);
 
-export const loginAtom = atom(null, async (get, set, { code, state }) => {
-  try {
-    const response = await Fetch.login(code, state);
-    localStorage.setItem('cookieData', response?.accessToken);
-    localStorage.setItem(
-      'userData',
-      JSON.stringify({
-        nickname: response?.nickname,
-        imageUrl: response?.imageUrl
-      })
-    );
+      set(accessTokenAtom, response?.accessToken ?? null);
+      set(userMeAtom, {
+        nickname: response?.nickname ?? '',
+        imageUrl: response?.imageUrl ?? ''
+      });
 
-    set(accessTokenAtom, response?.accessToken);
-    set(userMeAtom, {
-      nickname: response?.nickname,
-      imageUrl: response?.imageUrl
-    });
-
-    return response;
-  } catch (err) {
-    throw err;
+      return response;
+    } catch (err) {
+      throw err;
+    }
   }
-});
+);
 
 export const logoutAtom = atom(null, async (get, set) => {
   try {
@@ -82,3 +87,9 @@ export const logoutAtom = atom(null, async (get, set) => {
 //     setter.set(Constant.USER_STRINGIFIED_PROFILE, stringifiedIdToken, {
 //       maxAge: expiresIn,
 //     });
+
+// {
+//   "nickname": "깨끗한 검은색 돌쥐",
+//   "imageUrl": "default_image.jpg",
+//   "accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiTUVNQkVSIiwiaXNzIjoic2lzbyIsImlkIjoyLCJleHAiOjE3NTI1ODgxNDUsImlhdCI6MTc1MjU4NjM0NX0.rzzl7pr9ZtUdTf7OviYVF_yD3CvloVIpYvPev0Cn2ji_-EK2Ct9FMfj57BIU96RZeeB6B7yIzWdbw9pgExDFkQ"
+// }

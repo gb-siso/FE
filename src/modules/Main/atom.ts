@@ -30,7 +30,7 @@ export const vipDataAtom = atom<Vips>({
 
 export const categoryDetailAtom = atom({ _id: '', name: '', url: '' });
 export const vipNewsAtom = atom({ row: [] });
-export const billAtom = atom({ row: [] });
+export const billAtom = atom({ billList: [] });
 
 export const vipRatings = atom<VipRatings>({
   countCursor: null,
@@ -170,6 +170,24 @@ export const postDislikeAtom = atom(null, async (get, set, { id }) => {
     const response = await Fetch.posDislike(id, {
       accessToken
     });
+    return response;
+  } catch (err) {
+    throw err;
+  }
+});
+
+// 좋아요, 핸들러
+export const getBillsAtom = atom(null, async (get, set, { id, query }) => {
+  try {
+    const response = await Fetch.getBills(id, query);
+    const bill = get(billAtom);
+
+    if (bill.billList.length && response.page !== 0) {
+      const combinedList = [...bill.billList, ...response.billList];
+      response.billList = combinedList;
+    }
+
+    set(billAtom, response);
     return response;
   } catch (err) {
     throw err;

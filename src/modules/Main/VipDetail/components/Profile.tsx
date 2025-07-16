@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Vips, VipRatings } from '@/constants/Main/index';
+import { arMA } from 'date-fns/locale';
 // import { findParty } from '@/constants/Main/Constants';
 
 interface ProfileProps {
@@ -9,11 +10,17 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
   const { congressmanList } = vipData;
-  const { name, party, rate, imageUrl } = congressmanList[0] || {};
-  // const isParty = findParty(party);
   const { ratingList } = ratings || {};
+
+  const { name, party, rate, imageUrl, electoralDistrict } =
+    congressmanList[0] || {};
+
+  //평가한 사람 수
   const count = ratingList?.length || 0;
-  const currentParty = party?.split('/')?.pop() || '';
+  // 정당
+  const currentParty = party?.split('/')?.pop() || '무소속';
+  // 지역구
+  const area = electoralDistrict?.split('/').pop() || '';
 
   return (
     <ProfileCard>
@@ -36,7 +43,7 @@ const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
             <CongressmanTitle> 의원</CongressmanTitle>
           </CongressmanName>
         </BoxWrap>
-        <DistrictText>대구광역시 을</DistrictText>
+        <DistrictText>{area}</DistrictText>
         <RatingSection>
           <RatingScore>
             <RatingStars>

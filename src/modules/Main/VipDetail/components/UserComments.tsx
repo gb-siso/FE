@@ -3,27 +3,31 @@ import styled from 'styled-components';
 import { VipRatings } from '@/constants/Main/index';
 import { formatDistanceToNow } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { getTokenAtom } from '@/modules/auth/atoms';
-import { useSetAtom } from 'jotai';
+import { userMeAtom } from '@/modules/auth/atoms';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
-import { postDislikeAtom, postHandleReactionAtom } from '../../atom';
+import { postDislikeAtom, postHandleReactionAtom, vipsAtom } from '../../atom';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { toastDark } from '@/lib/customToast';
 
 const UserComments = ({ ratings }: { ratings: VipRatings }) => {
   const { ratingList } = ratings || {};
   const countRating = ratingList?.length;
-  const getToken = useSetAtom(getTokenAtom);
+  // const getToken = useSetAtom(getTokenAtom);
+
+  // ATOM
+  const userMe = useAtomValue(userMeAtom);
   const postHandleReaction = useSetAtom(postHandleReactionAtom);
   const postDislike = useSetAtom(postDislikeAtom);
+
+  // STATE
   const [activeVote, setActiveVote]: any = useState({});
 
   const router = useRouter();
 
-  const isLogin =
-    typeof window !== 'undefined' &&
-    localStorage.getItem('cookieData') !== 'null' &&
-    localStorage.getItem('cookieData') !== null;
+  const isLogin = userMe?.nickname !== '';
 
   const renderRating = (rating: number | null) => {
     return (
@@ -62,7 +66,6 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
         return updatedState;
       });
 
-      // await getToken({});
       if (type === 'like') {
         await postHandleReaction({ id });
       }
@@ -71,9 +74,9 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
       }
 
       router.refresh();
-      toast.success('피드백이 처리되었습니다!');
+      toast.success('피드백이 반영되었습니다!');
     } catch {
-      toast.warning('이미 반영됐어요! 🙈');
+      toastDark('이미 반영중이에요!');
     }
   };
   return (

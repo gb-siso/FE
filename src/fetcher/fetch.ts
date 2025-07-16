@@ -81,7 +81,8 @@ export async function fetcher<T>(
         Pragma: 'no-cache',
         Expires: '-1'
       },
-      cache: 'no-store'
+      cache: 'no-store',
+      credentials: 'include'
     };
 
     const accessToken = options?.accessToken;
@@ -114,7 +115,6 @@ export async function fetcher<T>(
 
     return data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 }

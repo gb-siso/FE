@@ -2,13 +2,13 @@
 
 import { Form } from '@/components';
 import Button from '@/components/Button/Button';
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 import { SubmitHandler, useForm, FieldValues } from 'react-hook-form';
 import styled from 'styled-components';
 import { PostRatingType } from '@/constants/Main/index';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { getVipRatingsAtom, writeRatingAtom } from '../../atom';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { getVipRatingsAtom, vipsAtom, writeRatingAtom } from '../../atom';
 import {
   accessTokenAtom,
   getReissueTokenAtom,
@@ -29,10 +29,10 @@ const Rating = ({ vipId }: { vipId: string }) => {
   const [rating, setRating] = useState(5);
 
   const writeRating = useSetAtom(writeRatingAtom);
-  const getToken = useSetAtom(getTokenAtom);
   const getReissueToken = useSetAtom(getReissueTokenAtom);
   const getVipRatings = useSetAtom(getVipRatingsAtom);
   const token = useAtomValue(accessTokenAtom);
+  const [vips, setVips] = useAtom(vipsAtom);
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     setRating(parseFloat(e.target.value));
@@ -44,9 +44,24 @@ const Rating = ({ vipId }: { vipId: string }) => {
       congressmanId: vipId
     };
     try {
-      // await getToken({});
       await writeRating({ body });
       await getVipRatings({ params: vipId });
+      setVips((prev) => ({
+        ...prev,
+        congressmanList: prev.congressmanList.map((vip) => {
+          if (vip.id !== vipId) return vip;
+
+          const updatedRate =
+            typeof vip.rate === 'number' ? vip.rate + rating : rating;
+
+          return {
+            ...vip,
+            rate: updatedRate
+          };
+        })
+      }));
+      // 토큰 재발
+      // const res = await getReissueToken({ body: {} });
 
       toast.success('소중한 평가 감사합니다!');
     } catch (err) {
@@ -59,6 +74,8 @@ const Rating = ({ vipId }: { vipId: string }) => {
       setIsopen(false);
     }
   };
+
+  //
 
   return (
     <Wrapper>

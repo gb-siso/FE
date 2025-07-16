@@ -106,6 +106,14 @@ export async function posDislike(id: any, options: any) {
   return fetchRes;
 }
 
+export async function getBills(id: string, query: any) {
+  const fetchRes: any = await fetcher(`/bill/${id}`, {
+    method: 'GET',
+    query
+  });
+  return fetchRes;
+}
+
 // 뉴스 가져오기
 // export async function getVipNews(name: string) {
 //   const fetchRes: any = await fetcher(

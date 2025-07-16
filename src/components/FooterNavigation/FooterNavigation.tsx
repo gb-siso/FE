@@ -29,13 +29,9 @@ import { accessTokenAtom } from '@/modules/auth/atoms';
 export default function FooterNavigation() {
   const path = usePathname();
 
-  const isLogin =
-    typeof window !== 'undefined' &&
-    localStorage.getItem('cookieData') !== 'null' &&
-    localStorage.getItem('cookieData') !== null;
-
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
-  const [accessToken, setAccessToken] = useAtom(accessTokenAtom);
+  const accessToken = useAtomValue(accessTokenAtom);
+  const isLogin = accessToken !== '';
 
   const isActive = (url: string[]) => {
     return url.some((item) => item === path);
@@ -56,16 +52,6 @@ export default function FooterNavigation() {
       return () => clearTimeout(timer);
     }
   }, [setIsLoading]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('cookieData') || '';
-
-      if (token && token !== 'null') {
-        setAccessToken(token);
-      }
-    }
-  }, [accessToken]);
 
   if (isLoading) {
     return (
@@ -156,7 +142,7 @@ const StyledLink = styled(Link)`
 
 const Footer = styled.footer`
   position: fixed;
-  z-index: 999;
+  z-index: 15;
   display: flex;
   align-items: center;
   justify-content: center;

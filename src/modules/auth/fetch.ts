@@ -12,10 +12,11 @@ export async function getToken(query = {}) {
   return fetchRes;
 }
 
-export async function getReissueToken(query = {}) {
+export async function getReissueToken(body: any, options: any) {
   const fetchRes: any = await fetcher(`/auth/reissue`, {
-    method: 'GET',
-    query
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(body)
   });
   return fetchRes;
 }

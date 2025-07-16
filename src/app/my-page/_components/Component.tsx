@@ -2,21 +2,19 @@
 
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import { useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
-import { logoutAtom } from '@/modules/auth/atoms';
+import { accessTokenAtom, logoutAtom, userMeAtom } from '@/modules/auth/atoms';
 
 const LogoutPage = () => {
   const router = useRouter();
   const logout = useSetAtom(logoutAtom);
-  const user =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('userData') || '{}')
-      : null;
 
-  const isLogin =
-    typeof window !== 'undefined' &&
-    localStorage.getItem('cookieData') !== 'null';
+  const accessToken = useAtomValue(accessTokenAtom);
+  const user = useAtomValue(userMeAtom);
+
+  const isLogin = accessToken !== '';
+  const isUser = user?.nickname !== '';
 
   const handleLogout = async () => {
     try {
@@ -28,7 +26,7 @@ const LogoutPage = () => {
     }
   };
 
-  if (!isLogin || !user?.nickname) {
+  if (!isLogin || !isUser) {
     router.replace('/login');
     return;
   }
@@ -41,7 +39,11 @@ const LogoutPage = () => {
           <WelcomeText>정상적으로 로그아웃됩니다</WelcomeText>
         </UserInfo>
 
-        <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+        <ButtonWrap>
+          {/* <NaverButton onClick={handleLogout}>로그아웃</NaverButton> */}
+          <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+          {/* <img src="/naver_logout.png" alt="naver" /> */}
+        </ButtonWrap>
       </ContentWrapper>
     </Container>
   );
@@ -97,4 +99,35 @@ const LogoutButton = styled.button`
   &:active {
     transform: scale(0.98);
   }
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+
+  > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const NaverButton = styled.button`
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 00;
+  color: #fff;
+  background-color: ${({ disabled }) => (disabled ? '#ccc' : '#03c75a')};
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition: background-color 0.3s ease;
 `;

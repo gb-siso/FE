@@ -7,45 +7,42 @@ import 'swiper/css/navigation';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { billAtom, getBillAtom } from '../../atom';
+import { billAtom, getBillAtom, getBillsAtom } from '../../atom';
 import useHandler from '@/app/hooks/useHandler';
 import Spinner from '@/app/_components/Spinner';
-const MOCK = [
-  '/test/down1.jpeg',
-  '/test/down2.jpeg',
-  '/test/down3.png',
-  '/test/down4.png',
-  '/test/down1.jpeg',
-  '/test/down2.jpeg',
-  '/test/down3.png',
-  '/test/down4.png',
-  '/test/down1.jpeg',
-  '/test/down2.jpeg',
-  '/test/down3.png',
-  '/test/down4.png'
+
+const colors = [
+  'crimson',
+  '#FF9800',
+  '#4CAF50',
+  '#2196F3',
+  '#9C27B0', // 퍼플 (보라 계열로 대비)
+  '#00BCD4', // 시안 (밝은 청록색)
+  '#FFC107', // 밝은 앰버 (노란빛 강조)
+  '#795548', // 브라운 (중간톤 중립색)
+  '#607D8B', // 블루그레이 (시각적 안정성)
+  '#E91E63' // 핑크레드 (포인트 컬러로 강렬함)
 ];
 
-const News: React.FC<any> = () => {
-  const params = useParams();
-  const [isMore, setIsMore] = useState(false);
+const News: React.FC<any> = ({ vipData }) => {
+  // const [isMore, setIsMore] = useState(false);
   const [selected, setSelected] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // const [slides, setSlides] = useState(MOCK);
-
-  const findBill = useSetAtom(getBillAtom);
   const bills = useAtomValue(billAtom);
-  const { row } = bills;
+  const getBills = useSetAtom(getBillsAtom);
+  const list = bills?.billList || [];
 
-  const removeHtmlEntities = (text: string) => {
-    return text.replace(/&#[0-9]+;/g, '');
-  };
+  const isMore = bills?.lastPage > currentPage;
 
-  const { isLoading, handler: initHandler } = useHandler(async () => {
-    const name = decodeURIComponent(params?.vipId as string);
-    await findBill({ name });
-
-    // summaryContentDiv
-  });
+  // HTTP 요청
+  const { isLoading, handler: initHandler } = useHandler(
+    async (page: number) => {
+      const id = vipData?.congressmanList[0]?.id;
+      await getBills({ id, query: { page } });
+      setCurrentPage(page + 1);
+    }
+  );
 
   const modalHandler = (item: any) => {
     setSelected(item);
@@ -54,34 +51,87 @@ const News: React.FC<any> = () => {
     setSelected(null);
   };
 
+  const hadleMovePage = (url: string) => {
+    window.open(url, '_blank');
+  };
+
   useEffect(() => {
-    initHandler();
+    if (selected) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selected]);
+
+  useEffect(() => {
+    initHandler(currentPage);
   }, []);
 
   return (
     <Wrapper>
       <TitleWrapper>
-        <NewsTitle>⚖️ 입법 활동</NewsTitle>
+        <NewsTitle>⚖️ 최근 발의한 법안들을 한눈에 </NewsTitle>
       </TitleWrapper>
       {isLoading && (
         <Spinner title={'입법활동 데이터를 가져오는 중이에요! 😊'} />
       )}
+
+      {!list?.length && !isLoading && (
+        <NotFound>해당 의원의 입법활동 기록이 없어요. 🥲</NotFound>
+      )}
       <MainSection>
-        {!row.length && !isLoading && (
-          <NotFound>해당 의원의 입법활동 기록이 없어요. 🥲</NotFound>
-        )}
-        {0 < row.length &&
-          row.map((item: any, key: number): React.ReactNode => {
+        {list?.length > 0 &&
+          list.map((item: any, index: number) => {
+            const { billListProjectionDTO: bill } = item;
+            const colorIndex = index >= 10 ? index % 10 : index;
+            const fontSize = bill.category.length > 4 ? '1.1rem' : '1.2rem';
+            console.log(bill.category.length);
             return (
-              <Card key={key} onClick={() => modalHandler(item)}>
-                {item.category}
+              <Card
+                key={index}
+                $color={colors[colorIndex]}
+                onClick={() => modalHandler(item)}
+                style={{ fontSize }}
+              >
+                {bill.category}
               </Card>
             );
           })}
       </MainSection>
+      {isMore && (
+        <MoreButton onClick={() => initHandler(currentPage)}>더보기</MoreButton>
+      )}
       {selected && (
         <Modal onClick={() => modalCloseHandler()}>
-          <Inner>{selected.bill}</Inner>
+          <Inner>
+            <div>[{selected.billListProjectionDTO.billName}] </div>
+            <Column>
+              <span>요약: </span>
+              <span>{selected.billListProjectionDTO.content}</span>
+            </Column>
+            <Column>
+              <span>왜 발의했나요? </span>
+              <span>{selected.billListProjectionDTO.reason}</span>
+            </Column>
+            <Column>
+              <span>기대효과: </span>
+              <span>{selected.billListProjectionDTO.expected}</span>
+            </Column>
+            <Column>
+              <span>발의일자 : </span>
+              <span>{selected.billListProjectionDTO.committeeDt}</span>
+            </Column>
+            <Move
+              onClick={() =>
+                hadleMovePage(selected.billListProjectionDTO.detailLink)
+              }
+            >
+              <span>자세히 보러가기</span>
+            </Move>
+          </Inner>
         </Modal>
       )}
     </Wrapper>
@@ -102,7 +152,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   padding: 1rem 1rem;
   padding-bottom: 1.2rem;
-
   background-color: #fff;
   margin: 0 auto;
   margin-top: 1rem;
@@ -123,51 +172,205 @@ const TitleWrapper = styled.div`
 `;
 
 const MainSection = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4열 그리드
   gap: 15px;
   margin: 1rem auto;
+  width: 100%;
+
+  /* 태블릿 사이즈 (768px 미만) */
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr); // 2열로 변경
+  }
 `;
 
 const NotFound = styled.div`
   margin: 1rem auto;
+  width: 100%;
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ $color: string }>`
   box-sizing: border-box;
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 12px;
+  background: ${({ $color }: any) => $color || 'white'};
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: all 0.3s ease;
+  /* padding: 1rem; */
+  text-align: center;
+  /* font-size: 1.1rem; */
+  font-weight: 500;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 `;
+
+// const Card = styled.div`
+//   box-sizing: border-box;
+//   width: 100px;
+//   height: 100px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border-radius: 5px;
+//   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+//   cursor: pointer;
+// `;
 
 const Modal = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  z-index: 20;
 `;
 
 const Inner = styled.div`
   box-sizing: border-box;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 2rem;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 350px;
-  height: 100%;
-  max-height: 600px;
+  max-width: 550px;
+  height: auto;
+  max-height: 80vh;
   background-color: #fff;
   white-space: pre-line;
-  line-height: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+
+  /* 제목 스타일 */
+  > div:first-child {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  /* 스크롤바 스타일 */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  > span:first-child {
+    font-weight: 600;
+    color: #555;
+    font-size: 1.1rem;
+  }
+
+  > span:last-child {
+    color: #333;
+    line-height: 1.6;
+    padding-left: 0.5rem;
+  }
+`;
+
+const Move = styled.div`
+  cursor: pointer;
+  padding: 0.8rem 1rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #444;
+
+  &:hover {
+    background-color: #8800fb;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(136, 0, 251, 0.2);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const MoreButton = styled.button`
+  border: none;
+  width: 120px;
+  height: 40px;
+  margin: 1rem auto 0;
+  background: linear-gradient(135deg, #8800fb 0%, #9c27b0 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 4px rgba(136, 0, 251, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(136, 0, 251, 0.3);
+    background: linear-gradient(135deg, #9c27b0 0%, #8800fb 100%);
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 15px;
+      transition: all 0.3s ease;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(136, 0, 251, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    width: 110px;
+    height: 38px;
+    font-size: 0.85rem;
+  }
 `;

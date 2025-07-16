@@ -226,7 +226,12 @@ const More = styled.button`
   cursor: pointer;
   font-size: 0.9rem;
   padding: 5px 15px;
-  color: #777;
+  color: #8800fb;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(2px);
+  }
 `;
 
 const NewsWrap = styled.div`

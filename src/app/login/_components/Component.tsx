@@ -2,19 +2,25 @@
 import Spinner from '@/app/_components/Spinner';
 import useHandler from '@/app/hooks/useHandler';
 import { loginAtom, userMeAtom } from '@/modules/auth/atoms';
-import { copyFileSync } from 'fs';
+import { copyFileSync, stat } from 'fs';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
 const Component = () => {
   const router = useRouter();
+  const [isAgreed, setIsAgreed] = useState(false);
 
   const login = useSetAtom(loginAtom);
 
   const handleNaverLogin = () => {
+    if (!isAgreed) {
+      toast.error('이용약관에 동의해주세요.');
+      return;
+    }
+
     const redirectUri = encodeURIComponent('http://localhost:8080/login');
     const state = 'STATE_STRING';
 
@@ -22,15 +28,17 @@ const Component = () => {
     window.location.href = naverAuthUrl;
   };
 
-  const { isLoading, handler } = useHandler(async (code, state) => {
-    try {
-      await login({ code, state });
-      toast.success('로그인 완료😀');
-      router.replace('/');
-    } catch {
-      router.replace('/login');
+  const { isLoading, handler } = useHandler(
+    async (code: string, state: string) => {
+      try {
+        await login({ code, state });
+        toast.success('로그인 완료😀');
+        router.replace('/');
+      } catch {
+        router.replace('/login');
+      }
     }
-  });
+  );
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -58,9 +66,39 @@ const Component = () => {
         <WelcomeText>시소에 오신 것을 환영합니다!</WelcomeText>
       </HeaderBox>
       <Bottom>
+        <AgreementBox>
+          <Checkbox
+            type="checkbox"
+            id="agreement"
+            checked={isAgreed}
+            onChange={(e) => setIsAgreed(e.target.checked)}
+          />
+          <AgreementLabel htmlFor="agreement">
+            <AgreementText>
+              <AgreementLink
+                href="https://lab3tech.notion.site/bb615ec093fe42c4addc4c123c48d409"
+                target="_blank"
+              >
+                이용약관
+              </AgreementLink>
+              및
+              <AgreementLink
+                href="https://lab3tech.notion.site/70238bedf3664ff4b7e623e03e46ab6f"
+                target="_blank"
+              >
+                개인정보처리방침에
+              </AgreementLink>
+              동의합니다.
+            </AgreementText>
+          </AgreementLabel>
+        </AgreementBox>
+        <ButtonWrap onClick={handleNaverLogin}>
+          <NaverButton disabled={!isAgreed}>네이버 로그인</NaverButton>
+          {/* <img src="/naver.png" alt="naver" /> */}
+        </ButtonWrap>
         {/* <Input placeholder={'User ID'} />
         <Input placeholder={'Password'} /> */}
-        <Button
+        {/* <Button
           onClick={() => {
             handleNaverLogin();
             // window.location.href =
@@ -68,7 +106,7 @@ const Component = () => {
           }}
         >
           네이버 로그인
-        </Button>
+        </Button> */}
         {/* <Button bg="#FFCD00">카카오 로그인</Button> */}
       </Bottom>
     </Wrap>
@@ -170,4 +208,67 @@ const WelcomeText = styled.p`
   font-size: 1.1rem;
   margin-top: -1.3rem;
   margin-bottom: 2rem;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+`;
+
+const NaverButton = styled.button`
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 00;
+  color: #fff;
+  background-color: ${({ disabled }) => (disabled ? '#ccc' : '#03c75a')};
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  transition: background-color 0.3s ease;
+`;
+
+const AgreementBox = styled.div`
+  display: flex;
+  align-items: center; // 수직 정렬
+  justify-content: center; // 수평 정렬
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+const Checkbox = styled.input`
+  margin: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: #8800fb;
+`;
+
+const AgreementLabel = styled.label`
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+`;
+
+const AgreementText = styled.span`
+  display: flex;
+  gap: 4px;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+`;
+
+const AgreementLink = styled.a`
+  color: #8800fb;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
