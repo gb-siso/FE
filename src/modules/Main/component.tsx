@@ -36,7 +36,7 @@ const Main: React.FC = () => {
   const { congressmanList } = vips;
 
   // 클릭 했을 때 동작.
-  const handleClick = () => {
+  const handleClick = (idx: number) => {
     setIsClick(true);
     sessionStorage.setItem(SCROLL_STORAGE_KEY, window.scrollY.toString());
   };
