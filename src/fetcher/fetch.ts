@@ -5,8 +5,8 @@ const config = getConfig() || {};
 const baseUrl =
   config.publicRuntimeConfig?.BASE_URL ||
   process.env.NEXT_PUBLIC_BASE_URL ||
-  // 'https://www.sisso-api.shop/api/v1';
-  'http://34.64.182.4:8080/api/v1';
+  'https://www.sisso-api.shop/api/v1';
+// 'http://34.64.182.4:8080/api/v1';
 
 interface FetchOptions {
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE'; // method는 반드시 필요
