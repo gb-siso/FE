@@ -11,6 +11,18 @@ import { billAtom, getBillAtom, getBillsAtom } from '../../atom';
 import useHandler from '@/app/hooks/useHandler';
 import Spinner from '@/app/_components/Spinner';
 
+// const colors = [
+//   'crimson',
+//   '#FF9800',
+//   '#4CAF50',
+//   '#2196F3',
+//   '#9C27B0', // 퍼플 (보라 계열로 대비)
+//   '#00BCD4', // 시안 (밝은 청록색)
+//   '#FFC107', // 밝은 앰버 (노란빛 강조)
+//   '#795548', // 브라운 (중간톤 중립색)
+//   '#607D8B', // 블루그레이 (시각적 안정성)
+//   '#E91E63' // 핑크레드 (포인트 컬러로 강렬함)
+// ];
 const colors = [
   'crimson',
   '#FF9800',
@@ -21,7 +33,7 @@ const colors = [
   '#FFC107', // 밝은 앰버 (노란빛 강조)
   '#795548', // 브라운 (중간톤 중립색)
   '#607D8B', // 블루그레이 (시각적 안정성)
-  '#E91E63' // 핑크레드 (포인트 컬러로 강렬함)
+  '#B0174A' // 핑크레드 톤다운 (채도·명도 낮춘 버전)
 ];
 
 const News: React.FC<any> = ({ vipData }) => {
@@ -88,7 +100,7 @@ const News: React.FC<any> = ({ vipData }) => {
             const { billListProjectionDTO: bill } = item;
             const colorIndex = index >= 10 ? index % 10 : index;
             const fontSize = bill.category.length > 4 ? '1.1rem' : '1.2rem';
-            console.log(bill.category.length);
+
             return (
               <Card
                 key={index}
@@ -106,7 +118,7 @@ const News: React.FC<any> = ({ vipData }) => {
       )}
       {selected && (
         <Modal onClick={() => modalCloseHandler()}>
-          <Inner>
+          <Inner onClick={(e) => e.stopPropagation()}>
             <div>[{selected.billListProjectionDTO.billName}] </div>
             <Column>
               <span>요약: </span>
@@ -206,6 +218,13 @@ const Card = styled.div<{ $color: string }>`
   /* font-size: 1.1rem; */
   font-weight: 500;
   color: #fff;
+
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+
   position: relative;
   overflow: hidden;
 
@@ -220,6 +239,15 @@ const Card = styled.div<{ $color: string }>`
 
   &:active {
     transform: translateY(0);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -373,4 +401,20 @@ const MoreButton = styled.button`
     height: 38px;
     font-size: 0.85rem;
   }
+`;
+
+const BillCategory = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  /* background-color: rgba(0, 0, 0, 0.1); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

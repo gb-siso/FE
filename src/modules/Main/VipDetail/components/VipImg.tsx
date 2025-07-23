@@ -29,7 +29,10 @@ export default VipImg;
 
 const Wrapper = styled.div<{ $loaded: boolean; $error: boolean }>`
   width: 100%;
-  height: ${({ $loaded }) => ($loaded ? '100%' : 'min(480px, 75vh)')};
+  /* height: ${({ $loaded }) => ($loaded ? '100%' : 'min(480px, 75vh)')}; */
+  height: 100%;
+  max-height: calc(600px * 1.2);
+  overflow: hidden;
   background-color: ${({ $loaded, $error }) =>
     $loaded && !$error ? 'transparent' : '#ccc'};
   position: relative;

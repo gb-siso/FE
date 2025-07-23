@@ -92,9 +92,23 @@ const Component = () => {
             </AgreementText>
           </AgreementLabel>
         </AgreementBox>
-        <ButtonWrap onClick={handleNaverLogin}>
-          <NaverButton disabled={!isAgreed}>네이버 로그인</NaverButton>
-          {/* <img src="/naver.png" alt="naver" /> */}
+        <ButtonWrap onClick={handleNaverLogin} $disabled={!isAgreed}>
+          <Box size={30}>
+            {/* <img src="/naver.svg" alt="naver" /> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 19 19"
+              fill="none"
+              width="19"
+              height="19"
+            >
+              <path
+                d="M12.8833 10.1682L5.83879 0H0V19H6.11667V8.83025L13.1612 19H19V0H12.8833V10.1682Z"
+                fill="#03C75A"
+              ></path>
+            </svg>
+          </Box>
+          <Box style={{ paddingRight: '10px' }}>네이버 로그인</Box>
         </ButtonWrap>
         {/* <Input placeholder={'User ID'} />
         <Input placeholder={'Password'} /> */}
@@ -210,29 +224,82 @@ const WelcomeText = styled.p`
   margin-bottom: 2rem;
 `;
 
-const ButtonWrap = styled.div`
+const ButtonWrap = styled.div<{ $disabled?: boolean }>`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
   width: 100%;
-  cursor: pointer;
-`;
+  padding: 0.75rem 1.125rem;
+  border-radius: 0.25rem;
+  border-radius: 8px;
+  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+  background-color: ${({ $disabled }) => ($disabled ? '#e0f0e5' : '#03C75A')};
+  transition: all 0.3s;
 
-const NaverButton = styled.button`
-  all: unset;
-  display: block;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 00;
-  color: #fff;
-  background-color: ${({ disabled }) => (disabled ? '#ccc' : '#03c75a')};
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  transition: background-color 0.3s ease;
+  /* 텍스트 색상도 조정 */
+  color: ${({ $disabled }) => ($disabled ? '#8d8d8d' : 'white')};
+
+  /* SVG 아이콘 색상 조정 */
+  svg path {
+    fill: ${({ $disabled }) => ($disabled ? '#a0a0a0' : 'white')};
+  }
 `;
+// const ButtonWrap = styled.div<{ $disabled?: boolean }>`
+//   /* display: flex;
+//   align-items: center;
+//   width: 100%;
+//   cursor: pointer; */
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   box-sizing: border-box;
+//   width: 100%;
+//   padding: 0.75rem 1.125rem;
+//   border-radius: 0.25rem;
+
+//   border-radius: 8px;
+//   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
+//   background-color: ${({ $disabled }) => ($disabled ? '#ccc' : '#f9fafc')};
+//   transition: all 0.3s;
+// `;
+
+// const NaverButton = styled.button`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   all: unset;
+//   gap: 10px;
+//   width: 100%;
+//   height: 100%;
+//   > svg {
+//     border: 1px solid blue;
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//   }
+
+//   all: unset;
+//   height: 100%;
+//   text-align: center;
+//   font-size: 16px;
+//   display: block;
+//   width: 100%;
+//   height: 100%;
+//   text-align: center;
+//   font-size: 16px;
+//   font-weight: 00;
+//   color: #fff;
+//   background-color: ${({ disabled }) => (disabled ? '#ccc' : '#03c75a')};
+//   padding: 10px 20px;
+//   border-radius: 5px;
+//   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+//   transition: background-color 0.3s ease;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   border: 1px solid blue;
+// `;
 
 const AgreementBox = styled.div`
   display: flex;
@@ -270,5 +337,22 @@ const AgreementLink = styled.a`
 
   &:hover {
     text-decoration: underline;
+  }
+`;
+
+const Box = styled.div<{ size?: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: ${({ size }) => `${size ? `${size}px` : '100%'}`};
+  height: ${({ size }) => `${size ? `${size}px` : '100%'}`};
+  font-weight: 600;
+  font-size: 1rem;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `;
