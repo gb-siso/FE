@@ -94,7 +94,6 @@ const Component = () => {
         </AgreementBox>
         <ButtonWrap onClick={handleNaverLogin} $disabled={!isAgreed}>
           <Box size={30}>
-            {/* <img src="/naver.svg" alt="naver" /> */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 19 19"
