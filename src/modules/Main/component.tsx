@@ -16,8 +16,6 @@ import VipImg from './VipDetail/components/VipImg';
 const SCROLL_STORAGE_KEY = 'mainScrollPosition';
 
 const Main: React.FC = () => {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const lineRef = useRef<HTMLDivElement>(null);
@@ -30,6 +28,7 @@ const Main: React.FC = () => {
   // state
   const [isClick, setIsClick] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedParty, setSelectedParty] = useState('');
 
   const { congressmanList } = vips;
 
@@ -88,16 +87,15 @@ const Main: React.FC = () => {
   }, []);
 
   const httpGetList = async () => {
-    const party = searchParams.get('party');
     const query: { party?: string } = {};
-    if (party) query.party = party;
+    if (selectedParty) query.party = selectedParty;
 
     await getVipList({ query, merge: false });
   };
 
   useEffect(() => {
     httpGetList();
-  }, [searchParams.get('party')]);
+  }, [selectedParty]);
 
   if (isLoading) {
     return <></>;
@@ -105,7 +103,8 @@ const Main: React.FC = () => {
 
   return (
     <Vip.Wrapper>
-      <FilterComponent />
+      <FilterComponent selected={selectedParty} onChange={setSelectedParty} />
+
       {congressmanList.map((vip, idx) => {
         const { name, rate } = vip;
         return (
