@@ -103,7 +103,6 @@ const Main: React.FC = () => {
   return (
     <Vip.Wrapper>
       <FilterComponent selected={selectedParty} onChange={setSelectedParty} />
-
       {congressmanList.map((vip, idx) => {
         const { name, rate } = vip;
         return (

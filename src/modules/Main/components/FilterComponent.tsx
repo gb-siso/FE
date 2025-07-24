@@ -66,9 +66,7 @@ const FilterContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   overflow-x: auto;
-  margin-bottom: -30px;
   z-index: 100;
-
   /* 스크롤바 숨기기 */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */

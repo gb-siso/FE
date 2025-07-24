@@ -17,6 +17,9 @@ export const Wrapper = styled.div`
   flex-direction: column;
   gap: 4rem;
   padding-bottom: 10rem;
+  @media screen and (max-width: 768px) {
+    gap: 1.2rem;
+  }
 `;
 
 export const ButtonWrap = styled.div`
