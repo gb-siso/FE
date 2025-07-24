@@ -112,13 +112,17 @@ export const getBillAtom = atom(null, async (get, set, { name }) => {
 export const getVipListAtom = atom(null, async (get, set, { query }) => {
   try {
     const response = await Fetch.getVipList(query);
+    const oldList = get(vipsAtom)?.congressmanList ?? [];
     const newList = response.congressmanList.slice(1);
-    const oldList = get(vipsAtom).congressmanList;
-    const mergeList = [...oldList, ...newList];
-    response.congressmanList = mergeList;
+    const mergedList = [...oldList, ...newList];
 
-    set(vipsAtom, response);
-    return response;
+    const newState = {
+      ...response,
+      congressmanList: mergedList
+    };
+
+    set(vipsAtom, newState);
+    return newState;
   } catch (err) {
     throw err;
   }
