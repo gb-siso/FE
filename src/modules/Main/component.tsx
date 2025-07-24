@@ -1,7 +1,7 @@
 'use client';
 import { isLoadingAtom } from '@/atoms/atom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 
 import Info from './components/Info';
@@ -9,10 +9,7 @@ import Info from './components/Info';
 import { getVipListAtom, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
 import * as Vip from './component.styles';
-// import { ContentsBottom } from '@/app/community/_components/ComunittyView';
-// import ProgressiveImg from '@/app/_components/ProgressiveImg';
-// import { Vips } from '@/constants/Main/index';
-// import Button from '@/components/Button/Button';
+import FilterComponent from './components/FilterComponent';
 
 import VipImg from './VipDetail/components/VipImg';
 import { accessTokenAtom, userMeAtom } from '../auth/atoms';
@@ -22,6 +19,8 @@ const SCROLL_STORAGE_KEY = 'mainScrollPosition';
 const Main: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const lineRef = useRef<HTMLDivElement>(null);
 
   // ATOM
@@ -48,11 +47,20 @@ const Main: React.FC = () => {
         if (entry.isIntersecting) {
           // 마지막 페이지면 아무것도 하지마
           if (vips.lastPage) return;
-          const query: { idCursor?: string; rateCursor?: string } = {};
+          const query: {
+            idCursor?: string;
+            rateCursor?: string;
+            party?: string;
+          } = {};
 
           if (vips.idCursor) query.idCursor = vips.idCursor;
-
           if (vips.rateCursor) query['rateCursor'] = vips.rateCursor;
+
+          const party = searchParams.get('party');
+          if (party) {
+            query.party = party;
+          }
+
           await getVipList({ query });
         }
       },
@@ -70,7 +78,7 @@ const Main: React.FC = () => {
         observer.unobserve(lineRef.current);
       }
     };
-  }, [isLoading, vips]);
+  }, [isLoading, vips, searchParams]);
 
   useEffect(() => {
     const savedY = sessionStorage.getItem(SCROLL_STORAGE_KEY);
@@ -85,6 +93,7 @@ const Main: React.FC = () => {
 
   return (
     <Vip.Wrapper>
+      <FilterComponent />
       {congressmanList.map((vip, idx) => {
         const { name, rate } = vip;
         return (

@@ -1,9 +1,8 @@
 'use client';
 import Spinner from '@/app/_components/Spinner';
 import useHandler from '@/app/hooks/useHandler';
-import { loginAtom, userMeAtom } from '@/modules/auth/atoms';
-import { copyFileSync, stat } from 'fs';
-import { useAtomValue, useSetAtom } from 'jotai';
+import { loginAtom } from '@/modules/auth/atoms';
+import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
