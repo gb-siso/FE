@@ -87,6 +87,10 @@ const Main: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    router.refresh();
+  }, [searchParams]);
+
   if (isLoading) {
     return <></>;
   }
