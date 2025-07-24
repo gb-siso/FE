@@ -2,7 +2,7 @@ import getConfig from 'next/config';
 
 const config = getConfig() || {};
 
-const baseUrl = 'https://sisso-api.shop/v1';
+const baseUrl = 'https://sisso-api.shop/api/v1';
 // const baseUrl = 'https://www.sisso-api.shop/api/v1';
 // const baseUrl = 'http://34.64.182.4:8080/api/v1';
 
