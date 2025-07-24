@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { billAtom, getBillAtom, getBillsAtom } from '../../atom';
+import { billAtom, getBillsAtom } from '../../atom';
 import useHandler from '@/app/hooks/useHandler';
 import Spinner from '@/app/_components/Spinner';
 

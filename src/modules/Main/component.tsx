@@ -6,13 +6,12 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Info from './components/Info';
 
-import { getVipListAtom, getVipListAtom3, vipsAtom } from './atom';
+import { getVipListAtom, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
 import * as Vip from './component.styles';
 import FilterComponent from './components/FilterComponent';
 
 import VipImg from './VipDetail/components/VipImg';
-import { accessTokenAtom, userMeAtom } from '../auth/atoms';
 
 const SCROLL_STORAGE_KEY = 'mainScrollPosition';
 
@@ -27,7 +26,6 @@ const Main: React.FC = () => {
   const [vips, setVips] = useAtom(vipsAtom);
   const isLoading = useAtomValue(isLoadingAtom);
   const getVipList = useSetAtom(getVipListAtom);
-  const getVipList3 = useSetAtom(getVipListAtom3);
 
   // state
   const [isClick, setIsClick] = useState(false);
