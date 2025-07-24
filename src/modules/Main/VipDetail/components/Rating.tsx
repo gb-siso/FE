@@ -75,7 +75,13 @@ const Rating = ({ vipId }: { vipId: string }) => {
     }
   };
 
-  //
+  // const init = async () => {
+  //   const res = await getReissueToken({ body: {} });
+  //   console.log(res);
+  // };
+  // useEffect(() => {
+  //   init();
+  // }, []);
 
   return (
     <Wrapper>

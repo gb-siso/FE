@@ -53,13 +53,13 @@ const Badge = styled.img`
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); /* 부드러운 그림자 효과 */
 `;
 
-const VipInfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  font-family: 'Noto Sans KR', sans-serif;
-`;
+// const VipInfoWrap = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: flex-start;
+//   font-family: 'Noto Sans KR', sans-serif;
+// `;
 
 const VipName = styled.h4`
   margin: 0;
@@ -74,26 +74,26 @@ const VipName = styled.h4`
 const VipLocation = styled.h5`
   margin: 0;
   padding: 0;
-  color: #777; /* 더 부드러운 회색 */
+  color: #777;
   font: 0.9rem;
   line-height: 18px;
   text-align: left;
 `;
 
-const VipRightBox = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center; /* 텍스트 정렬을 중앙으로 */
-`;
+// const VipRightBox = styled.div`
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center; /* 텍스트 정렬을 중앙으로 */
+// `;
 
-const VipCountWrap = styled.div`
-  display: flex;
-  align-items: center;
-  padding-right: 1rem;
-  padding-bottom: 3px;
-  margin-right: 0.5rem;
-`;
+// const VipCountWrap = styled.div`
+//   display: flex;
+//   align-items: center;
+//   padding-right: 1rem;
+//   padding-bottom: 3px;
+//   margin-right: 0.5rem;
+// `;
 
 const VipCount = styled.h6`
   margin: 0;
@@ -105,4 +105,29 @@ const VipCount = styled.h6`
   line-height: 20px;
   text-align: right;
   font-weight: 600; /* 두께 증가 */
+`;
+const VipRightBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 1rem;
+`;
+
+const VipInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: 'Noto Sans KR', sans-serif;
+  flex: 1; /* 추가: 가능한 모든 공간 차지 */
+  min-width: 0; /* 추가: 텍스트 오버플로우 방지 */
+`;
+
+const VipCountWrap = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 3px;
+  margin-left: 10px; /* 간격 조절 */
+  flex-shrink: 0; /* 추가: 크기 줄어들지 않게 */
 `;

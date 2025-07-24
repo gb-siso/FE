@@ -82,9 +82,6 @@ const Main: React.FC = () => {
   if (isLoading) {
     return <></>;
   }
-  // useEffect(() => {
-  //   router.refresh();
-  // }, []);
 
   return (
     <Vip.Wrapper>
@@ -105,7 +102,13 @@ const Main: React.FC = () => {
                 <Vip.UsersBox>
                   {[1, 2, 3, 4].map((src, idx) => (
                     <Vip.User key={idx} $index={idx}>
-                      <Vip.UserImg src={`/test/${src}.png`} />
+                      {/* <Vip.UserImg src={`/test/${src}.png`} /> */}
+                      <VipImg
+                        src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
+                      />
+                      {/* <Vip.UserImg
+                        src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
+                      /> */}
                     </Vip.User>
                   ))}
                 </Vip.UsersBox>
@@ -133,48 +136,3 @@ const Main: React.FC = () => {
 };
 
 export default Main;
-
-// const Button = styled.button.attrs(
-//   ({ buttonType = 'button', disabled = false }: any) => ({
-//     type: buttonType,
-//     disabled: disabled
-//   })
-// )`
-//   background-color: ${({ disabled }) => (disabled ? 'gray' : 'palevioletred')};
-//   color: ${({ disabled }) => (disabled ? 'darkgray' : 'white')};
-//   font-size: 1em;
-//   margin: 1em;
-//   padding: 0.25em 1em;
-//   border: 2px solid palevioletred;
-//   border-radius: 3px;
-//   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-// `;
-
-// {
-//   당: o
-//   이름: o
-//   지역구: o
-//   평점: o
-//   평가Count : o
-//   선출이력 : o
-//   평가목록 : [
-//     {
-//       평가남긴사람 닉네임 : o,
-//       남긴평점: o,
-//       평가한 시간: o
-//       평가 좋아요 카운트: o
-//       평가 싫어요 카운트: o
-//       로그인한 사람이 평가를 눌렀는지, 안눌렀는지 check : x
-
-//     }
-//   ]
-// }
-
-{
-  /* <ProgressiveImg
-                  src={vip?.imageUrl || ''}
-                  placeholderSrc="/path/to/low-quality-placeholder.png"
-                  alt={vip?.name || 'VIP 이미지'}
-                  style={{ width: '100%', height: 'auto' }} // VipImg 스타일 맞게 조절
-                /> */
-}

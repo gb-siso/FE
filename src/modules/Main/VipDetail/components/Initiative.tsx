@@ -118,7 +118,8 @@ const News: React.FC<any> = ({ vipData }) => {
       )}
       {selected && (
         <Modal onClick={() => modalCloseHandler()}>
-          <Inner onClick={(e) => e.stopPropagation()}>
+          <Inner>
+            {/* <Inner onClick={(e) => e.stopPropagation()}> */}
             <div>[{selected.billListProjectionDTO.billName}] </div>
             <Column>
               <span>요약: </span>
@@ -282,9 +283,9 @@ const Inner = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 550px;
   height: auto;
-  max-height: 80vh;
+  max-width: 550px;
+  max-height: 90vh;
   background-color: #fff;
   white-space: pre-line;
   display: flex;
@@ -292,6 +293,10 @@ const Inner = styled.div`
   gap: 1.5rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem 1rem;
+  }
 
   /* 제목 스타일 */
   > div:first-child {
@@ -355,6 +360,11 @@ const Move = styled.div`
 
   &:active {
     transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    background-color: #8800fb;
+    color: white;
   }
 `;
 
