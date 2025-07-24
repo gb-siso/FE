@@ -177,6 +177,5 @@ export const getBillsAtom = atom(null, async (get, set, { id, query }) => {
 });
 
 export const updatePartyAtom = atom(null, async (get, set, party: string) => {
-  console.log(party);
   set(partyAtom, party);
 });

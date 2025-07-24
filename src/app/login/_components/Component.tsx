@@ -23,10 +23,7 @@ const Component = () => {
     const redirectUri = encodeURIComponent('https://siso.kr/login');
     // const redirectUri = encodeURIComponent('http://localhost:8080/login');
     const state = 'STATE_STRING';
-
     const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=${redirectUri}&state=${state}`;
-    // const naverAuthUrl =
-    //   'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=http%3A%2F%2F34.64.182.4%3A8080%2Fapi%2Fv1%2Fauth%2Flogin%2Fnaver&state=STATE_STRING';
 
     window.location.href = naverAuthUrl;
   };
