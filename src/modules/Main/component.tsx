@@ -27,7 +27,6 @@ const Main: React.FC = () => {
 
   // state
   const [isClick, setIsClick] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [selectedParty, setSelectedParty] = useState('');
 
   const { congressmanList } = vips;

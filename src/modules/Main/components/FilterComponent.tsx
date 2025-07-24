@@ -23,7 +23,7 @@ interface FilterProps {
 }
 
 const parties: PartyOption[] = [
-  { label: 'all', value: '' },
+  { label: '전체', value: '' },
   { label: '더불어민주당', value: '더불어민주당' },
   { label: '국민의힘', value: '국민의힘' },
   { label: '조국혁신당', value: '조국혁신당' },
