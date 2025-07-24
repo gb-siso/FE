@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Info from './components/Info';
 
-import { getVipListAtom, vipsAtom } from './atom';
+import { getVipListAtom, getVipListAtom3, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
 import * as Vip from './component.styles';
 import FilterComponent from './components/FilterComponent';
@@ -27,6 +27,7 @@ const Main: React.FC = () => {
   const [vips, setVips] = useAtom(vipsAtom);
   const isLoading = useAtomValue(isLoadingAtom);
   const getVipList = useSetAtom(getVipListAtom);
+  const getVipList3 = useSetAtom(getVipListAtom3);
 
   // state
   const [isClick, setIsClick] = useState(false);
@@ -44,6 +45,7 @@ const Main: React.FC = () => {
     const observer = new IntersectionObserver(
       async (entries) => {
         const entry = entries[0];
+
         if (entry.isIntersecting) {
           // 마지막 페이지면 아무것도 하지마
           if (vips.lastPage) return;
@@ -87,10 +89,17 @@ const Main: React.FC = () => {
     }
   }, []);
 
+  const httpGetList = async () => {
+    const party = searchParams.get('party');
+    const query: { party?: string } = {};
+    if (party) query.party = party;
+
+    await getVipList({ query, merge: false });
+  };
+
   useEffect(() => {
-    router.refresh();
-    console.log(123);
-  }, [searchParams]);
+    httpGetList();
+  }, [searchParams.get('party')]);
 
   if (isLoading) {
     return <></>;
@@ -116,10 +125,10 @@ const Main: React.FC = () => {
                 <Vip.UsersBox>
                   {[1, 2, 3, 4].map((src, idx) => (
                     <Vip.User key={idx} $index={idx}>
-                      {/* <Vip.UserImg src={`/test/${src}.png`} /> */}
-                      <VipImg
+                      <VipImg src={`/test/${src}.png`} />
+                      {/* <VipImg
                         src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
-                      />
+                      /> */}
                       {/* <Vip.UserImg
                         src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
                       /> */}

@@ -16,6 +16,20 @@ export async function getVipList(
   return fetchRes as Vips;
 }
 
+export async function getVipList2(
+  query: any = { sort: 'rate,DESC' }
+): Promise<Vips> {
+  const fetchRes: any = await fetcher(`/api/proxy/congressman`, {
+    method: 'GET',
+    query
+  });
+  if (!fetchRes.congressmanList) {
+    throw new Error('Invalid data structure');
+  }
+
+  return fetchRes as Vips;
+}
+
 export async function getVipRatings(params: string) {
   const fetchRes: any = await fetcher(`/ratings/${params}`, {
     method: 'GET'

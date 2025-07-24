@@ -76,57 +76,37 @@ export const getVipNewsAtom = atom(null, async (get, set, { name }) => {
   }
 });
 
-export const getBillAtom = atom(null, async (get, set, { name }) => {
-  // try {
-  //   const response = await Fetch.getBill(name);
-  //   if (response.row.length) {
-  //     const { row } = response;
-  //     const filterRow = row.map((item: any) => ({
-  //       createDate: item.PROPOSE_DT,
-  //       link: item.DETAIL_LINK
-  //     }));
-  //     const body = await Fetch.getSummarize({ body: filterRow });
-  //     const { data } = await Fetch.getGptSummary(body);
-  //     const bills = data.split('##');
-  //     const result: any = [];
-  //     bills.map((item: string, key: number) => {
-  //       if (!item) return;
-  //       if (filterRow[key - 1]) {
-  //         const lines = item.split('\n')[1];
-  //         const category = lines.split('**카테고리**: ')[1];
-  //         const filter = filterRow[key - 1];
-  //         filter['category'] = category;
-  //         filter['bill'] = item;
-  //         result.push(filter);
-  //       }
-  //     });
-  //     set(billAtom, { billList: result, lastPage: response.lastPage });
-  //   }
-  //   return response;
-  // } catch (err) {
-  //   throw err;
-  // }
-});
-
 // 의원 리스트 가져오기
-export const getVipListAtom = atom(null, async (get, set, { query }) => {
-  try {
-    const response = await Fetch.getVipList(query);
-    const oldList = get(vipsAtom)?.congressmanList ?? [];
-    const newList = response.congressmanList.slice(1);
-    const mergedList = [...oldList, ...newList];
+export const getVipListAtom = atom(
+  null,
+  async (get, set, { query, merge = true }) => {
+    try {
+      // const response = await Fetch.getVipList(query);
+      const response = await Fetch.getVipList2(query);
 
-    const newState = {
-      ...response,
-      congressmanList: mergedList
-    };
+      const newState = {
+        ...response,
+        congressmanList: merge
+          ? [
+              ...(get(vipsAtom)?.congressmanList ?? []),
+              ...response.congressmanList.slice(1)
+            ]
+          : response.congressmanList
+      };
 
-    set(vipsAtom, newState);
-    return newState;
-  } catch (err) {
-    throw err;
+      set(vipsAtom, {
+        ...response,
+        congressmanList: Array.isArray(newState.congressmanList)
+          ? newState.congressmanList
+          : []
+      });
+
+      return newState;
+    } catch (err) {
+      throw err;
+    }
   }
-});
+);
 
 // 의원 검색하기
 export const getSearchVipListAtom = atom(null, async (get, set, { query }) => {
