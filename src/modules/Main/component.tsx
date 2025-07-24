@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Info from './components/Info';
 
-import { getVipListAtom, vipsAtom } from './atom';
+import { getVipListAtom, partyAtom, updatePartyAtom, vipsAtom } from './atom';
 import Spinner from '@/app/_components/Spinner';
 import * as Vip from './component.styles';
 import FilterComponent from './components/FilterComponent';
@@ -24,6 +24,9 @@ const Main: React.FC = () => {
   const [vips, setVips] = useAtom(vipsAtom);
   const isLoading = useAtomValue(isLoadingAtom);
   const getVipList = useSetAtom(getVipListAtom);
+
+  // 필터
+  const party = useAtomValue(partyAtom);
 
   // state
   const [isClick, setIsClick] = useState(false);
@@ -87,14 +90,13 @@ const Main: React.FC = () => {
 
   const httpGetList = async () => {
     const query: { party?: string } = {};
-    if (selectedParty) query.party = selectedParty;
-
+    if (party) query.party = party;
     await getVipList({ query, merge: false });
   };
 
   useEffect(() => {
     httpGetList();
-  }, [selectedParty]);
+  }, [party]);
 
   if (isLoading) {
     return <></>;
@@ -102,7 +104,7 @@ const Main: React.FC = () => {
 
   return (
     <Vip.Wrapper>
-      <FilterComponent selected={selectedParty} onChange={setSelectedParty} />
+      <FilterComponent selected={party} />
       {congressmanList.map((vip, idx) => {
         const { name, rate } = vip;
         return (

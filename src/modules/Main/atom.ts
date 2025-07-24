@@ -5,6 +5,7 @@ import * as Fetch from './fetch';
 import { Vips, VipRatings } from '@/constants/Main/index';
 import { accessTokenAtom } from '../auth/atoms';
 
+export const partyAtom = atom('');
 // 의원 리스트
 export const vipsAtom = atom<Vips>({
   congressmanList: [],
@@ -173,4 +174,9 @@ export const getBillsAtom = atom(null, async (get, set, { id, query }) => {
   } catch (err) {
     throw err;
   }
+});
+
+export const updatePartyAtom = atom(null, async (get, set, party: string) => {
+  console.log(party);
+  set(partyAtom, party);
 });

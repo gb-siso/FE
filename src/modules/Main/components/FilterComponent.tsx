@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
 import styled from 'styled-components';
+import { updatePartyAtom } from '../atom';
+import { useSetAtom } from 'jotai';
 
 // 타입 정의
 type Party =
@@ -19,7 +21,7 @@ interface PartyOption {
 
 interface FilterProps {
   selected: string;
-  onChange: (party: Party) => void;
+  // onChange: (party: string) => void;
 }
 
 const parties: PartyOption[] = [
@@ -32,10 +34,12 @@ const parties: PartyOption[] = [
   { label: '새로운미래', value: '새로운미래' }
 ];
 
-const FilterComponent: React.FC<FilterProps> = ({ selected, onChange }) => {
+const FilterComponent: React.FC<FilterProps> = ({ selected }) => {
+  const updateParty = useSetAtom(updatePartyAtom);
+
   const handlePartySelect = (party: Party) => {
     const nextParty = party === selected ? '' : party;
-    onChange(nextParty);
+    updateParty(nextParty);
   };
 
   return (
