@@ -7,16 +7,16 @@ import useHandler from '@/app/hooks/useHandler';
 import Spinner from '@/app/_components/Spinner';
 
 const colors = [
-  'linear-gradient(135deg, #ff4d4d 0%, #c2185b 100%)',
-  'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)',
-  'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)',
-  'linear-gradient(135deg, #2196F3 0%, #1565C0 100%)',
-  'linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%)',
-  'linear-gradient(135deg, #00BCD4 0%, #00838F 100%)',
-  'linear-gradient(135deg, #FFC107 0%, #FF8F00 100%)',
-  'linear-gradient(135deg, #795548 0%, #4E342E 100%)',
-  'linear-gradient(135deg, #607D8B 0%, #37474F 100%)',
-  'linear-gradient(135deg, #E91E63 0%, #AD1457 100%)'
+  'crimson',
+  '#FF9800',
+  '#4CAF50',
+  '#2196F3',
+  '#9C27B0', // 퍼플 (보라 계열로 대비)
+  '#00BCD4', // 시안 (밝은 청록색)
+  '#FFC107', // 밝은 앰버 (노란빛 강조)
+  '#795548', // 브라운 (중간톤 중립색)
+  '#607D8B', // 블루그레이 (시각적 안정성)
+  '#B0174A' // 핑크레드 톤다운 (채도·명도 낮춘 버전)
 ];
 
 const News: React.FC<any> = ({ vipData }) => {
@@ -91,7 +91,9 @@ const News: React.FC<any> = ({ vipData }) => {
             <Card
               key={index}
               $color={colors[colorIndex]}
-              onClick={() => setSelected(item)}
+              onClick={() => {
+                setSelected(item);
+              }}
             >
               <CategoryBadge>{shortCategory}</CategoryBadge>
               <BillName>{bill.billName}</BillName>
@@ -154,12 +156,16 @@ export default News;
 // 스타일 컴포넌트
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 750px;
   margin: 2rem auto;
   padding: 1.5rem;
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 768px) {
+    max-width: 600px;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -813,16 +819,3 @@ const NotFound = styled.div`
 //   align-items: center;
 //   justify-content: center;
 // `;
-
-// const colors = [
-//   'crimson',
-//   '#FF9800',
-//   '#4CAF50',
-//   '#2196F3',
-//   '#9C27B0', // 퍼플 (보라 계열로 대비)
-//   '#00BCD4', // 시안 (밝은 청록색)
-//   '#FFC107', // 밝은 앰버 (노란빛 강조)
-//   '#795548', // 브라운 (중간톤 중립색)
-//   '#607D8B', // 블루그레이 (시각적 안정성)
-//   '#B0174A' // 핑크레드 톤다운 (채도·명도 낮춘 버전)
-// ];
