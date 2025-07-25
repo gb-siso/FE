@@ -22,6 +22,17 @@ const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
   // 지역구
   const area = electoralDistrict?.split('/').pop() || '';
 
+  const getColor = (party: string) => {
+    if (party === '더불어민주당') return '#004EA2';
+    if (party === '국민의힘') return '#E61E2B';
+    if (party === '조국혁신당') return '#0073CF';
+    if (party === '개혁신당') return '#FF7210';
+    if (party === '진보당') return '#D6001C';
+    if (party === '새로운미래') return '#45BABD';
+
+    return '#4a90e2';
+  };
+
   return (
     <ProfileCard>
       <InfoSection>
@@ -36,7 +47,9 @@ const Profile: React.FC<ProfileProps> = ({ vipData, ratings }) => {
         </ImageSection>
         <BoxWrap>
           <BadgeWrap>
-            <PartyBadge>{currentParty}</PartyBadge>
+            <PartyBadge style={{ backgroundColor: getColor(currentParty) }}>
+              {currentParty}
+            </PartyBadge>
           </BadgeWrap>
           <CongressmanName>
             {name || ''}
@@ -158,7 +171,7 @@ const BadgeWrap = styled.div`
   align-items: center;
 `;
 const PartyBadge = styled.div`
-  background-color: #4a90e2;
+  /* background-color: #4a90e2; */
   color: white;
   padding: 5px 15px;
   border-radius: 20px;
