@@ -103,7 +103,7 @@ const News: React.FC<any> = ({ vipData }) => {
 
             const shortCategory =
               bill?.category.length > 5
-                ? bill.category.slice(0, 5) + '…'
+                ? bill.category.slice(0, 9) + '…'
                 : bill.category;
 
             return (
@@ -255,7 +255,7 @@ const Card = styled.div<{ $color: string; $fontSize: string }>`
   }
 
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 `;
 
