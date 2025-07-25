@@ -204,7 +204,7 @@ const MainSection = styled.div`
 
   @media (max-width: 768px) {
     /* grid-template-columns: repeat(1, 1fr); */
-    gap: 10px;
+    gap: 0px;
   }
 `;
 
@@ -237,7 +237,6 @@ const Card = styled.div<{ $color: string }>`
     background: rgba(255, 255, 255, 0.3);
   }
   @media (max-width: 768px) {
-    min-height: 100px;
     padding: 1rem;
   }
 `;
