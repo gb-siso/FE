@@ -220,18 +220,16 @@ const Card = styled.div<{ $color: string; $fontSize: string }>`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
-  /* padding: 1rem; */
   text-align: center;
-  /* font-size: 1.1rem; */
   font-weight: 500;
   color: #fff;
   font-size: ${({ $fontSize }: any) => $fontSize};
 
-  text-shadow:
+  /* text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
     -1px 1px 0 #000,
-    1px 1px 0 #000;
+    1px 1px 0 #000; */
 
   position: relative;
   overflow: hidden;
