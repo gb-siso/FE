@@ -173,6 +173,7 @@ const Wrapper = styled.div`
   @media (max-width: 768px) {
     max-width: 600px;
     padding: 0;
+    padding-bottom: 1.5rem;
   }
 `;
 
@@ -202,8 +203,8 @@ const MainSection = styled.div`
   margin: 1.5rem 0;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 15px;
+    /* grid-template-columns: repeat(1, 1fr); */
+    gap: 10px;
   }
 `;
 
@@ -264,6 +265,7 @@ const BillName = styled.div`
 
   @media (max-width: 768px) {
     font-size: 0.9rem;
+    line-height: 150%;
   }
 `;
 
