@@ -99,16 +99,22 @@ const News: React.FC<any> = ({ vipData }) => {
           list.map((item: any, index: number) => {
             const { billListProjectionDTO: bill } = item;
             const colorIndex = index >= 10 ? index % 10 : index;
-            const fontSize = bill.category.length > 4 ? '1.1rem' : '1.2rem';
+            const fontSize = bill.category.length > 4 ? '2rem' : '1.5rem';
+
+            const shortCategory =
+              bill?.category.length > 5
+                ? bill.category.slice(0, 5) + '…'
+                : bill.category;
 
             return (
               <Card
+                $fontSize={fontSize}
                 key={index}
                 $color={colors[colorIndex]}
                 onClick={() => modalHandler(item)}
                 style={{ fontSize }}
               >
-                {bill.category}
+                {shortCategory}
               </Card>
             );
           })}
@@ -202,7 +208,7 @@ const NotFound = styled.div`
   width: 100%;
 `;
 
-const Card = styled.div<{ $color: string }>`
+const Card = styled.div<{ $color: string; $fontSize: string }>`
   box-sizing: border-box;
   width: 100%;
   aspect-ratio: 1/1;
@@ -219,6 +225,7 @@ const Card = styled.div<{ $color: string }>`
   /* font-size: 1.1rem; */
   font-weight: 500;
   color: #fff;
+  font-size: ${({ $fontSize }: any) => $fontSize};
 
   text-shadow:
     -1px -1px 0 #000,
@@ -228,10 +235,6 @@ const Card = styled.div<{ $color: string }>`
 
   position: relative;
   overflow: hidden;
-
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 
   &:hover {
     transform: translateY(-5px);
@@ -249,6 +252,12 @@ const Card = styled.div<{ $color: string }>`
     left: 0;
     width: 100%;
     height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    width: 120px;
+    height: 120px;
+    font-size: 1.2rem;
   }
 `;
 
