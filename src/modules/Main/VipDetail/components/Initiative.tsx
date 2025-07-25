@@ -20,13 +20,15 @@ const colors = [
 ];
 
 const News: React.FC<any> = ({ vipData }) => {
+  const [isMore, setIsMore] = useState(false);
   const [selected, setSelected] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
+
   const bills = useAtomValue(billAtom);
   const getBills = useSetAtom(getBillsAtom);
   const list = bills?.billList || [];
-  const isMore = bills?.lastPage > currentPage;
 
+  // HTTP 요청
   const { isLoading, handler: initHandler } = useHandler(
     async (page: number) => {
       const id = vipData?.congressmanList[0]?.id;
@@ -35,7 +37,31 @@ const News: React.FC<any> = ({ vipData }) => {
     }
   );
 
-  // ... (기존 핸들러 함수들 유지)
+  const modalHandler = (item: any) => {
+    setSelected(item);
+  };
+  const modalCloseHandler = () => {
+    setSelected(null);
+  };
+
+  const hadleMovePage = (url: string) => {
+    window.open(url, '_blank');
+  };
+
+  useEffect(() => {
+    if (selected) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selected]);
+
+  useEffect(() => {
+    initHandler(currentPage);
+  }, []);
 
   return (
     <Wrapper>
