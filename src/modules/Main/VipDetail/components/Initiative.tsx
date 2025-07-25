@@ -255,8 +255,6 @@ const Card = styled.div<{ $color: string; $fontSize: string }>`
   }
 
   @media (max-width: 768px) {
-    width: 120px;
-    height: 120px;
     font-size: 1.2rem;
   }
 `;

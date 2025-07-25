@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const VipImg = ({ src }: { src: string }) => {
+const VipImg = ({ src, radius }: { src: string; radius?: any }) => {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
 
@@ -15,7 +15,8 @@ const VipImg = ({ src }: { src: string }) => {
             display: loaded ? 'block' : 'none',
             width: '100%',
             height: 'auto',
-            objectFit: 'cover'
+            objectFit: 'cover',
+            borderRadius: radius ? '100%' : '0px'
           }}
           onLoad={() => setLoaded(true)}
           onError={() => setError(true)}
@@ -30,8 +31,6 @@ export default VipImg;
 const Wrapper = styled.div<{ $loaded: boolean; $error: boolean }>`
   width: 100%;
   aspect-ratio: 1/1.2;
-  /* height: ${({ $loaded }) => ($loaded ? '100%' : 'calc(600px * 1)')};
-  max-height: min(600px, 100%); */
   overflow: hidden;
   background-color: ${({ $loaded, $error }) =>
     $loaded && !$error ? 'transparent' : '#ccc'};
@@ -49,6 +48,7 @@ const Wrapper = styled.div<{ $loaded: boolean; $error: boolean }>`
     width: 100%;
     height: 100%;
     transform: translateX(-100px);
+
     background: linear-gradient(
       90deg,
       transparent,

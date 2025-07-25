@@ -122,7 +122,7 @@ const Main: React.FC = () => {
                   <Vip.UsersBox>
                     {[1, 2, 3, 4].map((src, idx) => (
                       <Vip.User key={idx} $index={idx}>
-                        <VipImg src={`/test/${src}.png`} />
+                        <VipImg src={`/test/${src}.png`} radius />
                         {/* <VipImg
                         src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
                       /> */}
