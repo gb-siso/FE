@@ -99,7 +99,7 @@ const News: React.FC<any> = ({ vipData }) => {
           list.map((item: any, index: number) => {
             const { billListProjectionDTO: bill } = item;
             const colorIndex = index >= 10 ? index % 10 : index;
-            const fontSize = bill.category.length > 4 ? '2rem' : '1.5rem';
+            const fontSize = bill.category.length > 4 ? '1.5rem' : '2rem';
 
             const shortCategory =
               bill?.category.length > 5
@@ -254,9 +254,9 @@ const Card = styled.div<{ $color: string; $fontSize: string }>`
     height: 100%;
   }
 
-  @media (max-width: 768px) {
-    font-size: 1.8rem;
-  }
+  /* @media (max-width: 768px) {
+    font-size: 1.8rem !important;
+  } */
 `;
 
 // const Card = styled.div`
