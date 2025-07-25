@@ -914,7 +914,7 @@ const News: React.FC<any> = ({ vipData }) => {
       )}
 
       <MainSection>
-        {LIST?.map((item: any, index: number) => {
+        {list?.map((item: any, index: number) => {
           const { billListProjectionDTO: bill } = item;
           const colorIndex = index % colors.length;
           const fontSize = bill.category.length > 6 ? '1.2rem' : '1.5rem';
@@ -1012,6 +1012,10 @@ const Wrapper = styled.div`
 
 const TitleWrapper = styled.div`
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 const NewsTitle = styled.h2`
