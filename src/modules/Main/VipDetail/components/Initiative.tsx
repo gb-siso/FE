@@ -204,8 +204,8 @@ const NotFound = styled.div`
 
 const Card = styled.div<{ $color: string }>`
   box-sizing: border-box;
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  aspect-ratio: 1/1;
   display: flex;
   justify-content: center;
   align-items: center;
