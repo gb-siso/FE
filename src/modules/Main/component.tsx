@@ -30,7 +30,6 @@ const Main: React.FC = () => {
 
   // state
   const [isClick, setIsClick] = useState(false);
-  const [selectedParty, setSelectedParty] = useState('');
 
   const { congressmanList } = vips;
 

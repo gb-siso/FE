@@ -82,8 +82,8 @@ export const getVipListAtom = atom(
   null,
   async (get, set, { query, merge = true }) => {
     try {
-      // const response = await Fetch.getVipList(query);
-      const response = await Fetch.getVipList2(query);
+      const response = await Fetch.getVipList(query);
+      // const response = await Fetch.getVipList2(query);
 
       const newState = {
         ...response,
