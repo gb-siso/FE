@@ -31,6 +31,21 @@ export const ButtonWrap = styled.div`
   padding-top: 2rem;
 `;
 
+export const Section = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 25px;
+  margin-top: -40px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 0px;
+  }
+`;
+
 export const Card = styled.div<{ $isClick: boolean }>`
   position: relative;
   width: 100%;
@@ -39,6 +54,13 @@ export const Card = styled.div<{ $isClick: boolean }>`
   flex-direction: column;
   pointer-events: ${({ $isClick }) => ($isClick ? 'none' : 'auto')};
   cursor: pointer;
+  transition: all 0.3s;
+
+  border-radius: 24px;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  }
 
   &:after {
     content: '';
@@ -55,6 +77,7 @@ export const Card = styled.div<{ $isClick: boolean }>`
       transparent
     );
     animation: loading 0.8s infinite;
+
     @keyframes loading {
       100% {
         transform: translateX(100%);
@@ -70,10 +93,9 @@ export const VipCard = styled.div`
   padding: 1rem 0;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
   border-radius: 24px;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  overflow: hidden; /* 둥근 모서리에 맞게 이미지 자르기 */
+  overflow: hidden;
   padding-bottom: 0;
 `;
 

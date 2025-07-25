@@ -6,12 +6,16 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  max-width: 600px;
+  max-width: 750px;
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
   box-sizing: border-box;
   font-family: 'Noto Sans KR', serif;
+
+  @media (max-width: 768px) {
+    max-width: 600px;
+  }
 }
 
 /* 모바일 Toast 크기 줄이기 */

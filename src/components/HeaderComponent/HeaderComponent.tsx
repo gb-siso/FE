@@ -1,9 +1,10 @@
 'use client';
-import { COMMUNITY, HOME, Notifications } from '@/utils/route';
+import { COMMUNITY, HOME } from '@/utils/route';
 import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const HeaderComponent = () => {
   const path = usePathname();
@@ -26,7 +27,14 @@ const HeaderComponent = () => {
         <MenuLink href={HOME} $actived={isHome(COMMUNITY)}>
           <RatingTab>SISO 별점</RatingTab>
         </MenuLink>
-        <MenuLink href={COMMUNITY} $actived={isActive(COMMUNITY)}>
+        <MenuLink
+          href={COMMUNITY}
+          $actived={isActive(COMMUNITY)}
+          onClick={(e) => {
+            e.preventDefault();
+            toast.error('준비중입니다. 😅');
+          }}
+        >
           <CommunityTab>커뮤니티</CommunityTab>
         </MenuLink>
       </Nav>
@@ -40,7 +48,7 @@ const Header = styled.header`
   top: 0px;
   left: 0px;
   width: 100%;
-  max-width: 600px;
+  max-width: 750px;
   height: 60px;
   background-color: #fafafa;
   box-shadow: 2px 1px 4px rgba(3, 3, 3, 0.2);
@@ -52,6 +60,10 @@ const Header = styled.header`
   align-self: center;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 768px) {
+    max-width: 600px;
+  }
 `;
 
 const Logo = styled.div`

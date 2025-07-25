@@ -105,49 +105,51 @@ const Main: React.FC = () => {
   return (
     <Vip.Wrapper>
       <FilterComponent selected={party} />
-      {congressmanList.map((vip, idx) => {
-        const { name, rate } = vip;
-        return (
-          <Vip.Card
-            key={idx}
-            $isClick={isClick}
-            onClick={() => handleClick(idx)}
-          >
-            <Vip.StyledLink href={`/${name}`}>
-              <Vip.VipCard>
-                <Info vip={vip} />
-                <VipImg src={vip?.imageUrl} />
-              </Vip.VipCard>
-              <Vip.EvaluationBox>
-                <Vip.UsersBox>
-                  {[1, 2, 3, 4].map((src, idx) => (
-                    <Vip.User key={idx} $index={idx}>
-                      <VipImg src={`/test/${src}.png`} />
-                      {/* <VipImg
+      <Vip.Section>
+        {congressmanList.map((vip, idx) => {
+          const { name, rate } = vip;
+          return (
+            <Vip.Card
+              key={idx}
+              $isClick={isClick}
+              onClick={() => handleClick(idx)}
+            >
+              <Vip.StyledLink href={`/${name}`}>
+                <Vip.VipCard>
+                  <Info vip={vip} />
+                  <VipImg src={vip?.imageUrl} />
+                </Vip.VipCard>
+                <Vip.EvaluationBox>
+                  <Vip.UsersBox>
+                    {[1, 2, 3, 4].map((src, idx) => (
+                      <Vip.User key={idx} $index={idx}>
+                        <VipImg src={`/test/${src}.png`} />
+                        {/* <VipImg
                         src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
                       /> */}
-                      {/* <Vip.UserImg
+                        {/* <Vip.UserImg
                         src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
                       /> */}
-                    </Vip.User>
-                  ))}
-                </Vip.UsersBox>
-                <Vip.RatingBox>
-                  <Vip.Rating src="/test/iconStar3.png" />
-                  <Vip.RatingNumber>
-                    {rate && (
-                      <>
-                        {rate?.toFixed(1)}
-                        <Vip.RatingSpan>점</Vip.RatingSpan>
-                      </>
-                    )}
-                  </Vip.RatingNumber>
-                </Vip.RatingBox>
-              </Vip.EvaluationBox>
-            </Vip.StyledLink>
-          </Vip.Card>
-        );
-      })}
+                      </Vip.User>
+                    ))}
+                  </Vip.UsersBox>
+                  <Vip.RatingBox>
+                    <Vip.Rating src="/test/iconStar3.png" />
+                    <Vip.RatingNumber>
+                      {rate && (
+                        <>
+                          {rate?.toFixed(1)}
+                          <Vip.RatingSpan>점</Vip.RatingSpan>
+                        </>
+                      )}
+                    </Vip.RatingNumber>
+                  </Vip.RatingBox>
+                </Vip.EvaluationBox>
+              </Vip.StyledLink>
+            </Vip.Card>
+          );
+        })}
+      </Vip.Section>
 
       {isLoading && <Spinner />}
       <Vip.Line ref={lineRef} />

@@ -22,7 +22,8 @@ import {
 } from '@/assets/svg';
 import { atom, useAtom, useAtomValue } from 'jotai';
 import { isLoadingAtom } from '@/atoms/atom';
-import './styles.css';
+import styles from './styles.module.css';
+
 import Image from 'next/image';
 import { accessTokenAtom } from '@/modules/auth/atoms';
 
@@ -55,12 +56,12 @@ export default function FooterNavigation() {
 
   if (isLoading) {
     return (
-      <div className="wrapper">
-        <div className="text-wrapper">
-          <h1 className="title">SISO</h1>
-          <h2 className="description">시민의 소리!</h2>
+      <div className={styles.wrapper}>
+        <div className={styles.textWrapper}>
+          <h1 className={styles.title}>SISO</h1>
+          <h2 className={styles.description}>시민의 소리!</h2>
         </div>
-        <div className="puppy-wrapper">
+        <div className={styles.puppy_wrapper}>
           <Image
             src="/puppy.png"
             alt="A cute puppy"
@@ -74,7 +75,7 @@ export default function FooterNavigation() {
   }
   return (
     <>
-      <Footer className="footer-nav">
+      <Footer className={styles.footer_nav}>
         <StyledLink href={HOME}>
           <IconWrap>
             {isActive([HOME, COMMUNITY]) ? (

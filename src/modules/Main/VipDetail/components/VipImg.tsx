@@ -29,8 +29,9 @@ export default VipImg;
 
 const Wrapper = styled.div<{ $loaded: boolean; $error: boolean }>`
   width: 100%;
-  height: ${({ $loaded }) => ($loaded ? '100%' : 'calc(600px * 1.2)')};
-  max-height: calc(600px * 1.2);
+  aspect-ratio: 1/1.2;
+  /* height: ${({ $loaded }) => ($loaded ? '100%' : 'calc(600px * 1)')};
+  max-height: min(600px, 100%); */
   overflow: hidden;
   background-color: ${({ $loaded, $error }) =>
     $loaded && !$error ? 'transparent' : '#ccc'};
@@ -38,7 +39,6 @@ const Wrapper = styled.div<{ $loaded: boolean; $error: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.15);
 
   &:after {
     content: '';
