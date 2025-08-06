@@ -20,8 +20,10 @@ const Component = () => {
       return;
     }
 
-    const redirectUri = encodeURIComponent('https://siso.kr/login');
+    // const redirectUri = encodeURIComponent('https://www.sisso-api.shop/api/v1/auth/login/naver/');
     // const redirectUri = encodeURIComponent('http://localhost:8080/login');
+
+    const redirectUri = encodeURIComponent('https://www.siiso.kr/login');
     const state = 'STATE_STRING';
     const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=Th1BehbvHJ2zuZ6YOosR&redirect_uri=${redirectUri}&state=${state}`;
 
