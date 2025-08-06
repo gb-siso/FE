@@ -41,7 +41,8 @@ const Rating = ({ vipId }: { vipId: string }) => {
   const writeHandler: SubmitHandler<PostRatingType> = async (data) => {
     const body = {
       ...data,
-      congressmanId: vipId
+      congressmanId: vipId,
+      rating
     };
     try {
       await writeRating({ body });
@@ -71,6 +72,7 @@ const Rating = ({ vipId }: { vipId: string }) => {
         rating: 5,
         content: ''
       });
+      setRating(5);
       setIsopen(false);
     }
   };
