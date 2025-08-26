@@ -44,7 +44,7 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
     if (!isLogin) {
       toast.warning('로그인 후 눌러주세요!');
       return;
-    }
+    // }
     try {
       setActiveVote((prevState: any) => {
         const updatedState: any = { ...prevState };
@@ -75,7 +75,8 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
 
       router.refresh();
       toast.success('피드백이 반영되었습니다!');
-    } catch {
+    } catch (error) {
+      console.log(error);
       toastDark('이미 반영중이에요!');
     }
   };

@@ -83,8 +83,8 @@ export const getVipListAtom = atom(
   async (get, set, { query, merge = true }) => {
     try {
       // 요기
-      const response = await Fetch.getVipList(query);
-      // const response = await Fetch.getVipList2(query);
+      // const response = await Fetch.getVipList(query);
+      const response = await Fetch.getVipList2(query);
 
       const newState = {
         ...response,
@@ -140,6 +140,7 @@ export const postHandleReactionAtom = atom(null, async (get, set, { id }) => {
     const response = await Fetch.postHandleReaction(id, {
       accessToken
     });
+    console.log(response);
     return response;
   } catch (err) {
     throw err;
