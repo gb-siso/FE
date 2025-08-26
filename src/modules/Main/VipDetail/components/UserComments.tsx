@@ -44,7 +44,8 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
     if (!isLogin) {
       toast.warning('로그인 후 눌러주세요!');
       return;
-    // }
+    }
+
     try {
       setActiveVote((prevState: any) => {
         const updatedState: any = { ...prevState };
