@@ -107,7 +107,12 @@ export async function fetcher<T>(
     const contentType = response?.headers?.get('Content-Type');
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      const errorBody = await response.json();
+      throw {
+        status: response.status,
+        body: errorBody,
+        message: errorBody?.message || response.statusText
+      };
     }
     if (contentType && contentType.includes('text/plain;charset=UTF-8')) {
       const jwtToken: any = await response.text();

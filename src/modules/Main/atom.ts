@@ -156,6 +156,7 @@ export const postDislikeAtom = atom(null, async (get, set, { id }) => {
     });
     return response;
   } catch (err) {
+    console.log(err);
     throw err;
   }
 });
