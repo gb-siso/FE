@@ -112,10 +112,26 @@ export async function postHandleReaction(id: any, options: any) {
   return fetchRes;
 }
 
+export async function deleteHandleReaction(id: any, options: any) {
+  const fetchRes: any = await fetcher(`/likes/rating/${id}`, {
+    ...options,
+    method: 'DELETE'
+  });
+  return fetchRes;
+}
+
 export async function posDislike(id: any, options: any) {
   const fetchRes: any = await fetcher(`/dislikes/rating/${id}`, {
     ...options,
     method: 'POST'
+  });
+  return fetchRes;
+}
+
+export async function deleteDislike(id: any, options: any) {
+  const fetchRes: any = await fetcher(`/dislikes/rating/${id}`, {
+    ...options,
+    method: 'DELETE'
   });
   return fetchRes;
 }

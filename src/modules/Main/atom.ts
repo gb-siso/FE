@@ -141,8 +141,17 @@ export const postHandleReactionAtom = atom(null, async (get, set, { id }) => {
       accessToken
     });
     return response;
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    const accessToken = get(accessTokenAtom);
+    const code = err.body.code.slice(-3);
+
+    if (code === '001') {
+      const response = await Fetch.deleteHandleReaction(id, {
+        accessToken
+      });
+      return response;
+    }
+
     throw err;
   }
 });
@@ -155,8 +164,16 @@ export const postDislikeAtom = atom(null, async (get, set, { id }) => {
       accessToken
     });
     return response;
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    const accessToken = get(accessTokenAtom);
+    const code = err.body.code.slice(-3);
+
+    if (code === '001') {
+      const response = await Fetch.deleteDislike(id, {
+        accessToken
+      });
+      return response;
+    }
     throw err;
   }
 });
