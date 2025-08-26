@@ -140,9 +140,9 @@ export const postHandleReactionAtom = atom(null, async (get, set, { id }) => {
     const response = await Fetch.postHandleReaction(id, {
       accessToken
     });
-    console.log(response);
     return response;
   } catch (err) {
+    console.log(err);
     throw err;
   }
 });

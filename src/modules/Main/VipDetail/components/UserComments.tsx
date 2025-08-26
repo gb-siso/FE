@@ -77,7 +77,6 @@ const UserComments = ({ ratings }: { ratings: VipRatings }) => {
       router.refresh();
       toast.success('피드백이 반영되었습니다!');
     } catch (error) {
-      console.log(error);
       toastDark('이미 반영중이에요!');
     }
   };
