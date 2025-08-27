@@ -45,7 +45,7 @@ const StyledButton = styled.button<{
   border: 0;
   box-sizing: border-box;
   border-radius: ${({ $radius }) => $radius || '24px'};
-  background-color: ${({ bg }) => bg || '#8800fb'};
+  background-color: ${({ $bg }) => $bg || '#8800fb'};
   color: #ffffff;
   outline: none;
   font-size: 18px;

@@ -144,6 +144,20 @@ export async function getBills(id: string, query: any) {
   return fetchRes;
 }
 
+export async function postFavorites(id: string) {
+  const fetchRes: any = await fetcher(`/api/proxy/likes/congressman/${id}`, {
+    method: 'POST'
+  });
+  return fetchRes;
+}
+
+export async function deleteFavorites(id: string) {
+  const fetchRes: any = await fetcher(`/likes/congressman/${id}`, {
+    method: 'POST'
+  });
+  return fetchRes;
+}
+
 // 뉴스 가져오기
 // export async function getVipNews(name: string) {
 //   const fetchRes: any = await fetcher(
