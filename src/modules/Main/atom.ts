@@ -199,3 +199,8 @@ export const getBillsAtom = atom(null, async (get, set, { id, query }) => {
 export const updatePartyAtom = atom(null, async (get, set, party: string) => {
   set(partyAtom, party);
 });
+
+export const postFavoritesAtom = atom(null, async (get, set, id: string) => {
+  const response = await Fetch.postFavorites(id);
+  return response;
+});

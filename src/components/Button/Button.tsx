@@ -18,11 +18,11 @@ const Button: React.FC<ButtonProps> = ({
 }: any) => {
   return (
     <StyledButton
-      size={size}
-      bg={bg}
+      $size={size}
+      $bg={bg}
       onClick={onClick}
       type={type}
-      radius={radius}
+      $radius={radius}
       {...props}
     >
       {name || '전송'}
@@ -33,9 +33,9 @@ const Button: React.FC<ButtonProps> = ({
 export default Button;
 
 const StyledButton = styled.button<{
-  size: string;
-  bg: string;
-  radius: string;
+  $size: string;
+  $bg: string;
+  $radius: string;
 }>`
   cursor: pointer;
   font-weight: bold;
@@ -44,15 +44,15 @@ const StyledButton = styled.button<{
   padding: 0px 5px;
   border: 0;
   box-sizing: border-box;
-  border-radius: ${({ radius }) => radius || '24px'};
+  border-radius: ${({ $radius }) => $radius || '24px'};
   background-color: ${({ bg }) => bg || '#8800fb'};
   color: #ffffff;
   outline: none;
   font-size: 18px;
   /* padding: 14px 0; */
   font-weight: 700;
-  width: ${({ size }) => {
-    switch (size) {
+  width: ${({ $size }) => {
+    switch ($size) {
       case 'xs':
         return '70px';
       case 's':
@@ -69,8 +69,8 @@ const StyledButton = styled.button<{
         return '100%';
     }
   }};
-  height: ${({ size }) => {
-    switch (size) {
+  height: ${({ $size }) => {
+    switch ($size) {
       case 'xs':
         return '44px';
       case 's':
