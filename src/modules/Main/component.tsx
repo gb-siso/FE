@@ -1,13 +1,13 @@
 'use client';
 import { isLoadingAtom } from '@/atoms/atom';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
 import Info from './components/Info';
 
 import { getVipListAtom, partyAtom, updatePartyAtom, vipsAtom } from './atom';
-import Spinner from '@/app/_components/Spinner';
+import Spinner from '@/components/Spinner/Spinner';
 import * as Vip from './component.styles';
 import FilterComponent from './components/FilterComponent';
 
@@ -16,7 +16,8 @@ import VipImg from './VipDetail/components/VipImg';
 const SCROLL_STORAGE_KEY = 'mainScrollPosition';
 
 const Main: React.FC = () => {
-  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = router.query;
 
   const lineRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +57,7 @@ const Main: React.FC = () => {
           if (vips.idCursor) query.idCursor = vips.idCursor;
           if (vips.rateCursor) query['rateCursor'] = vips.rateCursor;
 
-          const party = searchParams.get('party');
+          const party = typeof searchParams.party === 'string' ? searchParams.party : null;
           if (party) {
             query.party = party;
           }

@@ -6,7 +6,7 @@ import {
   OutlinedHeartIcon
 } from '@/app/[vipId]/components/IconComponent';
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { postFavoritesAtom } from '../../atom';
 import { useAtom, useSetAtom } from 'jotai';
 // import { findParty } from '@/constants/Main/Constants';

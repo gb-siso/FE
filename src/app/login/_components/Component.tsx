@@ -1,9 +1,9 @@
 'use client';
-import Spinner from '@/app/_components/Spinner';
-import useHandler from '@/app/hooks/useHandler';
+import Spinner from '@/components/Spinner/Spinner';
+import useHandler from '@/hooks/useHandler';
 import { loginAtom } from '@/modules/auth/atoms';
 import { useSetAtom } from 'jotai';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';

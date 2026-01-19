@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import {
   HOME,
   COMMUNITY,
@@ -28,7 +28,8 @@ import Image from 'next/image';
 import { accessTokenAtom } from '@/modules/auth/atoms';
 
 export default function FooterNavigation() {
-  const path = usePathname();
+  const router = useRouter();
+  const path = router.pathname;
 
   const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
   const accessToken = useAtomValue(accessTokenAtom);

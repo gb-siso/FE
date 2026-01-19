@@ -1,5 +1,5 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { Flex } from '@/components/Flex/Flex';
@@ -39,7 +39,8 @@ export interface CommunityPost {
 type BoardType = { id: string; name: string; createdAt: string };
 
 const ComunittyView = () => {
-  const query = useParams();
+  const router = useRouter();
+  const query = router.query;
   const [posts, setPosts] = useState<any[]>([]);
   const [postNotFound, setPostNotFound] = useState(false);
 

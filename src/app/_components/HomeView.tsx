@@ -2,7 +2,7 @@
 import { isLoadingAtom } from '@/atoms/atom';
 // import Button from '@/components/Button/Button';
 import { useAtomValue } from 'jotai';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import React from 'react';
 import styled from 'styled-components';
 import data from '@/MOCK/vipData.json';
@@ -10,7 +10,8 @@ import Link from 'next/link';
 
 const HomeView = () => {
   const isLoading = useAtomValue(isLoadingAtom);
-  const path = usePathname();
+  const router = useRouter();
+  const path = router.pathname;
 
   if (isLoading) {
     return <></>;

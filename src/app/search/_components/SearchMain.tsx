@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { ActiveHomeIcon } from '@/assets/svg';
-import useHandler from '@/app/hooks/useHandler';
+import useHandler from '@/hooks/useHandler';
 import { getSearchVipListAtom, searchVipsAtom } from '@/modules/Main/atom';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { Vip } from '@/constants/Main/index';
-import Spinner from '@/app/_components/Spinner';
+import Spinner from '@/components/Spinner/Spinner';
 
 const SearchMain = () => {
   // ATOM

@@ -1,14 +1,13 @@
 'use client';
 import { COMMUNITY, HOME } from '@/utils/route';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 const HeaderComponent = () => {
-  const path = usePathname();
   const router = useRouter();
+  const path = router.pathname;
 
   const isActive = (url: string) => {
     return path.includes(url);

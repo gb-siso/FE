@@ -7,7 +7,7 @@ import { userMeAtom } from '@/modules/auth/atoms';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { postDislikeAtom, postHandleReactionAtom, vipsAtom } from '../../atom';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { toastDark } from '@/lib/customToast';

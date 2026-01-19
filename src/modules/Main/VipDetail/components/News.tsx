@@ -7,11 +7,11 @@ import 'swiper/css/navigation';
 
 import { useEffect, useRef, useState } from 'react';
 import { getVipNews } from '../../fetch';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { getVipNewsAtom, vipNewsAtom } from '../../atom';
-import useHandler from '@/app/hooks/useHandler';
-import Spinner from '@/app/_components/Spinner';
+import useHandler from '@/hooks/useHandler';
+import Spinner from '@/components/Spinner/Spinner';
 const MOCK = [
   '/test/down1.jpeg',
   '/test/down2.jpeg',
@@ -28,7 +28,8 @@ const MOCK = [
 ];
 
 const News: React.FC<any> = () => {
-  const params = useParams();
+  const router = useRouter();
+  const params = router.query;
   const [isMore, setIsMore] = useState(false);
 
   // const [slides, setSlides] = useState(MOCK);
@@ -41,7 +42,7 @@ const News: React.FC<any> = () => {
   };
 
   const { isLoading, handler: initHandler } = useHandler(async () => {
-    const name = decodeURIComponent(params?.vipId as string);
+    const name = decodeURIComponent((params?.vipId as string) || '');
     await findNews({ name });
   });
 

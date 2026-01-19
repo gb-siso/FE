@@ -10,8 +10,7 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { vipRatings } from '../atom';
 import { useEffect } from 'react';
 import { VipRatings, Vips } from '@/constants/Main/index';
-import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export default function VipDetail({
   initialData
@@ -23,15 +22,10 @@ export default function VipDetail({
 }) {
   const [ratings, setRatings] = useAtom(vipRatings);
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     setRatings(initialData.ratings);
   }, [initialData]);
-
-  useEffect(() => {
-    router.refresh();
-  }, [pathname, router]);
 
   return (
     <>

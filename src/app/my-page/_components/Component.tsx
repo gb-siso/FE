@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { toast } from 'react-toastify';
 import { accessTokenAtom, logoutAtom, userMeAtom } from '@/modules/auth/atoms';

@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { billAtom, getBillsAtom } from '../../atom';
-import useHandler from '@/app/hooks/useHandler';
-import Spinner from '@/app/_components/Spinner';
+import useHandler from '@/hooks/useHandler';
+import Spinner from '@/components/Spinner/Spinner';
 
 const colors = [
   'crimson',
@@ -435,7 +435,7 @@ const NotFound = styled.div`
 // import 'swiper/css/navigation';
 
 // import { useEffect, useState } from 'react';
-// import { useParams } from 'next/navigation';
+// import { useRouter } from 'next/router';
 // import { useAtomValue, useSetAtom } from 'jotai';
 // import { billAtom, getBillsAtom } from '../../atom';
 // import useHandler from '@/app/hooks/useHandler';
