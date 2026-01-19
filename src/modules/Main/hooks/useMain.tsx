@@ -107,7 +107,7 @@ export const useMain = ({ data, party: initialParty }: UseMainProps) => {
   };
 
   return {
-    congressmanList: vips.congressmanList,
+    vipList: vips.congressmanList,
     party,
     isLoading,
     lineRef,

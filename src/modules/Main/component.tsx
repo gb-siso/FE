@@ -13,9 +13,13 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({ data, party }) => {
   const {
-    congressmanList,
-    party: selectedParty,
+    // 의원 리스트
+    vipList,
+    //
+    party: selected,
+    // 로딩 상태
     isLoading,
+    // 라인 참조
     lineRef,
     handleClick
   } = useMain({
@@ -29,9 +33,9 @@ const Main: React.FC<MainProps> = ({ data, party }) => {
 
   return (
     <Vip.Wrapper>
-      <FilterComponent selected={selectedParty} />
+      <FilterComponent selected={selected} />
       <Vip.Section>
-        {congressmanList.map((vip, idx) => {
+        {vipList.map((vip, idx) => {
           const { name, rate } = vip;
           return (
             <Vip.Card key={idx} onClick={handleClick}>
