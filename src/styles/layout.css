@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', serif;
+
+  @media (max-width: 768px) {
+    max-width: 600px;
+  }
+}
+
+/* 모바일 Toast 크기 줄이기 */
+@media (max-width: 768px) {
+  .Toastify__toast {
+    bottom: 45px;
+    font-size: 12px !important;
+    padding: 8px 12px !important;
+    min-height: 50px !important;
+  }
+
+  .Toastify__toast-body {
+    margin: 0 !important;
+  }
+
+  .Toastify__toast-icon {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 8px !important;
+  }
+
+  .Toastify__close-button {
+    font-size: 14px !important;
+  }
+}

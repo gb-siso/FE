@@ -1,102 +1,27 @@
-'use client';
-import { isLoadingAtom } from '@/atoms/atom';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { useRouter } from 'next/router';
-import React, { useEffect, useRef, useState } from 'react';
-
+import React from 'react';
 import Info from './components/Info';
-
-import { getVipListAtom, partyAtom, updatePartyAtom, vipsAtom } from './atom';
-import Spinner from '@/components/Spinner/Spinner';
 import * as Vip from './component.styles';
 import FilterComponent from './components/FilterComponent';
-
 import VipImg from './VipDetail/components/VipImg';
+import { Vips } from '@/constants/Main/index';
+import { useMain } from './hooks/useMain';
 
-const SCROLL_STORAGE_KEY = 'mainScrollPosition';
+interface MainProps {
+  data: Vips;
+  party?: string | null;
+}
 
-const Main: React.FC = () => {
-  const router = useRouter();
-  const searchParams = router.query;
-
-  const lineRef = useRef<HTMLDivElement>(null);
-
-  // ATOM
-  const [vips, setVips] = useAtom(vipsAtom);
-  const isLoading = useAtomValue(isLoadingAtom);
-  const getVipList = useSetAtom(getVipListAtom);
-
-  // 필터
-  const party = useAtomValue(partyAtom);
-
-  // state
-  const [isClick, setIsClick] = useState(false);
-
-  const { congressmanList } = vips;
-
-  // 클릭 했을 때 동작.
-  const handleClick = (idx: number) => {
-    setIsClick(true);
-    sessionStorage.setItem(SCROLL_STORAGE_KEY, window.scrollY.toString());
-  };
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      async (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting) {
-          // 마지막 페이지면 아무것도 하지마
-          if (vips.lastPage) return;
-          const query: {
-            idCursor?: string;
-            rateCursor?: string;
-            party?: string;
-          } = {};
-
-          if (vips.idCursor) query.idCursor = vips.idCursor;
-          if (vips.rateCursor) query['rateCursor'] = vips.rateCursor;
-
-          const party = typeof searchParams.party === 'string' ? searchParams.party : null;
-          if (party) {
-            query.party = party;
-          }
-
-          await getVipList({ query });
-        }
-      },
-      {
-        threshold: 1.0
-      }
-    );
-
-    if (lineRef.current) {
-      observer.observe(lineRef.current);
-    }
-
-    return () => {
-      if (lineRef.current) {
-        observer.unobserve(lineRef.current);
-      }
-    };
-  }, [isLoading, vips, searchParams]);
-
-  useEffect(() => {
-    const savedY = sessionStorage.getItem(SCROLL_STORAGE_KEY);
-    if (savedY) {
-      window.scrollTo(0, Number(savedY));
-    }
-  }, []);
-
-  const httpGetList = async () => {
-    const query: { party?: string } = {};
-    if (party) query.party = party;
-    await getVipList({ query, merge: false });
-  };
-
-  useEffect(() => {
-    httpGetList();
-  }, [party]);
+const Main: React.FC<MainProps> = ({ data, party }) => {
+  const {
+    congressmanList,
+    party: selectedParty,
+    isLoading,
+    lineRef,
+    handleClick
+  } = useMain({
+    data,
+    party
+  });
 
   if (isLoading) {
     return <></>;
@@ -104,16 +29,12 @@ const Main: React.FC = () => {
 
   return (
     <Vip.Wrapper>
-      <FilterComponent selected={party} />
+      <FilterComponent selected={selectedParty} />
       <Vip.Section>
         {congressmanList.map((vip, idx) => {
           const { name, rate } = vip;
           return (
-            <Vip.Card
-              key={idx}
-              $isClick={isClick}
-              onClick={() => handleClick(idx)}
-            >
+            <Vip.Card key={idx} onClick={handleClick}>
               <Vip.StyledLink href={`/${name}`}>
                 <Vip.VipCard>
                   <Info vip={vip} />
@@ -124,12 +45,6 @@ const Main: React.FC = () => {
                     {[1, 2, 3, 4].map((src, idx) => (
                       <Vip.User key={idx} $index={idx}>
                         <VipImg src={`/test/${src}.png`} radius />
-                        {/* <VipImg
-                        src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
-                      /> */}
-                        {/* <Vip.UserImg
-                        src={`https://picsum.photos/200/200?random=${Math.floor(Math.random() * 1000)}`}
-                      /> */}
                       </Vip.User>
                     ))}
                   </Vip.UsersBox>
@@ -151,7 +66,6 @@ const Main: React.FC = () => {
         })}
       </Vip.Section>
 
-      {isLoading && <Spinner />}
       <Vip.Line ref={lineRef} />
     </Vip.Wrapper>
   );

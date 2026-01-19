@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import '../app/layout.css';
+import '../styles/layout.css';
 import FooterNavigation from '@/components/FooterNavigation/FooterNavigation';
 import HeaderComponent from '@/components/HeaderComponent/HeaderComponent';
 import { ToastContainer } from 'react-toastify';

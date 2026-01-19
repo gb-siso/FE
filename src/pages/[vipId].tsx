@@ -31,7 +31,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const search = decodeURIComponent(vipId as string);
   const vipDetail = await getVipList({ search });
 
-  if (!vipDetail || !vipDetail.congressmanList || vipDetail.congressmanList.length === 0) {
+  if (
+    !vipDetail ||
+    !vipDetail.congressmanList ||
+    vipDetail.congressmanList.length === 0
+  ) {
     return {
       notFound: true
     };

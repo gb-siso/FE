@@ -84,8 +84,9 @@ export const getVipListAtom = atom(
     try {
       // 요기
       // const response = await Fetch.getVipList(query);
-      const response = await Fetch.getVipList2(query);
+      const response = await Fetch.getVipList(query);
 
+      console.log(response, 123);
       const newState = {
         ...response,
         congressmanList: merge

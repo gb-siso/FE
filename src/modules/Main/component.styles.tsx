@@ -46,13 +46,12 @@ export const Section = styled.div`
   }
 `;
 
-export const Card = styled.div<{ $isClick: boolean }>`
+export const Card = styled.div`
   position: relative;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  pointer-events: ${({ $isClick }) => ($isClick ? 'none' : 'auto')};
   cursor: pointer;
   transition: all 0.3s;
 
@@ -61,21 +60,6 @@ export const Card = styled.div<{ $isClick: boolean }>`
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
   }
-
-  &:after {
-    content: '';
-    display: ${({ $isClick }) => ($isClick ? 'block' : 'none')};
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transform: translateX(-100px);
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
     animation: loading 0.8s infinite;
 
     @keyframes loading {

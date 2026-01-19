@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { Vips, VipRatings } from '@/constants/Main/index';
-import { arMA } from 'date-fns/locale';
-import {
-  FilledHeartIcon,
-  OutlinedHeartIcon
-} from '@/app/[vipId]/components/IconComponent';
+
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { postFavoritesAtom } from '../../atom';
